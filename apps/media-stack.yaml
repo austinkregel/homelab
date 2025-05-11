@@ -66,14 +66,13 @@ services:
         traefik.http.routers.sonarr-rtr.entrypoints: websecure
         traefik.http.routers.sonarr-rtr.service: sonarr-svc
         traefik.http.services.sonarr-svc.loadbalancer.server.port: 8989
-        traefik.http.routers.sonarr-rtr.middlewares: chain-oauth-google@file
-        
+                
         traefik.http.routers.readarr-rtr.rule: Host(`${READARR_SUBDOMAIN:-readarr}.${DOMAIN_NAME}`)
         traefik.http.routers.readarr-rtr.entrypoints: websecure
         traefik.http.routers.readarr-rtr.service: readarr-svc
         traefik.http.services.readarr-svc.loadbalancer.server.port: 8787
         traefik.http.routers.readarr-rtr.middlewares: chain-oauth-google@file
-        
+
         traefik.http.routers.prowlarr-rtr.rule: Host(`${PROWLARR_SUBDOMAIN:-prowlarr}.${DOMAIN_NAME}`)
         traefik.http.routers.prowlarr-rtr.entrypoints: websecure
         traefik.http.routers.prowlarr-rtr.service: prowlarr-svc
