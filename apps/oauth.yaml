@@ -1,0 +1,40 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/compose-spec/compose-spec/master/schema/compose-spec.json
+#######################################
+#OAUTH (GOOGLE OAUTH FOR ADMIN)
+#######################################
+
+secrets:
+    google-oauth:
+        file: ${DOCKER_DIRECTORY}/secrets/google_oauth.secret
+
+services:
+    oauth:
+        container_name: oauth
+        image: thomseddon/traefik-forward-auth:2
+        profiles: ["traefik", "core", "all"]
+        networks:
+            traefik:
+        security_opt:
+            - no-new-privileges:true
+        restart: always
+        platform: linux/amd64
+        depends_on:
+            - duckdns
+        environment:
+            - "AUTH_HOST=${OAUTH_SUBDOMAIN:-oauth}.${DOMAIN_NAME}"
+            - CONFIG=/config
+            - "COOKIE_DOMAIN=${DOMAIN_NAME}"
+            - URL_PATH=/_oauth
+            - DEFAULT_PROVIDER=oidc
+            - PROVIDERS_OIDC_ISSUER_URL=https://aut.hair/
+            - PROVIDERS_OIDC_CLIENT_ID=6
+            - PROVIDERS_OIDC_CLIENT_SECRET=pz2Wrt9PQkozHmsXht2JVlTUyhHyGqIGl0DtQvrO
+            - LIFETIME=2592000
+            - SECRET=something-random
+            # INSECURE_COOKIE is required if not using a https entrypoint
+            - INSECURE_COOKIE=true
+            - LOG_LEVEL=debug
+        labels:
+            - "traefik.http.middlewares.traefik-forward-auth.forwardauth.address=http://oauth:4181"
+            - "traefik.http.middlewares.traefik-forward-auth.forwardauth.authResponseHeaders=X-Forwarded-User"
+            - "traefik.http.services.traefik-forward-auth.loadbalancer.server.port=4181"
