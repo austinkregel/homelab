@@ -26,9 +26,9 @@ services:
             - "COOKIE_DOMAIN=${DOMAIN_NAME}"
             - URL_PATH=/_oauth
             - DEFAULT_PROVIDER=oidc
-            - PROVIDERS_OIDC_ISSUER_URL=https://aut.hair/
-            - PROVIDERS_OIDC_CLIENT_ID=6
-            - PROVIDERS_OIDC_CLIENT_SECRET=pz2Wrt9PQkozHmsXht2JVlTUyhHyGqIGl0DtQvrO
+            - PROVIDERS_OIDC_ISSUER_URL=
+            - PROVIDERS_OIDC_CLIENT_ID=
+            - PROVIDERS_OIDC_CLIENT_SECRET=
             - LIFETIME=2592000
             - SECRET=something-random
             # INSECURE_COOKIE is required if not using a https entrypoint
