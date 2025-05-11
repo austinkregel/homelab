@@ -9,7 +9,6 @@ services:
         platform: linux/amd64
         container_name: umami
         networks:
-            traefik:
             internal:
         profiles: ["miscellaneous", "all"]
         environment:
@@ -25,10 +24,3 @@ services:
             interval: 5s
             timeout: 5s
             retries: 5
-        labels:
-            traefik.enable: true
-            traefik.http.routers.umami-rtr.rule: Host(`${UMAMI_SUBDOMAIN:-umami}.${SECONDARY_DOMAIN_NAME}`)
-            traefik.http.routers.umami-rtr.service: umami-svc
-            traefik.http.services.umami-svc.loadbalancer.server.port: 3000
-            traefik.http.routers.umami-rtr.entrypoints: websecure
-            traefik.http.routers.umami-rtr.middlewares: chain-rate-limit@file

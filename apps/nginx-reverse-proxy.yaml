@@ -1,0 +1,15 @@
+#######################################
+# HEALTHCHECKS (STATUS MONITORING)
+#######################################
+
+services:
+    nginx-reverse-proxy:
+        image: 'docker.io/jc21/nginx-proxy-manager:latest'
+        restart: unless-stopped
+        ports:
+        - '80:80'
+        - '81:81'
+        - '443:443'
+        volumes:
+          - ${DOCKER_DIRECTORY}/appdata/nginx:/data
+          - ${DOCKER_DIRECTORY}/appdata/letsencrypt:/etc/letsencrypt
