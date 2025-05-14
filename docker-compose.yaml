@@ -7,8 +7,6 @@ include:
     # TRAEFIK (CORE)
     #############################################################################
 
-    - apps/traefik/docker-compose.yaml # Traefik (Reverse Proxy)
-    - apps/duckdns.yaml # DuckDNS (Dynamic DNS)
     - apps/oauth.yaml # OAuth (Authentication)
     - apps/socket-proxy.yaml # Docker Socket Proxy (Security)
 
@@ -20,8 +18,6 @@ include:
     - apps/media-stack.yaml # Sonarr, Radarr, Bazarr, Flaresolverr, Lidarr, Prowlarr, Readarr (Media Server)
     - apps/overseerr.yaml # Overseerr (Media Requests)
     - apps/tautulli.yaml # Tautulli (Plex Analytics)
-    #- apps/calibre.yaml # Calibre (Books Management)
-    #- apps/calibre-web.yaml # Calibre Web-UI
  
     #############################################################################
     # UTILITIES
@@ -29,9 +25,9 @@ include:
 
     - apps/watchtower.yaml #  Watchtower (Container Updating)
     - apps/postgres.yaml # PostgreSQL (Shared Database)
-    # - apps/sftpgo.yaml # SFTPGo (File Management)
-    # - apps/pihole.yaml # Pi-hole (DNS Ad-Blocking)
-    - apps/portainer.yaml # Portainer (Container Management)
+    - apps/mariadb.yaml # Mariadb (Shared Database)
+    - apps/meilisearch.yaml # Meilisearch (Shared Database)
+    - apps/nginx-reverse-proxy.yaml # Nginx Reverse Proxy
 
     #############################################################################
     # MISCELLANEOUS
@@ -39,9 +35,6 @@ include:
     # * Note the existing services that are disabled by default.
     #############################################################################
 
-    - apps/chat-gpt-next-web.yaml # ChatGPT Next Web
-    # - apps/chatgpt-in-slack.yaml # ChatGPT Slack Bot
-    - apps/libreoffice.yaml # LibreOffice (Office Suite)
     - apps/umami.yaml # Umami Analytics
     - apps/healthchecks.yaml # Healthchecks (Monitoring)
 
@@ -50,18 +43,10 @@ include:
 ################################################################################
 
 networks:
-    traefik:
-        driver: bridge
-        ipam:
-            config:
-                - subnet: 192.168.90.0/24
     docker:
         driver: bridge
-        ipam:
-            config:
-                - subnet: 192.168.91.0/24
     internal:
         driver: bridge
-        ipam:
-            config:
-                - subnet: 192.168.92.0/24
+    public:
+        driver: bridge
+    

@@ -9,7 +9,7 @@ services:
         platform: linux/amd64
         container_name: umami
         networks:
-            internal:
+            - internal
         profiles: ["miscellaneous", "all"]
         environment:
             DATABASE_URL: postgresql://umami:${POSTGRES_PASSWORD}@homelab-postgres:5432/umami
@@ -20,7 +20,7 @@ services:
                 condition: service_healthy
         restart: always
         healthcheck:
-            test: [CMD-SHELL, "curl http://localhost:3000/api/heartbeat"]
+            test: [CMD-SHELL, "curl http://umami:3000/api/heartbeat"]
             interval: 5s
             timeout: 5s
             retries: 5

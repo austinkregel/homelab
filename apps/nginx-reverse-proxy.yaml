@@ -4,12 +4,22 @@
 
 services:
     nginx-reverse-proxy:
-        image: 'docker.io/jc21/nginx-proxy-manager:latest'
+        image: 'jc21/nginx-proxy-manager:latest'
         restart: unless-stopped
         ports:
-        - '80:80'
-        - '81:81'
-        - '443:443'
+          - '80:80'
+          - '81:81'
+          - '443:443'
         volumes:
           - ${DOCKER_DIRECTORY}/appdata/nginx:/data
           - ${DOCKER_DIRECTORY}/appdata/letsencrypt:/etc/letsencrypt
+        networks:
+            - public
+            - internal
+        environment:
+          # Postgres parameters
+          DB_POSTGRES_HOST: '${POSTGRES_HOST:-homelab-postgres}'
+          DB_POSTGRES_PORT: '5432'
+          DB_POSTGRES_USER: ${POSTGRES_USER:-postgres}
+          DB_POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+          DB_POSTGRES_NAME: nginx_proxy

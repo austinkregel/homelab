@@ -1,0 +1,19 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/compose-spec/compose-spec/master/schema/compose-spec.json
+#######################################
+# REDIS (DATABASE)
+#######################################
+services:
+  homelab-redis:
+    container_name: homelab-redis
+    image: redis:alpine
+    volumes:
+        - ${DOCKER_DIRECTORY}/appdata/homelab-redis:/data
+    networks:
+        internal:
+    healthcheck:
+      test:
+      - CMD
+      - redis-cli 
+      - ping
+      retries: 3
+      timeout: 5s

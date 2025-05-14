@@ -11,23 +11,6 @@ services:
       - "8888:8888/tcp"                         # Gluetun Local Network HTTP proxy
       - "8388:8388/tcp"                         # Gluetun Local Network Shadowsocks
       - "8388:8388/udp"                         # Gluetun Local Network Shadowsocks
-
-      - "${WEBUI_PORT_BAZARR:?err}:6767"        # WebUI Portal: Bazarr
-      - "${WEBUI_PORT_LIDARR:?err}:8686"        # WebUI Portal: Lidarr
-      - "${WEBUI_PORT_PROWLARR:?err}:9696"      # WebUI Portal: Prowlarr
-      - "${WEBUI_PORT_RADARR:?err}:7878"        # WebUI Portal: Radarr
-      - "${WEBUI_PORT_READARR:?err}:8787"       # WebUI Portal: Readarr
-      - "${WEBUI_PORT_SABNZBD:?err}:8080"       # WebUI Portal: SABnzbd
-      - "${WEBUI_PORT_SONARR:?err}:8989"        # WebUI Portal: Sonarr
-      - "${WEBUI_PORT_QBITTORRENT:?err}:${WEBUI_PORT_QBITTORRENT:?err}"   # WebUI Portal: qBittorrent
-
-      - "${QBIT_PORT_TCP:?err}:6881/tcp"        # Transmission Torrent Port TCP
-      - "${QBIT_PORT_UDP:?err}:6881/udp"        # Transmission Torrent Port UDP
-      - "${FLARESOLVERR_PORT:?err}:8191"        # Service Port: FlareSolverr
-      
-      - "${TDARR_SERVER_PORT:?err}:${TDARR_SERVER_PORT:?err}"   # Tdarr: Server Port
-      - "${WEBUI_PORT_TDARR:?err}:${WEBUI_PORT_TDARR:?err}"     # Tdarr: WebUI Portal
-
     volumes:
       - ${DOCKER_DIRECTORY}/appdata/gluetun:/gluetun
       - ${DOCKER_DIRECTORY}/secrets/ca.ovpn:/gluetun/ca-51.protonvpn.udp.ovpn
@@ -53,31 +36,7 @@ services:
       - HTTPPROXY=on
       - SHADOWSOCKS=on
     networks:
-        traefik:
-    labels:
-        traefik.enable: true
-        traefik.http.routers.gluetun-rtr.rule: Host(`gluetun.${DOMAIN_NAME}`)
-        traefik.http.routers.gluetun-rtr.entrypoints: websecure
-        traefik.http.routers.gluetun-rtr.service: gluetun-svc
-        traefik.http.services.gluetun-svc.loadbalancer.server.port: 5076
-        traefik.http.routers.gluetun-rtr.middlewares: chain-oauth-google@file
-
-        traefik.http.routers.sonarr-rtr.rule: Host(`${SONARR_SUBDOMAIN:-sonarr}.${DOMAIN_NAME}`)
-        traefik.http.routers.sonarr-rtr.entrypoints: websecure
-        traefik.http.routers.sonarr-rtr.service: sonarr-svc
-        traefik.http.services.sonarr-svc.loadbalancer.server.port: 8989
-                
-        traefik.http.routers.readarr-rtr.rule: Host(`${READARR_SUBDOMAIN:-readarr}.${DOMAIN_NAME}`)
-        traefik.http.routers.readarr-rtr.entrypoints: websecure
-        traefik.http.routers.readarr-rtr.service: readarr-svc
-        traefik.http.services.readarr-svc.loadbalancer.server.port: 8787
-        traefik.http.routers.readarr-rtr.middlewares: chain-oauth-google@file
-
-        traefik.http.routers.prowlarr-rtr.rule: Host(`${PROWLARR_SUBDOMAIN:-prowlarr}.${DOMAIN_NAME}`)
-        traefik.http.routers.prowlarr-rtr.entrypoints: websecure
-        traefik.http.routers.prowlarr-rtr.service: prowlarr-svc
-        traefik.http.services.prowlarr-svc.loadbalancer.server.port: 9696
-        traefik.http.routers.prowlarr-rtr.middlewares: chain-oauth-google@file
+      internal:
   bazarr:
     image: lscr.io/linuxserver/bazarr:latest
     container_name: bazarr
@@ -207,27 +166,14 @@ services:
       - DOCKER_MODS=ghcr.io/gilbn/theme.park:sabnzbd
       - TP_THEME=${TP_THEME:?err}
     network_mode: "service:gluetun"
-#    ports:
-#      - "${WEBUI_PORT_SABNZBD:?err}:8080"             # Configured in Gluetun VPN container
-
-###########################################################################
-###########################################################################
-##
-##  Docker Compose File: Sonarr (LinuxServer.io)
-##  Function: Series Library Manager (TV Shows)
-##
-##  Documentation: https://docs.linuxserver.io/images/docker-sonarr
-##
-###########################################################################
-###########################################################################
   sonarr:
     image: lscr.io/linuxserver/sonarr:latest
     container_name: sonarr
     restart: unless-stopped
     volumes:
       - ${DOCKER_DIRECTORY}/appdata/sonarr:/config
-      - ${FOLDER_FOR_MEDIA:?err}:/data
-      - /media/Downloads:/downloads
+      - ${COMPLETED_DOWNLOADS}:/downloads
+      - ${TV_DIR}:/tv
     environment:
       - PUID=${PUID:?err}
       - PGID=${PGID:?err}

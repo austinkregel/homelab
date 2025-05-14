@@ -1,0 +1,30 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/compose-spec/compose-spec/master/schema/compose-spec.json
+#######################################
+# POSTGRESQL (DATABASE)
+#######################################
+
+services:
+    homelab-mariadb:
+        image: mariadb:10
+        environment:
+            MYSQL_ROOT_PASSWORD: ${MYSQL_DB_PASSWORD}
+            MYSQL_ROOT_HOST: '%'
+            MYSQL_DATABASE: ${MYSQL_DB_DATABASE}
+            MYSQL_USER: ${MYSQL_DB_USERNAME}
+            MYSQL_PASSWORD: ${MYSQL_DB_PASSWORD}
+            MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
+        networks:
+            internal:
+        volumes:
+            - ${DOCKER_DIRECTORY}/appdata/homelab-mariadb:/var/lib/mariadb
+            - ${DOCKER_DIRECTORY}/scripts/create-mariadb-database.sh:/docker-entrypoint-initdb.d/create-mariadb-database.sh
+        restart: always
+        healthcheck:
+            test:
+            - CMD
+            - mysqladmin
+            - ping
+            - -p${MYSQL_DB_PASSWORD}
+            retries: 3
+            timeout: 5s
+            interval: 15s

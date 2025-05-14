@@ -42,6 +42,7 @@ function create_user_and_database() {
 				psql -v ON_ERROR_STOP=1 -U "$POSTGRES_USER" <<-EOSQL
 					CREATE USER $database WITH PASSWORD '$POSTGRES_PASSWORD';
 				EOSQL
+				echo "Role '${database}' now exists"
 		fi
 
 		if database_exists "$database"; then
@@ -52,6 +53,7 @@ function create_user_and_database() {
 				psql -v ON_ERROR_STOP=1 -U "$POSTGRES_USER" <<-EOSQL
 						CREATE DATABASE $database;
 				EOSQL
+				echo "Database '${database}' now exists"
 		fi
 
 		psql -v ON_ERROR_STOP=1 -U "$POSTGRES_USER" <<-EOSQL

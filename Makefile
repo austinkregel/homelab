@@ -44,15 +44,15 @@ config: ## Show the configuration of the service(s)*
 ##@ Core Services 🧠
 
 .PHONY: core-up
-core-up: ## Start just the core services (traefik, oauth2, etc).
+core-up: ## Start just the core services (nginx-proxy, oauth2, etc).
 	docker compose --project-directory "$(ROOT_DIR)" --profile core up -d
 
 .PHONY: core-down
-core-down: ## Stop just the core services (traefik, oauth2, etc).
+core-down: ## Stop just the core services (nginx-proxy, oauth2, etc).
 	docker compose --project-directory "$(ROOT_DIR)" --profile core down
 
 .PHONY: core-logs
-core-logs: ## Show the logs for the core services (traefik, oauth2, etc).
+core-logs: ## Show the logs for the core services (nginx-proxy, oauth2, etc).
 	docker compose --project-directory "$(ROOT_DIR)" --profile core logs -ft
 
 ##@ Media Services 📺
@@ -72,13 +72,14 @@ media-logs: ## Show the logs for the media services (plex, sonarr, radarr, etc).
 .PHONY: Misc Services 🧰
 
 ##@ Configuration 🪛
+.PHONY: setup
+setup: ## Setup the homelab repo.
+	bash $(ROOT_DIR)/scripts/setup.sh
+	@echo "Homelab repos setup complete."
+	@echo "To run please run 'make media-up' to start the media services."	
+	@echo "Please run 'make core-up' to start the core services."
+	@echo "Or please run 'make up' to start the services."
 
-.PHONY: config-acme
-config-acme: ## Initialize the acme.json file.
-	mkdir -p appdata/traefik/acme/
-	rm -f appdata/traefik/acme/acme.json
-	touch appdata/traefik/acme/acme.json
-	chmod 600 appdata/traefik/acme/acme.json
 
 ##@ Backup 🗂️
 
@@ -91,6 +92,11 @@ backup-no-timestamp: ## Backup the homelab repo to the ${BACKUP_DIR} without a t
 	bash $(ROOT_DIR)/scripts/backup.sh $(ROOT_DIR)/appdata $(BACKUP_DIR) --no-timestamp
 
 ##@ Development 🛠
+
+.PHONY: fresh
+fresh: ## Create a fresh virtual environment and install dependencies.
+	@echo "Cleaning up .envs, startup scripts, cron scripts, and queue scripts..."
+	bash ${ROOT_DIR}/scripts/cleanup.sh
 
 .PHONY: docs
 docs: ## Build the documentation.
