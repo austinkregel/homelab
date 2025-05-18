@@ -22,6 +22,9 @@ for project in "${PROJECTS[@]}"; do
 
     echo "Creating the queue scripts for php apps files..."
     cp -f php-template-queue.sh "appdata/$project/queue.sh"
+    
+    echo "Creating the websocket scripts for php apps files..."
+    cp -f php-template-websocket.sh "appdata/$project/queue.sh"
 
     echo "Creating the cron scripts for php apps files..."
     cp -f php-template-cron.sh "appdata/$project/cron.sh"
@@ -32,3 +35,16 @@ for project in "${PROJECTS[@]}"; do
 done
 
 echo "Setting up the homelab repos complete."
+
+
+touch appdata/prometheus/prometheus.yml
+
+cat <<EOF > appdata/prometheus/prometheus.yml
+global:
+  scrape_interval: 10s
+scrape_configs:
+ - job_name: prometheus
+   static_configs:
+    - targets:
+       - prometheus:9090
+EOF

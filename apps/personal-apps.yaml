@@ -1,112 +1,141 @@
+include: 
+ - ./mariadb.yaml
+
 services:
-  cannabis:
-    extra_hosts:
-      - host.docker.internal:host-gateway
-    volumes:
-      - ${DOCKER_DIRECTORY}/appdata/michigancannabis.club/.env:/var/www/html/.env
-      - ${DOCKER_DIRECTORY}/appdata/michigancannabis.club/start.sh:/var/www/html/start.sh
-      - ${DOCKER_DIRECTORY}/appdata/michigancannabis.club/laravel.log:/var/www/html/storage/logs/laravel.log
-    networks:
-      internal:
-    depends_on:
-      - production-mariadb
-      - production-redis
-    container_name: cannabis
-    image: ghcr.io/austinkregel/cannabis-consumer-information:latest
-    command: bash /var/www/html/start.sh
-
-
-  cannabis.horizon:   
-    networks:
-      internal:
-    volumes:
-      - ${DOCKER_DIRECTORY}/appdata/$REPO_NAME/.env:/var/www/html/.env
-      - ${DOCKER_DIRECTORY}/appdata/$REPO_NAME/start.sh:/var/www/html/start.sh
-      - ${DOCKER_DIRECTORY}/appdata/$REPO_NAME/laravel.log:/var/www/html/storage/logs/laravel.log
-    depends_on:
-      - homelab-mariadb
-      - homelab-redis
-    container_name: cannabis.horizon
-    image: ghcr.io/$GHREPO:latest
-    command: bash /var/www/html/queue.sh
-
-  lazy:
-    extra_hosts:
-      - host.docker.internal:host-gateway
-    volumes:
-      - ${DOCKER_DIRECTORY}/appdata/lazy.build/.env:/var/www/html/.env
-      - ${DOCKER_DIRECTORY}/appdata/lazy.build/start.sh:/var/www/html/start.sh
-      - ${DOCKER_DIRECTORY}/appdata/lazy.build/laravel.log:/var/www/html/storage/logs/laravel.log
-    networks:
-      internal:
-    depends_on:
-      - production-mariadb
-      - production-redis
-    container_name: lazy
-    image: ghcr.io/austinkregel/lazy.build:latest
-    command: bash /var/www/html/start.sh
-
-  spork:
+  spork.queue:
     extra_hosts:
       - host.docker.internal:host-gateway
     volumes:
       - ${DOCKER_DIRECTORY}/appdata/spork/.env:/var/www/html/.env
-      - ${DOCKER_DIRECTORY}/appdata/spork/start.sh:/var/www/html/start.sh
-      - ${DOCKER_DIRECTORY}/appdata/spork/laravel.log:/var/www/html/storage/logs/laravel.log
+      - ${DOCKER_DIRECTORY}/appdata/spork/queue.sh:/var/www/html/queue.sh
+      - ${DOCKER_DIRECTORY}/appdata/spork/queue.log:/var/www/html/storage/logs/laravel.log
     networks:
       internal:
-    depends_on:
-      - production-mariadb
-      - production-redis
-      - spork.horizon
-      - spork.reverb
-    container_name: spork
-    image: ghcr.io/austinkregel/spork:latest
-    command: bash /var/www/html/start.sh
-    
-  spork.horizon:
-    extra_hosts:
-      - host.docker.internal:host-gateway
-    volumes:
-      - ${DOCKER_DIRECTORY}/appdata/spork/.env:/var/www/html/.env
-      - ${DOCKER_DIRECTORY}/appdata/spork/laravel.log:/var/www/html/storage/logs/laravel.log
-    networks:
-      internal:
-    depends_on:
-      - production-mariadb
-      - production-redis
-    container_name: spork.horizon
+    container_name: spork.queue
     image: ghcr.io/austinkregel/spork:latest
     command: bash /var/www/html/queue.sh
-    
+    depends_on:
+        homelab-mariadb:
+            condition: service_healthy
+
   spork.cron:
     extra_hosts:
       - host.docker.internal:host-gateway
     volumes:
       - ${DOCKER_DIRECTORY}/appdata/spork/.env:/var/www/html/.env
-      - ${DOCKER_DIRECTORY}/appdata/spork/laravel.log:/var/www/html/storage/logs/laravel.log
+      - ${DOCKER_DIRECTORY}/appdata/spork/cron.sh:/var/www/html/cron.sh
+      - ${DOCKER_DIRECTORY}/appdata/spork/cron.log:/var/www/html/storage/logs/laravel.log
     networks:
       internal:
-    depends_on:
-      - production-mariadb
-      - production-redis
     container_name: spork.cron
     image: ghcr.io/austinkregel/spork:latest
     command: bash /var/www/html/cron.sh
+    depends_on:
+        homelab-mariadb:
+            condition: service_healthy
+            restart: true
 
-  spork.reverb:
+  spork.web:
     extra_hosts:
       - host.docker.internal:host-gateway
     volumes:
       - ${DOCKER_DIRECTORY}/appdata/spork/.env:/var/www/html/.env
-      - ${DOCKER_DIRECTORY}/appdata/spork/laravel.log:/var/www/html/storage/logs/laravel.log
+      - ${DOCKER_DIRECTORY}/appdata/spork/start.sh:/var/www/html/start.sh
+      - ${DOCKER_DIRECTORY}/appdata/spork/web-start.log:/var/www/html/storage/logs/laravel.log
     networks:
       internal:
-    depends_on:
-      - production-mariadb
-      - production-redis
-    ports:
-      - "6001:6001"
-    container_name: spork.reverb
+    container_name: spork.web
     image: ghcr.io/austinkregel/spork:latest
-    command: php artisan reverb:start --port=6001
+    command: bash /var/www/html/start.sh
+    depends_on:
+        homelab-mariadb:
+            condition: service_healthy
+            restart: true
+
+  spork.websocket:
+    extra_hosts:
+      - host.docker.internal:host-gateway
+    volumes:
+      - ${DOCKER_DIRECTORY}/appdata/spork/.env:/var/www/html/.env
+      - ${DOCKER_DIRECTORY}/appdata/spork/start.sh:/var/www/html/start.sh
+    networks:
+      internal:
+    container_name: spork.websocket
+    image: ghcr.io/austinkregel/spork:latest
+    command: bash /var/www/html/websocket.sh
+    depends_on:
+        homelab-mariadb:
+            condition: service_healthy
+            restart: true
+
+
+  lazy.build.web:
+    extra_hosts:
+      - host.docker.internal:host-gateway
+    volumes:
+      - ${DOCKER_DIRECTORY}/appdata/lazy.build/.env:/var/www/html/.env
+      - ${DOCKER_DIRECTORY}/appdata/lazy.build/start.sh:/var/www/html/start.sh
+      - ${DOCKER_DIRECTORY}/appdata/lazy.build/web-start.log:/var/www/html/storage/logs/laravel.log
+    networks:
+      internal:
+    container_name: lazy.build.web
+    image: ghcr.io/austinkregel/lazy.build:latest
+    command: bash /var/www/html/start.sh
+    depends_on:
+        homelab-mariadb:
+            condition: service_healthy
+            restart: true
+
+  cannabis-consumer-information.queue:
+    extra_hosts:
+      - host.docker.internal:host-gateway
+    volumes:
+      - ${DOCKER_DIRECTORY}/appdata/cannabis-consumer-information/.env:/var/www/html/.env
+      - ${DOCKER_DIRECTORY}/appdata/cannabis-consumer-information/queue.sh:/var/www/html/queue.sh
+      - ${DOCKER_DIRECTORY}/appdata/cannabis-consumer-information/queue.log:/var/www/html/storage/logs/laravel.log
+    networks:
+      internal:
+    container_name: cannabis-consumer-information.queue
+    image: ghcr.io/austinkregel/cannabis-consumer-information:latest
+    command: bash /var/www/html/queue.sh
+    depends_on:
+        homelab-mariadb:
+            condition: service_healthy
+            restart: true
+
+
+  cannabis-consumer-information.cron:
+    extra_hosts:
+      - host.docker.internal:host-gateway
+    volumes:
+      - ${DOCKER_DIRECTORY}/appdata/cannabis-consumer-information/.env:/var/www/html/.env
+      - ${DOCKER_DIRECTORY}/appdata/cannabis-consumer-information/cron.sh:/var/www/html/cron.sh
+      - ${DOCKER_DIRECTORY}/appdata/cannabis-consumer-information/cron.log:/var/www/html/storage/logs/laravel.log
+    networks:
+      internal:
+    container_name: cannabis-consumer-information.cron
+    image: ghcr.io/austinkregel/cannabis-consumer-information:latest
+    command: bash /var/www/html/cron.sh
+    depends_on:
+        homelab-mariadb:
+            condition: service_healthy
+            restart: true
+
+
+  cannabis-consumer-information.web:
+    extra_hosts:
+      - host.docker.internal:host-gateway
+    volumes:
+      - ${DOCKER_DIRECTORY}/appdata/cannabis-consumer-information/.env:/var/www/html/.env
+      - ${DOCKER_DIRECTORY}/appdata/cannabis-consumer-information/start.sh:/var/www/html/start.sh
+      - ${DOCKER_DIRECTORY}/appdata/cannabis-consumer-information/web-start.log:/var/www/html/storage/logs/laravel.log
+    networks:
+      internal:
+    container_name: cannabis-consumer-information.web
+    image: ghcr.io/austinkregel/cannabis-consumer-information:latest
+    command: bash /var/www/html/start.sh
+    depends_on:
+        homelab-mariadb:
+            condition: service_healthy
+            restart: true
+

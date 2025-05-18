@@ -1,0 +1,42 @@
+include: 
+  - ./redis.yaml
+
+services:
+  gitlab:
+    image: gitlab/gitlab-ce:latest
+    container_name: gitlab
+    restart: always
+    hostname: 'gitlab.kregel.host'
+    ports:
+      - '2222:22'
+    volumes:
+      - '${DOCKER_DIRECTORY}/appdata/gitlab/config:/etc/gitlab'
+      - '${DOCKER_DIRECTORY}/appdata/gitlab/logs:/var/log/gitlab'
+      - '${DOCKER_DIRECTORY}/appdata/gitlab/data:/var/opt/gitlab'
+    shm_size: '256m'
+    networks:
+      internal:
+    depends_on:
+      homelab-postgres:
+        condition: service_healthy
+        restart: true
+
+      homelab-redis:
+        condition: service_healthy
+        restart: true
+    
+  gitlab-runner:
+    image: gitlab/gitlab-runner:latest
+    container_name: gitlab-runner
+    restart: always
+    environment:
+      - DOCKER_HOST=tcp://socket-proxy:2375
+    ports:
+      - '2224:22'
+    volumes:
+      - '${DOCKER_DIRECTORY}/appdata/gitlab-runner/config:/etc/gitlab-runner:z'
+      - '${DOCKER_DIRECTORY}/appdata/gitlab-runner/certs:/certs:ro'
+    shm_size: '256m'
+    networks:
+      internal:
+    

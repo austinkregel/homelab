@@ -1,6 +1,8 @@
 #######################################
 # HEALTHCHECKS (STATUS MONITORING)
 #######################################
+include: 
+ - ./postgres.yaml
 
 services:
     nginx-reverse-proxy:
@@ -23,3 +25,7 @@ services:
           DB_POSTGRES_USER: ${POSTGRES_USER:-postgres}
           DB_POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
           DB_POSTGRES_NAME: nginx_proxy
+        depends_on:
+          homelab-postgres:
+            condition: service_healthy
+            restart: true

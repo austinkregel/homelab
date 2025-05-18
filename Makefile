@@ -1,5 +1,6 @@
 ROOT_DIR:=$(shell dirname $(realpath $(firstword $(MAKEFILE_LIST))))
 PYTHON:=$(ROOT_DIR)/.venv/bin/python
+
 SHELL:=/bin/bash
 
 ##@ Homelab 🐳
@@ -9,6 +10,10 @@ update: ## Update the service(s) *
 	docker compose --project-directory "$(ROOT_DIR)" --profile all pull $(APP)
 	docker compose --project-directory "$(ROOT_DIR)" --profile all up -d $(APP)
 
+.PHONY: exec
+exec: ## Update the service(s) *
+	docker compose --project-directory "$(ROOT_DIR)" --profile all exec -it $(APP) $(ARGS)
+
 .PHONY: pull
 pull: ## Pull the latest image(s)*
 	docker compose --project-directory "$(ROOT_DIR)" --profile all pull $(APP)
@@ -16,6 +21,10 @@ pull: ## Pull the latest image(s)*
 .PHONY: up
 up: ## Start the service(s)*
 	docker compose --project-directory "$(ROOT_DIR)" --profile all up -d $(APP) $(ARGS)
+
+.PHONY: shell
+shell: ## Start the service(s)*
+	docker compose --project-directory "$(ROOT_DIR)" --profile all run -it $(APP) $(ARGS) 
 
 .PHONY: down
 down: ## Stop the service(s)*

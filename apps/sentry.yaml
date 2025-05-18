@@ -1,0 +1,60 @@
+include:
+  - ./redis.yaml
+  - ./postgres.yaml
+
+services:
+  sentry:
+    image: sentry:latest
+    environment:
+      SENTRY_SECRET_KEY: ${SENTRY_SECRET_KEY}
+      SENTRY_POSTGRES_HOST: homelab-postgres
+      SENTRY_DB_USER: postgres
+      SENTRY_DB_PASSWORD: ${POSTGRES_PASSWORD}
+      SENTRY_REDIS_HOST: homelab-redis
+    networks:
+      internal:
+    depends_on:
+      homelab-postgres:
+        condition: service_healthy
+        restart: true
+      homelab-redis:
+        condition: service_healthy
+        restart: true
+
+  sentry-cron:
+    image: sentry:latest
+    command: "sentry run cron"
+    environment:
+      SENTRY_SECRET_KEY: ${SENTRY_SECRET_KEY}
+      SENTRY_POSTGRES_HOST: homelab-postgres
+      SENTRY_DB_USER: postgres
+      SENTRY_DB_PASSWORD: ${POSTGRES_PASSWORD}
+      SENTRY_REDIS_HOST: homelab-redis
+    networks:
+      internal:
+    depends_on:
+      homelab-postgres:
+        condition: service_healthy
+        restart: true
+      homelab-redis:
+        condition: service_healthy
+        restart: true
+  sentry-worker:
+    image: sentry:latest
+    command: "sentry run worker"
+    environment:
+      SENTRY_SECRET_KEY: ${SENTRY_SECRET_KEY}
+      SENTRY_POSTGRES_HOST: homelab-postgres
+      SENTRY_DB_USER: postgres
+      SENTRY_DB_PASSWORD: ${POSTGRES_PASSWORD}
+      SENTRY_REDIS_HOST: homelab-redis
+    networks:
+      internal:
+    depends_on:
+      homelab-postgres:
+        condition: service_healthy
+        restart: true
+
+      homelab-redis:
+        condition: service_healthy
+        restart: true

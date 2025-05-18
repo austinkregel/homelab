@@ -2,33 +2,22 @@
 #######################################
 #OAUTH (GOOGLE OAUTH FOR ADMIN)
 #######################################
+include: 
+ - ./mariadb.yaml
 
 services:
-    oauth:
-        profiles: ["auth", "core", "all"]
-        networks: 
-            internal:
-
-        security_opt:
-            - no-new-privileges:true
-        restart: always
-        platform: linux/amd64
-        image: ghcr.io/austinkregel/aut.hair:latest
-        depends_on:
-            homelab-mariadb:
-                condition: service_healthy
-    authair:
-        extra_hosts:
-        - host.docker.internal:host-gateway
-        volumes:
-        - ${DOCKER_DIRECTORY}/appdata/authair/.env:/var/www/html/.env
-        - ${DOCKER_DIRECTORY}/appdata/authair/start.sh:/var/www/html/start.sh
-        - ${DOCKER_DIRECTORY}/appdata/authair/laravel.log:/var/www/html/storage/logs/laravel.log
-        networks:
-        - production
-        depends_on:
-        - production-mariadb
-        - production-redis
-        container_name: authair
-        image: ghcr.io/austinkregel/aut.hair:latest
-        command: bash /var/www/html/start.sh
+  aut.hair.web:
+    extra_hosts:
+      - host.docker.internal:host-gateway
+    volumes:
+      - ${DOCKER_DIRECTORY}/appdata/aut.hair/.env:/var/www/html/.env
+      - ${DOCKER_DIRECTORY}/appdata/aut.hair/start.sh:/var/www/html/start.sh
+    networks:
+      internal:
+    container_name: aut.hair.web
+    image: ghcr.io/austinkregel/aut.hair:latest
+    command: bash /var/www/html/start.sh
+    depends_on:
+      homelab-mariadb:
+        condition: service_healthy
+        restart: true

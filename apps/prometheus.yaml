@@ -1,0 +1,30 @@
+services:
+  prometheus:
+    container_name: prometheus
+    image: prom/prometheus
+    volumes:
+      - ${DOCKER_DIRECTORY}/appdata/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+      - ${DOCKER_DIRECTORY}/appdata/prometheus/rules.yml:/etc/prometheus/rules.yml
+      - ${DOCKER_DIRECTORY}/appdata/prometheus:/etc/prometheus
+    networks:
+      - internal
+  node-exporter:
+    container_name: node-exporter
+    image: prom/node-exporter
+    networks:
+      - internal
+  alert-manager:
+    image: prom/alertmanager
+    volumes:
+      - ${DOCKER_DIRECTORY}/appdata/prometheus/alertmanager.yml:/alertmanager/alertmanager.yml"
+    networks:
+      - internal
+  grafana:
+    container_name: grafana
+    image: grafana/grafana:latest
+    user: '1000'
+    volumes:
+      - ${DOCKER_DIRECTORY}/appdata/grafana:/var/lib/grafana
+    networks:
+      - internal
+    restart: unless-stopped
