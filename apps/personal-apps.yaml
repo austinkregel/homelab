@@ -1,47 +1,83 @@
 include: 
  - ./mariadb.yaml
+ - ./redis.yaml
+ - ./meilisearch.yaml
 
 services:
+  aut.hair.web:
+    profiles: ["all", "personal", "core"]
+    extra_hosts:
+      - host.docker.internal:host-gateway
+    volumes:
+      - ${DOCKER_DIRECTORY}/appdata/aut.hair/.env:/var/www/html/.env
+      - ${DOCKER_DIRECTORY}/appdata/aut.hair/services.php:/var/www/html/config/services.php
+      - ${DOCKER_DIRECTORY}/appdata/aut.hair/storage:/var/www/html/storage
+      - ${DOCKER_DIRECTORY}/appdata/aut.hair/start.sh:/var/www/html/start.sh
+    networks:
+      internal:
+    container_name: aut.hair.web
+    image: ghcr.io/austinkregel/aut.hair:latest
+    entrypoint: "bash /var/www/html/start.sh"
+    user: "root:root"
+    healthcheck:
+      test:
+      - CMD
+      - curl
+      - aut.hair.web:8000/up
+      retries: 3
+      timeout: 5s
+      interval: 15s
+    depends_on:
+        homelab-mariadb:
+            condition: service_healthy
+            restart: true
+        homelab-redis:
+            condition: service_healthy
+            restart: true
+
   spork.queue:
+    profiles: ["all", "personal"]
     extra_hosts:
       - host.docker.internal:host-gateway
     volumes:
       - ${DOCKER_DIRECTORY}/appdata/spork/.env:/var/www/html/.env
-      - ${DOCKER_DIRECTORY}/appdata/spork/queue.sh:/var/www/html/queue.sh
+      - ${DOCKER_DIRECTORY}/php-template-queue.sh:/var/www/html/start.sh
       - ${DOCKER_DIRECTORY}/appdata/spork/queue.log:/var/www/html/storage/logs/laravel.log
     networks:
       internal:
     container_name: spork.queue
     image: ghcr.io/austinkregel/spork:latest
-    command: bash /var/www/html/queue.sh
+    command: bash /var/www/html/start.sh
     depends_on:
         homelab-mariadb:
             condition: service_healthy
 
   spork.cron:
+    profiles: ["all", "personal"]
     extra_hosts:
       - host.docker.internal:host-gateway
     volumes:
       - ${DOCKER_DIRECTORY}/appdata/spork/.env:/var/www/html/.env
-      - ${DOCKER_DIRECTORY}/appdata/spork/cron.sh:/var/www/html/cron.sh
-      - ${DOCKER_DIRECTORY}/appdata/spork/cron.log:/var/www/html/storage/logs/laravel.log
+      - ${DOCKER_DIRECTORY}/php-template-cron.sh:/var/www/html/start.sh
+      - ${DOCKER_DIRECTORY}/appdata/spork/cron.log:/var/www/html/storage/logs/cron.log
     networks:
       internal:
     container_name: spork.cron
     image: ghcr.io/austinkregel/spork:latest
-    command: bash /var/www/html/cron.sh
+    command: bash /var/www/html/start.sh
     depends_on:
         homelab-mariadb:
             condition: service_healthy
             restart: true
 
   spork.web:
+    profiles: ["all", "personal"]
     extra_hosts:
       - host.docker.internal:host-gateway
     volumes:
       - ${DOCKER_DIRECTORY}/appdata/spork/.env:/var/www/html/.env
-      - ${DOCKER_DIRECTORY}/appdata/spork/start.sh:/var/www/html/start.sh
-      - ${DOCKER_DIRECTORY}/appdata/spork/web-start.log:/var/www/html/storage/logs/laravel.log
+      - ${DOCKER_DIRECTORY}/php-template-start.sh:/var/www/html/start.sh
+      - ${DOCKER_DIRECTORY}/appdata/spork/logs:/var/www/html/storage/logs/
     networks:
       internal:
     container_name: spork.web
@@ -51,30 +87,39 @@ services:
         homelab-mariadb:
             condition: service_healthy
             restart: true
+    healthcheck:
+      test:
+      - CMD
+      - curl
+      - spork.web:8000/up
+      retries: 3
+      timeout: 5s
+      interval: 15s
 
   spork.websocket:
+    profiles: ["all", "personal"]
     extra_hosts:
       - host.docker.internal:host-gateway
     volumes:
       - ${DOCKER_DIRECTORY}/appdata/spork/.env:/var/www/html/.env
-      - ${DOCKER_DIRECTORY}/appdata/spork/start.sh:/var/www/html/start.sh
+      - ${DOCKER_DIRECTORY}/php-template-websocket.sh:/var/www/html/start.sh
     networks:
       internal:
     container_name: spork.websocket
     image: ghcr.io/austinkregel/spork:latest
-    command: bash /var/www/html/websocket.sh
+    command: bash /var/www/html/start.sh
     depends_on:
         homelab-mariadb:
             condition: service_healthy
             restart: true
 
-
   lazy.build.web:
+    profiles: ["all", "personal"]
     extra_hosts:
       - host.docker.internal:host-gateway
     volumes:
       - ${DOCKER_DIRECTORY}/appdata/lazy.build/.env:/var/www/html/.env
-      - ${DOCKER_DIRECTORY}/appdata/lazy.build/start.sh:/var/www/html/start.sh
+      - ${DOCKER_DIRECTORY}/php-template-start.sh:/var/www/html/start.sh
       - ${DOCKER_DIRECTORY}/appdata/lazy.build/web-start.log:/var/www/html/storage/logs/laravel.log
     networks:
       internal:
@@ -85,49 +130,63 @@ services:
         homelab-mariadb:
             condition: service_healthy
             restart: true
-
+    healthcheck:
+      test:
+      - CMD
+      - curl
+      - lazy.build.web:80/up
+      retries: 3
+      timeout: 5s
+      interval: 15s
   cannabis-consumer-information.queue:
+    profiles: ["all", "personal"]
     extra_hosts:
       - host.docker.internal:host-gateway
     volumes:
       - ${DOCKER_DIRECTORY}/appdata/cannabis-consumer-information/.env:/var/www/html/.env
-      - ${DOCKER_DIRECTORY}/appdata/cannabis-consumer-information/queue.sh:/var/www/html/queue.sh
+      - ${DOCKER_DIRECTORY}/php-template-queue.sh:/var/www/html/start.sh
       - ${DOCKER_DIRECTORY}/appdata/cannabis-consumer-information/queue.log:/var/www/html/storage/logs/laravel.log
     networks:
       internal:
     container_name: cannabis-consumer-information.queue
     image: ghcr.io/austinkregel/cannabis-consumer-information:latest
-    command: bash /var/www/html/queue.sh
+    command: bash /var/www/html/start.sh
     depends_on:
         homelab-mariadb:
             condition: service_healthy
             restart: true
-
+        homelab-redis:
+            condition: service_healthy
+            restart: true
 
   cannabis-consumer-information.cron:
+    profiles: ["all", "personal"]
     extra_hosts:
       - host.docker.internal:host-gateway
     volumes:
       - ${DOCKER_DIRECTORY}/appdata/cannabis-consumer-information/.env:/var/www/html/.env
-      - ${DOCKER_DIRECTORY}/appdata/cannabis-consumer-information/cron.sh:/var/www/html/cron.sh
+      - ${DOCKER_DIRECTORY}/php-template-cron.sh:/var/www/html/start.sh
       - ${DOCKER_DIRECTORY}/appdata/cannabis-consumer-information/cron.log:/var/www/html/storage/logs/laravel.log
     networks:
       internal:
     container_name: cannabis-consumer-information.cron
     image: ghcr.io/austinkregel/cannabis-consumer-information:latest
-    command: bash /var/www/html/cron.sh
+    command: bash /var/www/html/start.sh
     depends_on:
         homelab-mariadb:
             condition: service_healthy
             restart: true
-
+        homelab-redis:
+            condition: service_healthy
+            restart: true
 
   cannabis-consumer-information.web:
+    profiles: ["all", "personal"]
     extra_hosts:
       - host.docker.internal:host-gateway
     volumes:
       - ${DOCKER_DIRECTORY}/appdata/cannabis-consumer-information/.env:/var/www/html/.env
-      - ${DOCKER_DIRECTORY}/appdata/cannabis-consumer-information/start.sh:/var/www/html/start.sh
+      - ${DOCKER_DIRECTORY}/php-template-start.sh:/var/www/html/start.sh
       - ${DOCKER_DIRECTORY}/appdata/cannabis-consumer-information/web-start.log:/var/www/html/storage/logs/laravel.log
     networks:
       internal:
@@ -138,4 +197,36 @@ services:
         homelab-mariadb:
             condition: service_healthy
             restart: true
-
+        homelab-redis:
+            condition: service_healthy
+            restart: true
+    healthcheck:
+      test:
+      - CMD
+      - curl
+      - cannabis-consumer-information.web:8000/up
+      retries: 3
+      timeout: 5s
+      interval: 15s
+  vito.web:
+    profiles: ["all", "personal"]
+    extra_hosts:
+      - host.docker.internal:host-gateway
+    volumes:
+      - ${DOCKER_DIRECTORY}/appdata/vitodeploy/.env:/var/www/html/.env
+      - ${DOCKER_DIRECTORY}/appdata/vitodeploy/storage:/var/www/html/storage
+      - ${DOCKER_DIRECTORY}/appdata/vitodeploy/start.sh:/var/www/html/start.sh
+    networks:
+      internal:
+    container_name: vito.web
+    entrypoint: "bash /var/www/html/start.sh"
+    image: ghcr.io/austinkregel/vito:latest
+    user: "root:root"
+    healthcheck:
+      test:
+      - CMD
+      - curl
+      - vito.web:8000/login
+      retries: 3
+      timeout: 5s
+      interval: 15s

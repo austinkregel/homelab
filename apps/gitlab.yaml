@@ -1,11 +1,12 @@
 include: 
   - ./redis.yaml
+  - ./postgres.yaml
 
 services:
   gitlab:
     image: gitlab/gitlab-ce:latest
     container_name: gitlab
-    restart: always
+    restart: no
     hostname: 'gitlab.kregel.host'
     ports:
       - '2222:22'
@@ -13,6 +14,8 @@ services:
       - '${DOCKER_DIRECTORY}/appdata/gitlab/config:/etc/gitlab'
       - '${DOCKER_DIRECTORY}/appdata/gitlab/logs:/var/log/gitlab'
       - '${DOCKER_DIRECTORY}/appdata/gitlab/data:/var/opt/gitlab'
+      - '${DOCKER_DIRECTORY}/appdata/proton-bridge/:/etc/gitlab/trusted-certs'
+
     shm_size: '256m'
     networks:
       internal:
@@ -23,8 +26,13 @@ services:
 
       homelab-redis:
         condition: service_healthy
-        restart: true
-    
+        restart: true      
+    healthcheck:
+      test: curl --fail http://gitlab:8181/ || exit 1
+      interval: 40s
+      timeout: 30s
+      retries: 3
+      start_period: 60s
   gitlab-runner:
     image: gitlab/gitlab-runner:latest
     container_name: gitlab-runner
@@ -39,4 +47,7 @@ services:
     shm_size: '256m'
     networks:
       internal:
-    
+    depends_on:
+      gitlab:
+        condition: service_healthy
+        restart: true

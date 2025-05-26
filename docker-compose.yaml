@@ -9,7 +9,6 @@ include:
     - apps/postgres.yaml # PostgreSQL (Shared Database)
     - apps/mariadb.yaml # Mariadb (Shared Database)
 
-    - apps/oauth.yaml # OAuth (Authentication)
     - apps/personal-apps.yaml
     - apps/socket-proxy.yaml # Docker Socket Proxy (Security)
 
@@ -31,6 +30,7 @@ include:
     - apps/nginx-reverse-proxy.yaml # Nginx Reverse Proxy
     - apps/prometheus.yaml # Prometheus
     - apps/gitlab.yaml # Gitlab
+    - apps/mqtt.yaml 
 
     #############################################################################
     # MISCELLANEOUS
@@ -42,6 +42,8 @@ include:
     - apps/healthchecks.yaml # Healthchecks (Monitoring)
     # - apps/matrix.yaml # Matrix (Chat)
     - apps/sentry.yaml
+    - apps/local-email.yaml # Local Email (Postfix, OpenDKIM, Amavis, PostfixAdmin, mostly for services that need to send email; everthing is internal and not exposed to the internet)
+    #- apps/windows.yaml 
 
 ################################################################################
 # NETWORK CONFIGURATION

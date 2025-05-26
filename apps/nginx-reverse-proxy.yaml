@@ -18,6 +18,8 @@ services:
         networks:
             - public
             - internal
+        extra_hosts:
+          - "host.docker.internal:host-gateway"
         environment:
           # Postgres parameters
           DB_POSTGRES_HOST: '${POSTGRES_HOST:-homelab-postgres}'

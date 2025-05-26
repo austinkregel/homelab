@@ -5,12 +5,14 @@ include:
 services:
   sentry:
     image: sentry:latest
+    user: '999:999'
     environment:
       SENTRY_SECRET_KEY: ${SENTRY_SECRET_KEY}
       SENTRY_POSTGRES_HOST: homelab-postgres
       SENTRY_DB_USER: postgres
       SENTRY_DB_PASSWORD: ${POSTGRES_PASSWORD}
       SENTRY_REDIS_HOST: homelab-redis
+      GEOIP_PATH_MMDB: /geoip/GeoLite2-City.mmdb
     networks:
       internal:
     depends_on:
@@ -20,6 +22,17 @@ services:
       homelab-redis:
         condition: service_healthy
         restart: true
+    volumes:
+      - '${DOCKER_DIRECTORY}/appdata/sentry/config:/etc/sentry'
+      - '${DOCKER_DIRECTORY}/appdata/sentry/geoip:/geoip'
+    healthcheck:
+      test:
+      - CMD
+      - curl
+      - sentry:9000
+      retries: 3
+      timeout: 5s
+      interval: 15s
 
   sentry-cron:
     image: sentry:latest
@@ -30,8 +43,12 @@ services:
       SENTRY_DB_USER: postgres
       SENTRY_DB_PASSWORD: ${POSTGRES_PASSWORD}
       SENTRY_REDIS_HOST: homelab-redis
+      GEOIP_PATH_MMDB: /geoip/GeoLite2-City.mmdb
     networks:
       internal:
+    volumes:
+      - '${DOCKER_DIRECTORY}/appdata/sentry/config:/etc/sentry'
+      - '${DOCKER_DIRECTORY}/appdata/sentry/geoip:/geoip'
     depends_on:
       homelab-postgres:
         condition: service_healthy
@@ -39,6 +56,9 @@ services:
       homelab-redis:
         condition: service_healthy
         restart: true
+      sentry:
+        restart: false
+        condition: service_healthy
   sentry-worker:
     image: sentry:latest
     command: "sentry run worker"
@@ -48,8 +68,12 @@ services:
       SENTRY_DB_USER: postgres
       SENTRY_DB_PASSWORD: ${POSTGRES_PASSWORD}
       SENTRY_REDIS_HOST: homelab-redis
+      GEOIP_PATH_MMDB: /geoip/GeoLite2-City.mmdb
     networks:
       internal:
+    volumes:
+      - '${DOCKER_DIRECTORY}/appdata/sentry/config:/etc/sentry'
+      - '${DOCKER_DIRECTORY}/appdata/sentry/geoip:/geoip'
     depends_on:
       homelab-postgres:
         condition: service_healthy
@@ -58,3 +82,6 @@ services:
       homelab-redis:
         condition: service_healthy
         restart: true
+      sentry:
+        restart: false
+        condition: service_healthy

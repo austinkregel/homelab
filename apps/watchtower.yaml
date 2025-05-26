@@ -17,3 +17,5 @@ services:
             WATCHTOWER_NO_STARTUP_MESSAGE: "false"
             WATCHTOWER_SCHEDULE: 0 30 12 * * *
             DOCKER_HOST: tcp://socket-proxy:2375
+        volumes:
+            - ${HOME}/.docker/config.json:/config.json

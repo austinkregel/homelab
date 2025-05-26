@@ -1,14 +1,27 @@
 #!/usr/bin/env bash
 
-mysql --user=root --password="$MYSQL_ROOT_PASSWORD" <<-EOSQL
-    CREATE DATABASE IF NOT EXISTS spork;
-    GRANT ALL PRIVILEGES ON \`spork%\`.* TO '$MYSQL_USER'@'%';
-    CREATE DATABASE IF NOT EXISTS authair;
-    GRANT ALL PRIVILEGES ON \`authair%\`.* TO '$MYSQL_USER'@'%';
-    CREATE DATABASE IF NOT EXISTS lazybuild;
-    GRANT ALL PRIVILEGES ON \`lazybuild%\`.* TO '$MYSQL_USER'@'%';
-    CREATE DATABASE IF NOT EXISTS consumer_information;
-    GRANT ALL PRIVILEGES ON \`consumer_information%\`.* TO '$MYSQL_USER'@'%';
-    CREATE DATABASE IF NOT EXISTS laradarr;
-    GRANT ALL PRIVILEGES ON \`laradarr%\`.* TO '$MYSQL_USER'@'%';
-EOSQL
+
+TABLES=(
+    "spork"
+    "authair"
+    "lazybuild"
+    "consumer_information"
+    "laradarr"
+    "postfix"
+    "opendkim"
+    "postfixadmin"
+    "roundcube"
+    "vito"
+)
+
+for table in "${TABLES[@]}"; do
+    if [[ ! -d "/var/lib/mysql/$table" ]]; then
+        echo "Creating database $table"
+        mysql --user=root --password="$MYSQL_ROOT_PASSWORD" -e "CREATE DATABASE IF NOT EXISTS $table;"
+        mysql --user=root --password="$MYSQL_ROOT_PASSWORD" -e "GRANT ALL PRIVILEGES ON \`$table%\`.* TO '$MYSQL_USER'@'%';"
+        echo "Created database $table; and granted privileges to $MYSQL_USER."
+    else
+        mysql --user=root --password="$MYSQL_ROOT_PASSWORD" -e "GRANT ALL PRIVILEGES ON \`$table%\`.* TO '$MYSQL_USER'@'%';"
+        echo "Database $table already exists, ensuring $MYSQL_USER has access."
+    fi
+done

@@ -14,13 +14,17 @@ update: ## Update the service(s) *
 exec: ## Update the service(s) *
 	docker compose --project-directory "$(ROOT_DIR)" --profile all exec -it $(APP) $(ARGS)
 
+.PHONY: run
+run: ## Update the service(s) *
+	docker compose --project-directory "$(ROOT_DIR)" --profile all run --user=root  -it $(APP) $(ARGS)
+
 .PHONY: pull
 pull: ## Pull the latest image(s)*
 	docker compose --project-directory "$(ROOT_DIR)" --profile all pull $(APP)
 
 .PHONY: up
 up: ## Start the service(s)*
-	docker compose --project-directory "$(ROOT_DIR)" --profile all up -d $(APP) $(ARGS)
+	docker compose --project-directory "$(ROOT_DIR)" --profile all up --remove-orphans -d $(APP) $(ARGS)
 
 .PHONY: shell
 shell: ## Start the service(s)*
@@ -63,6 +67,20 @@ core-down: ## Stop just the core services (nginx-proxy, oauth2, etc).
 .PHONY: core-logs
 core-logs: ## Show the logs for the core services (nginx-proxy, oauth2, etc).
 	docker compose --project-directory "$(ROOT_DIR)" --profile core logs -ft
+
+##@ Personal Services
+
+.PHONY: corpersonale-up
+personal-up: ## Start just the personal services (nginx-proxy, oauth2, etc).
+	docker compose --project-directory "$(ROOT_DIR)" --profile personal up -d
+
+.PHONY: personal-down
+personal-down: ## Stop just the personal services (nginx-proxy, oauth2, etc).
+	docker compose --project-directory "$(ROOT_DIR)" --profile personal down
+
+.PHONY: personal-logs
+personal-logs: ## Show the logs for the personal services (nginx-proxy, oauth2, etc).
+	docker compose --project-directory "$(ROOT_DIR)" --profile personal logs -ft
 
 ##@ Media Services 📺
 

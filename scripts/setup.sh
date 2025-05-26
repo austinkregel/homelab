@@ -17,20 +17,6 @@ for project in "${PROJECTS[@]}"; do
     echo "Creating the .env files..."
     curl "https://raw.githubusercontent.com/austinkregel/$project/refs/heads/main/.env.example" > "appdata/$project/.env"
 
-    echo "Creating the start scripts for php apps files..."
-    cp -f php-template-start.sh "appdata/$project/start.sh"
-
-    echo "Creating the queue scripts for php apps files..."
-    cp -f php-template-queue.sh "appdata/$project/queue.sh"
-    
-    echo "Creating the websocket scripts for php apps files..."
-    cp -f php-template-websocket.sh "appdata/$project/queue.sh"
-
-    echo "Creating the cron scripts for php apps files..."
-    cp -f php-template-cron.sh "appdata/$project/cron.sh"
-    cp -f laravel-crontab "appdata/$project/laravel-crontab"
-    chmod +x "appdata/$project/start.sh" "appdata/$project/queue.sh" "appdata/$project/cron.sh"
-
     mkdir -p "appdata/$project/logs"
 done
 
@@ -48,3 +34,6 @@ scrape_configs:
     - targets:
        - prometheus:9090
 EOF
+
+mkdir -p appdata/{mailserver-postfix}/{config,dovecot,mail}
+mkdir -p appdata/mailserver-postfix/config/sql

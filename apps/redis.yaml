@@ -7,7 +7,7 @@ services:
     container_name: homelab-redis
     image: redis:alpine
     volumes:
-        - ${DOCKER_DIRECTORY}/appdata/homelab-redis:/data
+        - ${DOCKER_DIRECTORY}/appdata/homelab-redis:/data:rw
     networks:
         internal:
     ports:
