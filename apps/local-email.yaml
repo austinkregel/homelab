@@ -1,0 +1,10 @@
+include: 
+ - ./mariadb.yaml
+
+services:
+  proton-bridge:
+    image: shenxn/protonmail-bridge:latest
+    volumes:
+      - ${DOCKER_DIRECTORY}/appdata/proton-bridge:/root
+    networks:
+      internal:
