@@ -3,11 +3,13 @@
 ################################################################################
 
 include:
+    - apps/code.yaml # A VS Code instance with authentication for remote homelab editing
     #############################################################################
     # NGINX (CORE)
     #############################################################################
     - apps/postgres.yaml # PostgreSQL (Shared Database)
     - apps/mariadb.yaml # Mariadb (Shared Database)
+    #- apps/llm-chat.yaml (Disabled because it keeps rebooting the metal server)
 
     - apps/personal-apps.yaml
     - apps/socket-proxy.yaml # Docker Socket Proxy (Security)
@@ -30,7 +32,8 @@ include:
     - apps/nginx-reverse-proxy.yaml # Nginx Reverse Proxy
     - apps/prometheus.yaml # Prometheus
     - apps/gitlab.yaml # Gitlab
-    - apps/mqtt.yaml 
+    - apps/mqtt.yaml
+    - apps/url-shortner.yaml
 
     #############################################################################
     # MISCELLANEOUS
@@ -39,12 +42,11 @@ include:
     #############################################################################
 
     - apps/umami.yaml # Umami Analytics
-    - apps/healthchecks.yaml # Healthchecks (Monitoring)
-    # - apps/matrix.yaml # Matrix (Chat)
-    - apps/sentry.yaml
-    - apps/local-email.yaml # Local Email (Postfix, OpenDKIM, Amavis, PostfixAdmin, mostly for services that need to send email; everthing is internal and not exposed to the internet)
-    #- apps/windows.yaml 
-
+    - apps/matrix.yaml # Matrix (Chat)
+    # - apps/sentry.yaml # Sentry
+    - apps/monica.yaml
+    #- apps/windows.yaml # Windows VM (GPU passthrough doesn't yet work, but this is a placeholder for future use; the VM does boot and is quite usable if you don't need GPU acceleration)
+    - apps/mailpit.yaml
 ################################################################################
 # NETWORK CONFIGURATION
 ################################################################################

@@ -1,0 +1,25 @@
+include:
+  - ./postgres.yaml
+  - ./redis.yaml
+
+services:
+  kutt:
+    image: kutt/kutt
+    depends_on:
+      - homelab-postgres
+      - homelab-redis
+    networks:
+      internal:
+    env_file:
+      - '${DOCKER_DIRECTORY}/appdata/kutt/.env'
+    volumes:
+      - '${DOCKER_DIRECTORY}/appdata/kutt/custom:/kutt/custom'
+    environment:
+      DB_HOST: homelab-postgres
+      DB_NAME: kutt
+      DB_USER: ${POSTGRES_USER}
+      DB_PASSWORD: ${POSTGRES_PASSWORD}
+      DB_CLIENT: pg
+      REDIS_HOST: homelab-redis
+      REDIS_PASSWORD: ${REDIS_PASSWORD}
+      CUSTOM_DOMAIN_USE_HTTPS: ${KUTT_CUSTOM_DOMAIN_USE_HTTPS}

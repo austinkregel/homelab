@@ -6,12 +6,13 @@ services:
   homelab-redis:
     container_name: homelab-redis
     image: redis:alpine
+    profiles: ["utilities", "all"]
+    command: redis-server /usr/local/etc/redis/redis.conf
     volumes:
-        - ${DOCKER_DIRECTORY}/appdata/homelab-redis:/data:rw
+        - ${DOCKER_DIRECTORY}/appdata/homelab-redis/data:/data:rw
+        - ${DOCKER_DIRECTORY}/appdata/homelab-redis/redis.conf:/usr/local/etc/redis/redis.conf:rw
     networks:
         internal:
-    ports:
-      - 6379:6379
     healthcheck:
       test:
       - CMD

@@ -16,7 +16,7 @@ exec: ## Update the service(s) *
 
 .PHONY: run
 run: ## Update the service(s) *
-	docker compose --project-directory "$(ROOT_DIR)" --profile all run --user=root  -it $(APP) $(ARGS)
+	docker compose --project-directory "$(ROOT_DIR)" --profile all run -it $(APP) $(ARGS)
 
 .PHONY: pull
 pull: ## Pull the latest image(s)*
@@ -24,7 +24,7 @@ pull: ## Pull the latest image(s)*
 
 .PHONY: up
 up: ## Start the service(s)*
-	docker compose --project-directory "$(ROOT_DIR)" --profile all up --remove-orphans -d $(APP) $(ARGS)
+	docker compose --project-directory "$(ROOT_DIR)" --profile all up -d --remove-orphans $(APP) $(ARGS)
 
 .PHONY: shell
 shell: ## Start the service(s)*
@@ -68,6 +68,20 @@ core-down: ## Stop just the core services (nginx-proxy, oauth2, etc).
 core-logs: ## Show the logs for the core services (nginx-proxy, oauth2, etc).
 	docker compose --project-directory "$(ROOT_DIR)" --profile core logs -ft
 
+##@ Matrix Services 🧠
+
+.PHONY: matrix-up
+matrix-up: ## Start just the matrix services (nginx-proxy, oauth2, etc).
+	docker compose --project-directory "$(ROOT_DIR)" --profile matrix up -d
+
+.PHONY: matrix-down
+matrix-down: ## Stop just the matrix services (nginx-proxy, oauth2, etc).
+	docker compose --project-directory "$(ROOT_DIR)" --profile matrix down
+
+.PHONY: matrix-logs
+matrix-logs: ## Show the logs for the matrix services (nginx-proxy, oauth2, etc).
+	docker compose --project-directory "$(ROOT_DIR)" --profile matrix logs -ft
+
 ##@ Personal Services
 
 .PHONY: corpersonale-up
@@ -94,9 +108,13 @@ media-down: ## Stop just the media services (plex, sonarr, radarr, etc).
 
 .PHONY: media-logs
 media-logs: ## Show the logs for the media services (plex, sonarr, radarr, etc).
-	docker compose --project-directory "$(ROOT_DIR)" --profile media logs -ft
+	@docker compose --project-directory "$(ROOT_DIR)" --profile media logs -ft
 
 .PHONY: Misc Services 🧰
+
+.PHONY: stop-all
+stop-all: ## Stops all running  docker containers
+   	# bash -e "docker stop $(docker ps -a -q)"
 
 ##@ Configuration 🪛
 .PHONY: setup

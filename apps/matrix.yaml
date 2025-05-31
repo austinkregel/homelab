@@ -3,64 +3,172 @@ include:
  - ./redis.yaml
 
 services:
+
   synapse:
-    image: ghcr.io/element-hq/synapse:latest
-    user: 1000:1000
-    restart: unless-stopped
-    volumes:
-      - ${DOCKER_DIRECTORY}/appdata/matrix/synapse/config:/data:rw
-      - ${DOCKER_DIRECTORY}/appdata/matrix/synapse/ext/shared_secret_authenticator.py:/usr/local/lib/python3.12/site-packages/shared_secret_authenticator.py
-      - ${DOCKER_DIRECTORY}/appdata/matrix/synapse/storage:/matrix-media-store-parent
+    image: matrixdotorg/synapse:latest
+    container_name: synapse
+    user: "root:root"
+    profiles: ["matrix", "all"]
     networks:
-      internal:
+      - internal
+    volumes:
+      - "${DOCKER_DIRECTORY}/appdata/matrix/synapse/config:/data"
+      - "${DOCKER_DIRECTORY}/appdata/matrix/synapse/ext/shared_secret_authenticator.py:/usr/local/lib/python3.12/site-packages/shared_secret_authenticator.py"
+      - "${DOCKER_DIRECTORY}/appdata/matrix/synapse/storage:/matrix-media-store-parent"
+      - "${DOCKER_DIRECTORY}/appdata/matrix/appservice-double-puppet/config/registration.yaml:/matrix-appservice-double-puppet-registration.yaml"
+      - "${DOCKER_DIRECTORY}/appdata/matrix/beeper-linkedin/config/registration.yaml:/matrix-beeper-linkedin-registration.yaml"
+      - "${DOCKER_DIRECTORY}/appdata/matrix/hookshot/registration.yml:/hookshot-registration.yml"
+
+      - "${DOCKER_DIRECTORY}/appdata/matrix/mautrix-discord/config/registration.yaml:/matrix-mautrix-discord-registration.yaml"
+      - "${DOCKER_DIRECTORY}/appdata/matrix/mautrix-meta-messenger/config/registration.yaml:/matrix-mautrix-meta-messenger-registration.yaml"
+      - "${DOCKER_DIRECTORY}/appdata/matrix/mautrix-gmessages/config/registration.yaml:/matrix-mautrix-gmessages-registration.yaml"
     environment:
-      SYNAPSE_CONFIG_DIR: /data
-      SYNAPSE_CONFIG_PATH: /data/homeserver.yaml
+      - SYNAPSE_SERVER_NAME=${MATRIX_SERVER_NAME}
+      - SYNAPSE_REPORT_STATS=yes
+      - SYNAPSE_POSTGRES_HOST=${MATRIX_POSTGRES_HOST}
+      - SYNAPSE_POSTGRES_PORT=5432
+      - SYNAPSE_POSTGRES_DB=synapse
+      - SYNAPSE_POSTGRES_USER=synapse
+      - SYNAPSE_POSTGRES_PASSWORD=${MATRIX_POSTGRES_PASSWORD}
+      - POSTGRES_HOST=${MATRIX_POSTGRES_HOST}
+      - POSTGRES_PORT=5432
+      - POSTGRES_DB=synapse
+      - POSTGRES_USER=synapse
+      - POSTGRES_PASSWORD=${MATRIX_POSTGRES_PASSWORD}
+    restart: no
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8008/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 30s
     depends_on:
-      homelab-redis:
-        condition: service_started
       matrix-postgres:
         condition: service_healthy
-
-  element-web:
-    image: vectorim/element-web:latest
-    restart: unless-stopped
-    user: 1000:1000
-    healthcheck:
-      test: ["CMD-SHELL", "wget -q -O /dev/null http://localhost:80/version || exit 1"]
-      start_period: "5s"
-      interval: "15s"
-      timeout: "5s"
+        restart: false
+  matrix-mautrix-discord:
+    image: dock.mau.dev/mautrix/discord:latest
+    container_name: matrix-mautrix-discord
+    profiles: ["matrix", "all"]
     networks:
-      internal:
+      - internal
     volumes:
-      - ${DOCKER_DIRECTORY}/appdata/matrix/client-element/config.json:/app/config.json:rw
-    depends_on:
-      matrix-postgres:
-        condition: service_completed_successfully
-  matrix-postgres:
-    image: postgres:16.2
-    user: 999:999
-    restart: unless-stopped
-    networks:
-      internal:
-    volumes:
-      - ${DOCKER_DIRECTORY}/appdata/matrix/postgres:/var/lib/postgresql:rw
-      - ${DOCKER_DIRECTORY}/scripts/create-databases.sh:/docker-entrypoint-initdb.d/create-databases.sh
-
-    # These will be used in homeserver.yaml later on
+      - "${DOCKER_DIRECTORY}/appdata/matrix/mautrix-discord/config:/data"
     environment:
-     - POSTGRES_DB=matrix
-     - POSTGRES_USER=matrix
-     - POSTGRES_PASSWORD=${MATRIX_POSTGRES_PASSWORD}
-     - POSTGRES_MULTIPLE_DATABASES=synapse,matrix    
+      - POSTGRES_HOST=${MATRIX_POSTGRES_HOST}
+      - POSTGRES_PORT=5432
+      - POSTGRES_DB=matrix_mautrix_discord
+      - POSTGRES_USER=${MATRIX_POSTGRES_USERNAME}
+      - POSTGRES_PASSWORD=${MATRIX_POSTGRES_PASSWORD}
+    restart: no
+    depends_on:
+      synapse:
+        condition: service_healthy
+        restart: false
     
-    healthcheck:
-        test:
-            [
-                CMD-SHELL,
-                "pg_isready -U $${POSTGRES_USER:-postgres} -d $${POSTGRES_DB}",
-            ]
-        interval: 5s
-        timeout: 15s
-        retries: 5
+
+  matrix-mautrix-meta-messenger:
+    image: dock.mau.dev/mautrix/meta:latest
+    container_name: matrix-mautrix-meta-messenger
+    profiles: ["matrix", "all"]
+    networks:
+      - internal
+    volumes:
+      - "${DOCKER_DIRECTORY}/appdata/matrix/mautrix-meta-messenger/config:/data"
+    environment:
+      - POSTGRES_HOST=${MATRIX_POSTGRES_HOST}
+      - POSTGRES_PORT=5432
+      - POSTGRES_DB=matrix_mautrix_meta_messenger
+      - POSTGRES_USER=${MATRIX_POSTGRES_USERNAME}
+      - POSTGRES_PASSWORD=${MATRIX_POSTGRES_PASSWORD}
+    restart: no
+    depends_on:
+      synapse:
+        condition: service_healthy
+        restart: false
+
+  # matrix-mx-puppet-steam:
+  #   image: icewind1991/mx-puppet-steam:latest
+  #   container_name: matrix-mx-puppet-steam
+  #   profiles: ["matrix", "all"]
+  #   networks:
+  #     - internal
+  #   volumes:
+  #     - "${DOCKER_DIRECTORY}/appdata/matrix/mx-puppet-steam/config:/data"
+  #   environment:
+  #     - POSTGRES_HOST=${MATRIX_POSTGRES_HOST}
+  #     - POSTGRES_PORT=5432
+  #     - POSTGRES_DB=matrix_mx_puppet_steam
+  #     - POSTGRES_USER=${MATRIX_POSTGRES_USERNAME}
+  #     - POSTGRES_PASSWORD=${MATRIX_POSTGRES_PASSWORD}
+  #   restart: no
+  #   depends_on:
+  #     synapse:
+  #       condition: service_healthy
+  #       restart: false
+
+  ntfy:
+    image: binwiederhier/ntfy:latest
+    container_name: ntfy
+    profiles: ["matrix", "all"]
+    command:
+      - serve
+    networks:
+      - internal
+    volumes:
+      - "${DOCKER_DIRECTORY}/appdata/ntfy:/etc/ntfy"
+    healthcheck: # optional: remember to adapt the host:port to your environment
+        test: ["CMD-SHELL", "wget -q --tries=1 http://localhost:80/v1/health -O - | grep -Eo '\"healthy\"\\s*:\\s*true' || exit 1"]
+        interval: 60s
+        timeout: 10s
+        retries: 3
+        start_period: 40s
+    restart: unless-stopped
+
+  #prometheus_node_exporter:
+  #  image: prom/node-exporter:latest
+  #  container_name: prometheus_node_exporter
+  #  profiles: ["matrix", "all"]
+  #  networks:
+  #    - internal
+  #  volumes:
+  #    - "${DOCKER_DIRECTORY}/appdata/matrix/prometheus_node_exporter:/data"
+  #  restart: no
+  #  depends_on:
+  #    synapse:
+  #      condition: service_healthy
+  #      restart: false
+
+  matrix-mautrix-gmessages:
+    image: dock.mau.dev/mautrix/gmessages:latest
+    container_name: mautrix-gmessages
+    profiles: ["matrix", "all"]
+    networks:
+      - internal
+    volumes:
+      - "${DOCKER_DIRECTORY}/appdata/matrix/mautrix-gmessages/config:/data"
+    environment:
+      - POSTGRES_HOST=${MATRIX_POSTGRES_HOST}
+      - POSTGRES_PORT=5432
+      - POSTGRES_DB=matrix_mautrix_gmessages
+      - POSTGRES_USER=${MATRIX_POSTGRES_USERNAME}
+      - POSTGRES_PASSWORD=${MATRIX_POSTGRES_PASSWORD}
+    restart: no
+    depends_on:
+      synapse:
+        condition: service_healthy
+        restart: false
+     
+  synapse-admin:
+    image: awesometechnologies/synapse-admin:latest
+    container_name: synapse-admin
+    profiles: ["matrix", "all"]
+    networks:
+      - internal
+    volumes:
+      - "${DOCKER_DIRECTORY}/appdata/matrix/synapse-admin/config/config.json:/app/config.json:ro"
+    restart: no
+    depends_on:
+      synapse:
+        condition: service_healthy
+        restart: false

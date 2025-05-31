@@ -51,6 +51,8 @@ services:
     depends_on:
         homelab-mariadb:
             condition: service_healthy
+    environment:
+      REDIS_PASSWORD: ${REDIS_PASSWORD}
 
   spork.cron:
     profiles: ["all", "personal"]
@@ -59,7 +61,7 @@ services:
     volumes:
       - ${DOCKER_DIRECTORY}/appdata/spork/.env:/var/www/html/.env
       - ${DOCKER_DIRECTORY}/php-template-cron.sh:/var/www/html/start.sh
-      - ${DOCKER_DIRECTORY}/appdata/spork/cron.log:/var/www/html/storage/logs/cron.log
+      - ${DOCKER_DIRECTORY}/appdata/spork/logs:/var/www/html/storage/logs
     networks:
       internal:
     container_name: spork.cron
@@ -69,6 +71,8 @@ services:
         homelab-mariadb:
             condition: service_healthy
             restart: true
+    environment:
+      REDIS_PASSWORD: ${REDIS_PASSWORD}
 
   spork.web:
     profiles: ["all", "personal"]
@@ -95,6 +99,8 @@ services:
       retries: 3
       timeout: 5s
       interval: 15s
+    environment:
+      REDIS_PASSWORD: ${REDIS_PASSWORD}
 
   spork.websocket:
     profiles: ["all", "personal"]
@@ -112,6 +118,8 @@ services:
         homelab-mariadb:
             condition: service_healthy
             restart: true
+    environment:
+      REDIS_PASSWORD: ${REDIS_PASSWORD}
 
   lazy.build.web:
     profiles: ["all", "personal"]
@@ -134,10 +142,13 @@ services:
       test:
       - CMD
       - curl
-      - lazy.build.web:80/up
+      - lazy.build.web:8000/up
       retries: 3
       timeout: 5s
       interval: 15s
+    environment:
+      REDIS_PASSWORD: ${REDIS_PASSWORD}
+
   cannabis-consumer-information.queue:
     profiles: ["all", "personal"]
     extra_hosts:
@@ -158,6 +169,8 @@ services:
         homelab-redis:
             condition: service_healthy
             restart: true
+    environment:
+      REDIS_PASSWORD: ${REDIS_PASSWORD}
 
   cannabis-consumer-information.cron:
     profiles: ["all", "personal"]
@@ -179,6 +192,8 @@ services:
         homelab-redis:
             condition: service_healthy
             restart: true
+    environment:
+      REDIS_PASSWORD: ${REDIS_PASSWORD}
 
   cannabis-consumer-information.web:
     profiles: ["all", "personal"]
@@ -208,6 +223,9 @@ services:
       retries: 3
       timeout: 5s
       interval: 15s
+    environment:
+      REDIS_PASSWORD: ${REDIS_PASSWORD}
+
   vito.web:
     profiles: ["all", "personal"]
     extra_hosts:
@@ -230,3 +248,5 @@ services:
       retries: 3
       timeout: 5s
       interval: 15s
+    environment:
+      REDIS_PASSWORD: ${REDIS_PASSWORD}

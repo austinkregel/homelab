@@ -1,3 +1,5 @@
 {
-    "makefile.configureOnOpen": false
+    "makefile.configureOnOpen": false,
+    "telemetry.feedback.enabled": false,
+    "extensions.webWorker": true
 }

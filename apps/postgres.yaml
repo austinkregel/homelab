@@ -29,3 +29,30 @@ services:
             interval: 5s
             timeout: 15s
             retries: 5
+
+    matrix-postgres:
+        container_name: matrix-postgres
+        image: postgres:16.2
+        user: "999:999"
+        profiles: ["matrix", "all"]
+        environment:
+            POSTGRES_USER: ${POSTGRES_USER:-postgres}
+            POSTGRES_DB: matrix
+            POSTGRES_PASSWORD: ${MATRIX_POSTGRES_ROOT_PASSWORD}
+            POSTGRES_ROOT_PASSWORD: ${MATRIX_POSTGRES_ROOT_PASSWORD}
+            PGPASSWORD: '${MATRIX_POSTGRES_ROOT_PASSWORD:-secret}'
+            POSTGRES_MULTIPLE_DATABASES: 'matrix,matrix_beeper_linkedin,matrix_bot_maubot,matrix_mautrix_discord,matrix_mautrix_facebook,matrix_mautrix_gmessages,matrix_mautrix_meta_messenger,matrix_mautrix_slack,matrix_mautrix_signal,matrix_mx_puppet_steam,matrix_reminder_bot,matrix_sliding_sync,postmoogle,synapse'
+        networks:
+            - internal
+        volumes:
+            - ${DOCKER_DIRECTORY}/appdata/matrix/postgres/data:/var/lib/postgresql/data
+        restart: always
+        healthcheck:
+            test:
+                [
+                    CMD-SHELL,
+                    "pg_isready -U matrix -d matrix",
+                ]
+            interval: 5s
+            timeout: 15s
+            retries: 5

@@ -1,0 +1,39 @@
+include:
+ - ./mariadb.yaml
+ - ./redis.yaml
+services:
+  monica:
+    image: monica:latest
+    user: "33:33"
+    env_file:
+      - ${DOCKER_DIRECTORY}/appdata/monica/.env
+    depends_on:
+      homelab-mariadb:
+        condition: service_healthy
+        restart: true
+      homelab-redis:
+        condition: service_healthy
+        restart: true
+    environment:
+      - APP_KEY=${MONICA_APP_KEY}
+      - APP_URL=${MONICA_APP_URL}
+      - APP_FORCE_URL=true
+      - DB_HOST=homelab-mariadb
+      - DB_USERNAME=${MYSQL_DB_USERNAME}
+      - DB_PASSWORD=${MYSQL_DB_PASSWORD}
+      - DB_DATABASE=monica
+      - HASH_SALT=${MONICA_HASH_SALT}
+      - REDIS_PASSWORD=${REDIS_PASSWORD}
+      - ENABLE_GEOLOCATION=true
+      - LOCATION_IQ_API_KEY=${LOCATION_IQ_API_KEY}
+      - WEATHERAPI_KEY=${WEATHERAPI_KEY}
+      - ENABLE_WEATHER=true
+      - VIRTUAL_HOST=${MONICA_VIRTUAL_HOST}
+    hostname: monica.kregel.host  
+    volumes:
+      - ${DOCKER_DIRECTORY}/appdata/monica/storage:/var/www/html/storage
+      - ${DOCKER_DIRECTORY}/appdata/monica/.env:/var/www/html/.env
+    restart: always
+    networks: 
+      internal:
+

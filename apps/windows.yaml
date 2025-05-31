@@ -1,0 +1,27 @@
+services:
+  windows:
+    image: dockurr/windows
+    container_name: windows
+    environment:
+      VERSION: "win11"
+      DISK_SIZE: "64G"
+      CPU_CORES: "8"
+      RAM_SIZE: "4G"
+      DISK2_SIZE: "100G"
+      #ARGUMENTS: "-device vfio-pci,host=4b:00.0,driver=vfio-pci"
+    devices:
+      - /dev/kvm
+      - /dev/net/tun
+      - /dev/vhost-net
+      - /dev/vfio
+    cap_add:
+      - NET_ADMIN
+    ports:
+      - 8006:8006
+      - 3389:3389/tcp
+      - 3389:3389/udp
+    volumes:
+      - ${DOCKER_DIRECTORY}/appdata/windows:/storage
+      - ${DOCKER_DIRECTORY}/appdata/windows-games:/disk2
+    stop_grace_period: 2m
+    restart: no

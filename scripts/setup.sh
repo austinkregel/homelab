@@ -10,6 +10,7 @@ PROJECTS=(
     "lazy.build"
     "spork"
     "laradarr"
+    "kutt"
 )
 
 for project in "${PROJECTS[@]}"; do

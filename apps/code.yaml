@@ -1,0 +1,18 @@
+services:
+  code-server:
+    image: lscr.io/linuxserver/code-server:latest
+    container_name: code-server
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Etc/UTC
+      - PASSWORD=${VSCODE_PASSWORD} #optional
+      - SUDO_PASSWORD=${VSCODE_PASSWORD} #optional
+      - PROXY_DOMAIN=${VSCODE_DOMAIN} #optional
+      - DEFAULT_WORKSPACE=/-/homelab #optional
+    volumes:
+      - ${DOCKER_DIRECTORY}/appdata/code-server/config:/config
+      - ${DOCKER_DIRECTORY}/:/-/homelab
+    restart: unless-stopped
+    networks:
+      internal:

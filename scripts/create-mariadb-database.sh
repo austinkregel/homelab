@@ -12,6 +12,7 @@ TABLES=(
     "postfixadmin"
     "roundcube"
     "vito"
+    "monica"
 )
 
 for table in "${TABLES[@]}"; do
