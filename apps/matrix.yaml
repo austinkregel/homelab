@@ -7,6 +7,7 @@ services:
   synapse:
     image: matrixdotorg/synapse:latest
     container_name: synapse
+    platform: linux/amd64
     user: "root:root"
     profiles: ["matrix", "all"]
     networks:
@@ -50,6 +51,7 @@ services:
     image: dock.mau.dev/mautrix/discord:latest
     container_name: matrix-mautrix-discord
     profiles: ["matrix", "all"]
+    platform: amd64
     networks:
       - internal
     volumes:
@@ -67,25 +69,25 @@ services:
         restart: false
     
 
-  matrix-mautrix-meta-messenger:
-    image: dock.mau.dev/mautrix/meta:latest
-    container_name: matrix-mautrix-meta-messenger
-    profiles: ["matrix", "all"]
-    networks:
-      - internal
-    volumes:
-      - "${DOCKER_DIRECTORY}/appdata/matrix/mautrix-meta-messenger/config:/data"
-    environment:
-      - POSTGRES_HOST=${MATRIX_POSTGRES_HOST}
-      - POSTGRES_PORT=5432
-      - POSTGRES_DB=matrix_mautrix_meta_messenger
-      - POSTGRES_USER=${MATRIX_POSTGRES_USERNAME}
-      - POSTGRES_PASSWORD=${MATRIX_POSTGRES_PASSWORD}
-    restart: no
-    depends_on:
-      synapse:
-        condition: service_healthy
-        restart: false
+  # matrix-mautrix-meta-messenger:
+  #   image: dock.mau.dev/mautrix/meta:latest
+  #   container_name: matrix-mautrix-meta-messenger
+  #   profiles: ["matrix", "all"]
+  #   networks:
+  #     - internal
+  #   volumes:
+  #     - "${DOCKER_DIRECTORY}/appdata/matrix/mautrix-meta-messenger/config:/data"
+  #   environment:
+  #     - POSTGRES_HOST=${MATRIX_POSTGRES_HOST}
+  #     - POSTGRES_PORT=5432
+  #     - POSTGRES_DB=matrix_mautrix_meta_messenger
+  #     - POSTGRES_USER=${MATRIX_POSTGRES_USERNAME}
+  #     - POSTGRES_PASSWORD=${MATRIX_POSTGRES_PASSWORD}
+  #   restart: no
+  #   depends_on:
+  #     synapse:
+  #       condition: service_healthy
+  #       restart: false
 
   # matrix-mx-puppet-steam:
   #   image: icewind1991/mx-puppet-steam:latest
@@ -143,6 +145,7 @@ services:
     image: dock.mau.dev/mautrix/gmessages:latest
     container_name: mautrix-gmessages
     profiles: ["matrix", "all"]
+    platform: linux/amd64
     networks:
       - internal
     volumes:
@@ -161,6 +164,7 @@ services:
      
   synapse-admin:
     image: awesometechnologies/synapse-admin:latest
+    platform: linux/amd64
     container_name: synapse-admin
     profiles: ["matrix", "all"]
     networks:
@@ -172,3 +176,12 @@ services:
       synapse:
         condition: service_healthy
         restart: false
+  # maubot:
+  #   image: dock.mau.dev/maubot/maubot
+  #   restart: always
+  #   container_name: maubot
+  #   networks:
+  #     - internal
+  #   volumes:
+  #     - ${DOCKER_DIRECTORY}/appdata/matrix/maubot/data:/data
+  #     - ${DOCKER_DIRECTORY}/appdata/matrix/maubot/config/config.yaml:/data/config.yaml

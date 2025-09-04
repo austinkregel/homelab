@@ -55,3 +55,21 @@ services:
         restart: true
     logging:
         driver: none
+
+  perforce:
+    image: ambakshi/perforce-server
+    hostname: perforce
+    volumes:
+      - ${DOCKER_DIRECTORY}/appdata/perforce-data:/data
+    ports:
+      - "1666:1666"
+    env_file:
+      - '${DOCKER_DIRECTORY}/perforce-env'
+    networks:
+      internal:
+    restart: always
+    healthcheck:
+      test: ["CMD", "p4", "ping"]
+      interval: 30s
+      timeout: 10s
+      retries: 3

@@ -9,7 +9,9 @@ services:
     restart: unless-stopped
     networks:
       internal:
-    image: ollama/ollama:latest
+    ports:
+      - "11434:11434"
+    image: ollama/ollama:rocm
     privileged: true
     devices:
         - /dev/dri:/dev/dri

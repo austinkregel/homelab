@@ -20,7 +20,7 @@ run: ## Update the service(s) *
 
 .PHONY: pull
 pull: ## Pull the latest image(s)*
-	docker compose --project-directory "$(ROOT_DIR)" --profile all pull $(APP)
+	docker compose --project-directory "$(ROOT_DIR)" --profile all pull --ignore-pull-failures $(APP)
 
 .PHONY: up
 up: ## Start the service(s)*
@@ -37,6 +37,10 @@ down: ## Stop the service(s)*
 .PHONY: stop
 stop: ## Stop the service(s)*
 	docker compose --project-directory "$(ROOT_DIR)" --profile all stop $(APP) $(ARGS)
+
+.PHONY: build
+build: ## build the service(s)*
+	docker compose --project-directory "$(ROOT_DIR)" --profile all build $(APP) $(ARGS)
 
 .PHONY: logs
 logs: ## Show the logs*

@@ -1,0 +1,280 @@
+{
+    "Name": "homelab_internal",
+    "Id": "053e48aac449eb3126553224d6ae58595bdc89ee2e07063d1553e083f738100e",
+    "Created": "2025-06-28T19:51:10.70445894Z",
+    "Scope": "local",
+    "Driver": "bridge",
+    "EnableIPv4": true,
+    "EnableIPv6": false,
+    "IPAM": {
+        "Driver": "default",
+        "Options": null,
+        "Config": [
+            {
+                "Subnet": "172.19.0.0/16",
+                "Gateway": "172.19.0.1"
+            }
+        ]
+    },
+    "Internal": false,
+    "Attachable": false,
+    "Ingress": false,
+    "ConfigFrom": {
+        "Network": ""
+    },
+    "ConfigOnly": false,
+    "Containers": {
+        "031e3a6c81eaab9577f7fd0e83d37c6ae8584544fc06e3179d27ddbfeab8b92e": {
+            "Name": "code-server",
+            "EndpointID": "e42e0ee2d1c5f0e6b548dbc63e29b7926cd83f4365aae863797c92e432ea9ab3",
+            "MacAddress": "f6:4a:6e:38:a8:43",
+            "IPv4Address": "172.19.0.14/16",
+            "IPv6Address": ""
+        },
+        "03860d4fe587f93c278b6f64b095c097863d273d02847cfb26dbe079e2de2670": {
+            "Name": "spork.websocket",
+            "EndpointID": "7e68d72aef74ab4f0eee2ba95d6982c21884e4ef55af28e8bfa3e0b329a3ce4f",
+            "MacAddress": "f6:e4:4d:f8:3f:25",
+            "IPv4Address": "172.19.0.30/16",
+            "IPv6Address": ""
+        },
+        "058a5c8b4e31e7e5f8ece8ea82bffdde87a8c0251a2992d73aaaf3bee4617630": {
+            "Name": "synapse-admin",
+            "EndpointID": "184a9c2081a7b9c82d92c3423da96b8550c4b0356990628573797507e2aafb2f",
+            "MacAddress": "da:65:e5:52:26:3c",
+            "IPv4Address": "172.19.0.25/16",
+            "IPv6Address": ""
+        },
+        "08cd7cfa2acec820fb3aec4711e7b42abddf74d67b75d4829377e62e5805f5ea": {
+            "Name": "lazy.build.web",
+            "EndpointID": "f774c3f44d64bd3cca5fdeb87760397b98f03df6984da8d55e14e16401b5da1b",
+            "MacAddress": "9a:79:36:3e:2c:aa",
+            "IPv4Address": "172.19.0.32/16",
+            "IPv6Address": ""
+        },
+        "140b160e442af85eae00a4dc55e8f341975146a2b468095eeb7506803c2df465": {
+            "Name": "homelab-nginx-reverse-proxy-1",
+            "EndpointID": "bcfa7bf93f1eaa5d04722e95c36bd3624c829babafe6c395d89fd9034dc45fb2",
+            "MacAddress": "76:98:86:ee:bf:1b",
+            "IPv4Address": "172.19.0.23/16",
+            "IPv6Address": ""
+        },
+        "14b82642953db9a72ad2f1d98e1d563c38538d0aa9ba715d00f13cd38be92719": {
+            "Name": "grafana",
+            "EndpointID": "b22752b2b487a034314335926532c7c183eadc8f900230b3b7bf8a74874529b0",
+            "MacAddress": "b6:43:18:d6:82:06",
+            "IPv4Address": "172.19.0.7/16",
+            "IPv6Address": ""
+        },
+        "162a570d32c99131fd347358d242c34ad44664eb29494f7badfc819cecc820b1": {
+            "Name": "vito.web",
+            "EndpointID": "a33f2cb8197c56deba0c239ff1354c7e5d00c15a6df1e7885e57a32311697df5",
+            "MacAddress": "62:2f:a0:9b:9c:4f",
+            "IPv4Address": "172.19.0.17/16",
+            "IPv6Address": ""
+        },
+        "163c1e00a1c3419882606788b83ed207db99b5e876f322a6f600d9654d7d2560": {
+            "Name": "mailpit",
+            "EndpointID": "08f86a939912ba17e940f0daa92fdb87ec8808725ee36c77437b37b4db4322db",
+            "MacAddress": "be:53:5a:86:c6:a7",
+            "IPv4Address": "172.19.0.18/16",
+            "IPv6Address": ""
+        },
+        "1a3a62d85f14b61de95fea4a9d3bbd966eb126119da0f4e3a8cae2bf99481c03": {
+            "Name": "matrix-mautrix-discord",
+            "EndpointID": "dcb03d4a8c88548ea8f5681d17620b21352c86a54c94a2abbf4a000469451280",
+            "MacAddress": "ee:a3:24:4f:17:68",
+            "IPv4Address": "172.19.0.26/16",
+            "IPv6Address": ""
+        },
+        "1bfdf076bac6dc773279599be508f3cdf22cb326c57d370c0da89ba8d43f7990": {
+            "Name": "tautulli",
+            "EndpointID": "d2e9dad89b6a3f1e40fd91ccbd14d20319fa88456ecdc94d1a4589133e3259fa",
+            "MacAddress": "96:49:33:d2:81:39",
+            "IPv4Address": "172.19.0.10/16",
+            "IPv6Address": ""
+        },
+        "20b42505572f034ab5ea6920e2772024e942f1d9ff08642544f9657572fbf074": {
+            "Name": "gluetun",
+            "EndpointID": "328e5f16ab7abd7c9ab17289c101735aee730a4651bbdb400e0a5fc4ff2a0e01",
+            "MacAddress": "ca:4f:fb:ec:87:24",
+            "IPv4Address": "172.19.0.15/16",
+            "IPv6Address": ""
+        },
+        "24773dcdb65ddc68305e5a5ca8f648f490d89253d1d19b9e28135bf5fa8f4687": {
+            "Name": "aut.hair.web",
+            "EndpointID": "5a1657e63b45162fd8fd618525c2007533857fa1622661e876ef7afa83363e9f",
+            "MacAddress": "02:f4:e5:40:60:01",
+            "IPv4Address": "172.19.0.37/16",
+            "IPv6Address": ""
+        },
+        "2c0fc9a99edc00f29637c4a3c8ca9ae98d56602194e669778aa4157f87555c9e": {
+            "Name": "gitlab",
+            "EndpointID": "28887267f5827924f3bcbd70041222daf95bf07274a02f4731573195208916b8",
+            "MacAddress": "2e:68:7a:ed:f7:fc",
+            "IPv4Address": "172.19.0.34/16",
+            "IPv6Address": ""
+        },
+        "2fe7d0d2f645b528861cca8a81cddf6669890cdc1258d875c9da6decd071609c": {
+            "Name": "prometheus",
+            "EndpointID": "4561a9074e9569bf77a2140735b1aaa2480a33a1e4aaa98da0c6854463b6ee40",
+            "MacAddress": "a2:d6:83:15:4c:cc",
+            "IPv4Address": "172.19.0.19/16",
+            "IPv6Address": ""
+        },
+        "335f053edce69f3d5fa85ff0615990e98e15b483f634e8dbb2297dd8a11a7511": {
+            "Name": "homelab-postgres",
+            "EndpointID": "1c370cb1e53a57734f0cf32962b2188d00b4fafbe55a6ad66b299f4fbdecad94",
+            "MacAddress": "22:a3:45:5a:98:aa",
+            "IPv4Address": "172.19.0.9/16",
+            "IPv6Address": ""
+        },
+        "356fb00ed43b0c9ffe1c99a5db75b4038ecf4b035c4725be18587d4512cc4a6d": {
+            "Name": "spork.web",
+            "EndpointID": "11d0964b0c2ca1ee06bbc9df2a0d7fd90adc0812cb4391639289300a64e879c0",
+            "MacAddress": "b6:1e:89:40:e4:0a",
+            "IPv4Address": "172.19.0.29/16",
+            "IPv6Address": ""
+        },
+        "3d51aceb1a8fb81e0800f593404f6c1597c079d9f8c091fa411aa816d7591049": {
+            "Name": "overseerr",
+            "EndpointID": "cfae316d574bc4381c733f975e25f2188f590ba4a6c53b669b8fcf49880535ef",
+            "MacAddress": "a2:ba:5c:33:f9:98",
+            "IPv4Address": "172.19.0.6/16",
+            "IPv6Address": ""
+        },
+        "3ef59c256d801060b7b178e1835a11cd924e9a78df346b4fd4a88d75da945318": {
+            "Name": "homelab-kutt-1",
+            "EndpointID": "3d0740d2b5cba525e6b05b7132a308aeedd58b2faa7dc6f12ca7d1ee3b2469df",
+            "MacAddress": "0a:b7:58:e9:f0:7f",
+            "IPv4Address": "172.19.0.22/16",
+            "IPv6Address": ""
+        },
+        "47f615e48b7ecf0f3fb749d9a238827e9574e531829bf27416999dd88f8c9464": {
+            "Name": "spork.queue",
+            "EndpointID": "16fe4f13ffbb043924ebc9909e5df155fbfa247b353f7370891c277078522221",
+            "MacAddress": "ee:7d:4b:2e:af:92",
+            "IPv4Address": "172.19.0.33/16",
+            "IPv6Address": ""
+        },
+        "4afb3f472e050a04767fd7ab590f4d28f6805782ebe24aa5ed033c370530eef9": {
+            "Name": "node-exporter",
+            "EndpointID": "25dad5a6498a6d216d1c6f5047380d999f0f69b30160ca9d24c89d9301aa9526",
+            "MacAddress": "4e:6f:37:da:c2:10",
+            "IPv4Address": "172.19.0.5/16",
+            "IPv6Address": ""
+        },
+        "51e5f98c32ddb4d028d2d922f6b4ab9ba62aff4145e0da2f8b4f5afb13e7f8eb": {
+            "Name": "umami",
+            "EndpointID": "609ece9a1c01dfc12a787ffc6d2e53584901e42baae5dcd7b175b809980e1109",
+            "MacAddress": "fa:bf:95:4c:08:e3",
+            "IPv4Address": "172.19.0.11/16",
+            "IPv6Address": ""
+        },
+        "5527dafdac9d9d215aeb419571ec188291a3fdd19612d67d5948576d3bd5cceb": {
+            "Name": "crafty_container",
+            "EndpointID": "520b34fbe57e21d69c286b8202c0a0b135a49f74a75873fb442d4a52cd62665e",
+            "MacAddress": "ba:4c:19:86:c5:da",
+            "IPv4Address": "172.19.0.13/16",
+            "IPv6Address": ""
+        },
+        "559f48a1f12b40c827f8d360f5604562a4cdedfabb7b82332d1f6e2689bee33c": {
+            "Name": "ntfy",
+            "EndpointID": "4a3a7a0953002d52846cf9ee1afd6493b852cde4d9f606c3ecddae03f51e080e",
+            "MacAddress": "2e:22:ff:c4:1e:9f",
+            "IPv4Address": "172.19.0.3/16",
+            "IPv6Address": ""
+        },
+        "6a277cd2c26c9ecb2b2ab2eb6dc387a4959e32cf632fc67ab05f5b63310dd616": {
+            "Name": "homelab-alert-manager-1",
+            "EndpointID": "6e1d8c55eb8b63d502f28697cf78d8fea313f769b5127a2c5cef7c13bfc731eb",
+            "MacAddress": "e2:f6:ba:20:ad:42",
+            "IPv4Address": "172.19.0.8/16",
+            "IPv6Address": ""
+        },
+        "70c011caf45bb24fcfc17e4acac1d1d1162dff2921c871d192d573af0414868a": {
+            "Name": "synapse",
+            "EndpointID": "b12693957836bb92742aaa6a04e96f880423c16b515dfb635f7bf2d51a34c782",
+            "MacAddress": "b2:aa:7d:90:75:ab",
+            "IPv4Address": "172.19.0.24/16",
+            "IPv6Address": ""
+        },
+        "7b7ca46774593d91903fa14b4e4756745f894a1dcb33d0a03327e16c0cb99ba5": {
+            "Name": "mqtt5",
+            "EndpointID": "ff55b3b0618fd2cf55f444df5f1bf7565ce514d3d3fadc8b736b0816cbea4700",
+            "MacAddress": "b2:57:9a:fa:12:b4",
+            "IPv4Address": "172.19.0.16/16",
+            "IPv6Address": ""
+        },
+        "8897dbdffd33d8ae179a28b9feb996dae757e91b490284a8237d22e4c834f92b": {
+            "Name": "homelab-mariadb",
+            "EndpointID": "63331a02298b722f865493ef9bcdc40ec5c163601ff44228e47176328baae2f4",
+            "MacAddress": "06:f1:91:63:8f:5c",
+            "IPv4Address": "172.19.0.21/16",
+            "IPv6Address": ""
+        },
+        "89408e86975b9035590cc5bc86e1b5a5954eb5942fa126a1afe3df5b26464184": {
+            "Name": "homelab-monica-1",
+            "EndpointID": "608f561d8bb667acd7d571cb3d280e6f55901fc7aaaa192a6e85bd3e877aae67",
+            "MacAddress": "e2:13:e8:36:c8:a7",
+            "IPv4Address": "172.19.0.36/16",
+            "IPv6Address": ""
+        },
+        "909a146724a348d5125ade50ad24e0b5407f5ff362e923a4dcc381fe1a238a60": {
+            "Name": "matrix-postgres",
+            "EndpointID": "0782060fcd54eb99f12b9eb2262f32264ba14b058a0203a5e8f85e3a97b82f9e",
+            "MacAddress": "9e:af:4a:dc:c3:6d",
+            "IPv4Address": "172.19.0.12/16",
+            "IPv6Address": ""
+        },
+        "99c04fbfb4ddfb6ac4518f798028be23df9ff49ff83ac3e7244aa2fe0317cf79": {
+            "Name": "homelab-redis",
+            "EndpointID": "050a72fa86d1b75708c25ee9d2e196da620ec9d2d0be3d50dbf21bbb74617a08",
+            "MacAddress": "6a:82:27:44:24:02",
+            "IPv4Address": "172.19.0.4/16",
+            "IPv6Address": ""
+        },
+        "a57309ee1833a80fb771cd42cd3dba996efe5a1b69d1212fde83ba5175acd4b3": {
+            "Name": "mautrix-gmessages",
+            "EndpointID": "92d7e8ca76f62b3a426aa5ffb0eca79b0db1dc2902203b05ff95778b7ed3c9ad",
+            "MacAddress": "1e:24:06:7e:f7:bb",
+            "IPv4Address": "172.19.0.28/16",
+            "IPv6Address": ""
+        },
+        "a9bb71d3260ffe1f117b88733159a1576c051d749b508f992beae1d5ee7f1b8c": {
+            "Name": "watchtower",
+            "EndpointID": "c63b97a1e7cf2c0897655d702ebf21b281836c7a20eb5d97b9a098b29577ac00",
+            "MacAddress": "6a:ad:79:65:63:2e",
+            "IPv4Address": "172.19.0.20/16",
+            "IPv6Address": ""
+        },
+        "ad3888519bb90238ce37388f215f2e3dbce2a3db7defbdbe618f49cca15a5d55": {
+            "Name": "matrix-mautrix-meta-messenger",
+            "EndpointID": "e84c3a2f603c3afa2ffb1c64613052f19847c3a63e1a8ed42b379f587959f294",
+            "MacAddress": "66:f3:fc:5b:2f:85",
+            "IPv4Address": "172.19.0.27/16",
+            "IPv6Address": ""
+        },
+        "b17fd7721cd95bc12820c8e6412dcea48671daa1a22b66269e21177d5cf17286": {
+            "Name": "gitlab-runner",
+            "EndpointID": "e6f4decdc986bac889e010f7bbffb931333b4ceb57ea7011d1090dd7e89019fc",
+            "MacAddress": "6e:37:33:da:16:7a",
+            "IPv4Address": "172.19.0.31/16",
+            "IPv6Address": ""
+        },
+        "e45a63503829b92e0d34c38fe06dba1d60236c0ce092f8a3aff2e902023ae8df": {
+            "Name": "vito.client",
+            "EndpointID": "df6ac95b0cee0fad7e948f0dfaf629ef5041dfe26cb3ace80ce82f6c362c0897",
+            "MacAddress": "5e:1c:8c:89:ea:9c",
+            "IPv4Address": "172.19.0.2/16",
+            "IPv6Address": ""
+        }
+    },
+    "Options": {},
+    "Labels": {
+        "com.docker.compose.config-hash": "d9870e09e025b5e95147ab864c4a2dd1955d57205d48eded23a2a6a661296526",
+        "com.docker.compose.network": "internal",
+        "com.docker.compose.project": "homelab",
+        "com.docker.compose.version": "2.37.3"
+    }
+}

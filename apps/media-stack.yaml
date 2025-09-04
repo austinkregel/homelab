@@ -37,6 +37,9 @@ services:
       - SHADOWSOCKS=on
     networks:
       internal:
+    logging:
+      driver: none
+
   bazarr:
     image: lscr.io/linuxserver/bazarr:latest
     container_name: bazarr
@@ -55,6 +58,8 @@ services:
       - DOCKER_MODS=ghcr.io/gilbn/theme.park:bazarr
       - TP_THEME=${TP_THEME:?err}
     network_mode: "service:gluetun"
+    logging:
+      driver: none
 
   flaresolverr:
     image: ghcr.io/flaresolverr/flaresolverr:latest
@@ -66,6 +71,8 @@ services:
       - CAPTCHA_SOLVER=none
       - TZ=${TIMEZONE:?err}
     network_mode: "service:gluetun"
+    logging:
+      driver: none
 
   lidarr:
     image: lscr.io/linuxserver/lidarr:latest
@@ -82,6 +89,8 @@ services:
       - DOCKER_MODS=ghcr.io/gilbn/theme.park:lidarr
       - TP_THEME=${TP_THEME:?err}
     network_mode: "service:gluetun"
+    logging:
+      driver: none
 
   prowlarr:
     image: lscr.io/linuxserver/prowlarr:develop
@@ -96,6 +105,8 @@ services:
       - DOCKER_MODS=ghcr.io/gilbn/theme.park:prowlarr
       - TP_THEME=${TP_THEME:?err}
     network_mode: "service:gluetun"
+    logging:
+      driver: none
 
   qbittorrent:
     image: lscr.io/linuxserver/qbittorrent:latest
@@ -133,6 +144,9 @@ services:
       - DOCKER_MODS=ghcr.io/gilbn/theme.park:radarr
       - TP_THEME=${TP_THEME:?err}
     network_mode: "service:gluetun"
+    logging:
+      driver: none
+
   readarr:
     image: lscr.io/linuxserver/readarr:develop
     container_name: readarr
@@ -148,6 +162,9 @@ services:
       - DOCKER_MODS=ghcr.io/gilbn/theme.park:readarr
       - TP_THEME=${TP_THEME:?err}
     network_mode: "service:gluetun"
+    logging:
+      driver: none
+
   sabnzbd:
     image: lscr.io/linuxserver/sabnzbd:latest
     container_name: sabnzbd
@@ -181,4 +198,74 @@ services:
       - DOCKER_MODS=ghcr.io/gilbn/theme.park:sonarr
       - TP_THEME=${TP_THEME:?err}
     network_mode: "service:gluetun"
+    logging:
+      driver: none
 
+  huntarr:
+    image: huntarr/huntarr:latest
+    container_name: huntarr
+    restart: unless-stopped
+    volumes:
+      - ${DOCKER_DIRECTORY}/appdata/huntarr:/config
+      - ${COMPLETED_DOWNLOADS}:/downloads
+      - ${TV_DIR}:/tv
+      - ${MUSIC_DIR}:/music
+      - ${MOVIE_DIR}:/movies
+      - ${MUSIC_DIR}:/music
+    environment:
+      - PUID=${PUID:?err}
+      - PGID=${PGID:?err}
+      - TZ=${TIMEZONE:?err}
+      - TP_THEME=${TP_THEME:?err}
+    network_mode: "service:gluetun"
+    logging:
+      driver: none
+  taggarr:
+      image: docker.io/basshous3/taggarr:latest
+      network_mode: "service:gluetun"
+      container_name: taggarr
+      environment:
+        - SONARR_API_KEY=${SONARR_API_KEY} #REQUIRED
+        - SONARR_URL=http://gluetun:8989 #REQUIRED
+        - RUN_INTERVAL_SECONDS=7200 #OPTIONAL - default is 2 hours.
+        - START_RUNNING=true #OPTIONAL        
+        - QUICK_MODE=false #OPTIONAL 
+        - DRY_RUN=false #OPTIONAL 
+        - WRITE_MODE=1 #OPTIONAL - 0=NONE, 1=REWRITE, 2=REMOVE
+        - TAG_DUB=dub #OPTIONAL
+        - TAG_SEMI=semi-dub #OPTIONAL
+        - TAG_WRONG_DUB=wrong-dub #OPTIONAL
+        - LOG_LEVEL=INFO #OPTIONAL - DEBUG/INFO/WARNING/ERROR
+        - TARGET_GENRE=Anime #OPTIONAL - default is all genres
+        - TARGET_LANGUAGES=en,jp # Supports multiple languages, comma-separated en, fr, de, etc. are also acceptable entries
+        - ADD_TAG_TO_GENRE=true #OPTIONAL
+      volumes:
+        - ${TV_DIR}:/tv
+        - ${DOCKER_DIRECTORY}/appdata/taggarr/logs:/logs # OPTIONAL - recommended path for logs
+      restart: unless-stopped
+      logging:
+        driver: json-file
+        options:
+          max-size: "10m"
+          max-file: "3"
+  cleanuparr:
+    image: ghcr.io/cleanuparr/cleanuparr:latest
+    container_name: cleanuparr
+    restart: unless-stopped
+    network_mode: "service:gluetun"
+    volumes:
+      - ${DOCKER_DIRECTORY}/appdata/cleanuparr/config:/config
+    environment:
+      - PORT=11011
+      - BASE_PATH=
+      - PUID=1000
+      - PGID=1000
+      - UMASK=022
+      - TZ=Etc/UTC
+    # Health check configuration
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:11011/health"]
+      interval: 30s        # Check every 30 seconds
+      timeout: 10s         # Allow up to 10 seconds for response
+      start_period: 30s    # Wait 30 seconds before first check
+      retries: 3           # Mark unhealthy after 3 consecutive failures

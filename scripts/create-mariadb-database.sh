@@ -13,6 +13,7 @@ TABLES=(
     "roundcube"
     "vito"
     "monica"
+    "pterodactyl"
 )
 
 for table in "${TABLES[@]}"; do

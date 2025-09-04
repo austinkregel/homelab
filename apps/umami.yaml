@@ -18,6 +18,7 @@ services:
             DATABASE_URL: postgresql://umami:${POSTGRES_PASSWORD}@homelab-postgres:5432/umami
             DATABASE_TYPE: postgresql
             APP_SECRET: ${UMAMI_APP_SECRET:-umami}
+            PRISMA_ENGINES_CHECKSUM_IGNORE_MISSING: 1
         depends_on:
             homelab-postgres:
                 condition: service_healthy

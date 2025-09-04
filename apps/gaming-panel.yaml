@@ -1,0 +1,23 @@
+include: 
+ - ./mariadb.yaml
+ - ./redis.yaml
+
+services:
+    crafty:
+        container_name: crafty_container
+        image: registry.gitlab.com/crafty-controller/crafty-4:latest
+        restart: always
+        networks:
+            - internal
+        environment:
+            - TZ=Etc/UTC
+        ports:
+            - "8123:8123" # DYNMAP
+            - "19132:19132/udp" # BEDROCK
+            - "25500-25600:25500-25600" # MC SERV PORT RANGE
+        volumes:
+            - ${DOCKER_DIRECTORY}/appdata/crafty/docker/backups:/crafty/backups
+            - ${DOCKER_DIRECTORY}/appdata/crafty/docker/logs:/crafty/logs
+            - ${DOCKER_DIRECTORY}/appdata/crafty/docker/servers:/crafty/servers
+            - ${DOCKER_DIRECTORY}/appdata/crafty/docker/config:/crafty/app/config
+            - ${DOCKER_DIRECTORY}/appdata/crafty/docker/import:/crafty/import

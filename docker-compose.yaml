@@ -9,8 +9,8 @@ include:
     #############################################################################
     - apps/postgres.yaml # PostgreSQL (Shared Database)
     - apps/mariadb.yaml # Mariadb (Shared Database)
-    #- apps/llm-chat.yaml (Disabled because it keeps rebooting the metal server)
-
+    - apps/llm-chat.yaml
+    - apps/home-automation.yaml # Home Automation (ESPHome, Home Assistant)
     - apps/personal-apps.yaml
     - apps/socket-proxy.yaml # Docker Socket Proxy (Security)
 
@@ -44,9 +44,12 @@ include:
     - apps/umami.yaml # Umami Analytics
     - apps/matrix.yaml # Matrix (Chat)
     # - apps/sentry.yaml # Sentry
-    - apps/monica.yaml
+    #- apps/monica.yaml
     #- apps/windows.yaml # Windows VM (GPU passthrough doesn't yet work, but this is a placeholder for future use; the VM does boot and is quite usable if you don't need GPU acceleration)
     - apps/mailpit.yaml
+    #- apps/gaming-panel.yaml
+    #- apps/workflows.yaml
+    #- local-ai-packaged/docker-compose.yml
 ################################################################################
 # NETWORK CONFIGURATION
 ################################################################################

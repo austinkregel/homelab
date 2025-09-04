@@ -1,0 +1,95 @@
+services:
+  esphome:
+    container_name: esphome
+    image: ghcr.io/esphome/esphome
+    volumes:
+      - ${DOCKER_DIRECTORY}/appdata/esphome/config:/config
+      - ${DOCKER_DIRECTORY}/appdata/esphome/.platformio:/root/.platformio
+      - /etc/localtime:/etc/localtime:ro
+    restart: always
+    privileged: true
+    environment:
+      - USERNAME=austinkregel
+      - PASSWORD=${ESPHOME_PASSWORD}
+    network_mode: host
+
+  homeassistant:
+    container_name: homeassistant
+    image: "ghcr.io/home-assistant/home-assistant:stable"
+    volumes:
+      - ${DOCKER_DIRECTORY}/appdata/homeassistant/config:/config
+      - /etc/localtime:/etc/localtime:ro
+      - /run/dbus:/run/dbus:ro
+    restart: unless-stopped
+    privileged: true
+    network_mode: host
+    
+  music-assistant-server:
+    image: ghcr.io/music-assistant/server:latest 
+    container_name: music-assistant-server
+    restart: unless-stopped
+    # Network mode must be set to host for MA to work correctly
+    network_mode: host
+    volumes:
+      - ${DOCKER_DIRECTORY}/appdata/music-assistant/data:/data/
+      - /media/Music/:/music
+    # privileged caps (and security-opt) needed to mount smb folders within the container
+    cap_add:
+      - SYS_ADMIN
+      - DAC_READ_SEARCH
+    security_opt:
+      - apparmor:unconfined
+    environment:
+      # Provide logging level as environment variable.
+      # default=info, possible=(critical, error, warning, info, debug)
+      - LOG_LEVEL=info
+  node-red:
+    user: "1000:1000"
+    image: nodered/node-red:latest
+    environment:
+      - TZ=Europe/Amsterdam
+    network_mode: host
+    volumes:
+      - ${DOCKER_DIRECTORY}/appdata/nodered/data:/data
+
+  whisper:
+    image: lscr.io/linuxserver/faster-whisper:latest
+    container_name: wyoming-whisper
+    gpus: all
+    privileged: true
+    environment:
+      - HF_HUB_ENABLE_HF_TRANSFER=0
+      - CUDA_VISIBLE_DEVICES=0
+      - WHISPER_MODEL=medium.en
+      - WHISPER_BEAM=1
+      - WHISPER_LANG=en
+    devices:
+      - /dev/dri:/dev/dri
+      - /dev/kfd:/dev/kfd
+    volumes:
+      - ${DOCKER_DIRECTORY}/appdata/whisper/config:/config
+      - ${DOCKER_DIRECTORY}/appdata/whisper/data:/data                   # internal app data
+      - hf-cache:/root/.cache/huggingface    # model cache
+    restart: unless-stopped
+    network_mode: host
+
+  piper:
+    image: rhasspy/wyoming-piper:latest
+    container_name: wyoming-piper
+    command: --voice en_US-lessac-medium
+    volumes:
+      - piper-data:/data                     # voice cache
+    restart: unless-stopped
+    network_mode: host
+  openwakeword:
+    image: rhasspy/wyoming-openwakeword:latest
+    container_name: wyoming-openwakeword
+    command: --preload-model 'ok_nabu'
+    volumes:
+      - openwakeword-data:/data                     # voice cache
+    restart: unless-stopped
+    network_mode: host
+volumes:
+  hf-cache:
+  piper-data:
+  openwakeword-data:
