@@ -9,8 +9,8 @@ services:
     profiles: ["utilities", "all"]
     command: redis-server /usr/local/etc/redis/redis.conf
     volumes:
-        - ${DOCKER_DIRECTORY}/appdata/homelab-redis/data:/data:rw
-        - ${DOCKER_DIRECTORY}/appdata/homelab-redis/redis.conf:/usr/local/etc/redis/redis.conf:rw
+        - ../appdata/homelab-redis/data:/data:rw
+        - ../appdata/homelab-redis/redis.conf:/usr/local/etc/redis/redis.conf:rw
     networks:
         internal:
     healthcheck:

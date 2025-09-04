@@ -24,8 +24,8 @@ services:
   #   networks:
   #     internal:
   #   volumes:
-  #     - '${DOCKER_DIRECTORY}/appdata/sentry-symbolicator/data:/data'
-  #     - '${DOCKER_DIRECTORY}/appdata/sentry-symbolicator/config:/etc/symbolicator'
+  #     - '../appdata/sentry-symbolicator/data:/data'
+  #     - '../appdata/sentry-symbolicator/config:/etc/symbolicator'
   # symbolicator-cleanup:
   #   build:
   #     context: ${DOCKER_DIRECTORY}/apps/sentry-cron
@@ -37,8 +37,8 @@ services:
   #   image: getsentry/symbolicator:latest
   #   command: '"55 23 * * * gosu symbolicator symbolicator cleanup"'
   #   volumes:
-  #    - '${DOCKER_DIRECTORY}/appdata/sentry-symbolicator/data:/data'
-  #    - '${DOCKER_DIRECTORY}/appdata/sentry-symbolicator/config:/etc/symbolicator'
+  #    - '../appdata/sentry-symbolicator/data:/data'
+  #    - '../appdata/sentry-symbolicator/config:/etc/symbolicator'
   sentry:
     restart: no
     image: sentry:latest
@@ -73,9 +73,9 @@ services:
       SENTRY_MAIL_HOST: null
       SENTRY_MAX_EXTERNAL_SOURCEMAP_SIZE: null
     volumes:
-      - '${DOCKER_DIRECTORY}/appdata/sentry/data:/data'
-      - '${DOCKER_DIRECTORY}/appdata/sentry/config:/etc/sentry'
-      - '${DOCKER_DIRECTORY}/appdata/sentry/geoip:/geoip:ro'
+      - '../appdata/sentry/data:/data'
+      - '../appdata/sentry/config:/etc/sentry'
+      - '../appdata/sentry/geoip:/geoip:ro'
     ulimits:
       nofile:
         soft: 4096
@@ -125,9 +125,9 @@ services:
       SENTRY_MAIL_HOST: null
       SENTRY_MAX_EXTERNAL_SOURCEMAP_SIZE: null
     volumes:
-    - ${DOCKER_DIRECTORY}/appdata/sentry/data:/data
-    - ${DOCKER_DIRECTORY}/appdata/sentry/config:/etc/sentry
-    - ${DOCKER_DIRECTORY}/appdata/sentry/geoip:/geoip:ro
+    - ../appdata/sentry/data:/data
+    - ../appdata/sentry/config:/etc/sentry
+    - ../appdata/sentry/geoip:/geoip:ro
   worker:
     restart: no
     image: sentry
@@ -167,9 +167,9 @@ services:
       SENTRY_MAIL_HOST: null
       SENTRY_MAX_EXTERNAL_SOURCEMAP_SIZE: null
     volumes:
-    - ${DOCKER_DIRECTORY}/appdata/sentry/data:/data
-    - ${DOCKER_DIRECTORY}/appdata/sentry/config:/etc/sentry
-    - ${DOCKER_DIRECTORY}/appdata/sentry/geoip:/geoip:ro
+    - ../appdata/sentry/data:/data
+    - ../appdata/sentry/config:/etc/sentry
+    - ../appdata/sentry/geoip:/geoip:ro
   sentry-cleanup:
     restart: no
     user: '999:999'
@@ -203,6 +203,6 @@ services:
       SENTRY_MAIL_HOST: null
       SENTRY_MAX_EXTERNAL_SOURCEMAP_SIZE: null
     volumes:
-    - ${DOCKER_DIRECTORY}/appdata/sentry/data:/data
-    - ${DOCKER_DIRECTORY}/appdata/sentry/config:/etc/sentry
-    - ${DOCKER_DIRECTORY}/appdata/sentry/geoip:/geoip:ro
+    - ../appdata/sentry/data:/data
+    - ../appdata/sentry/config:/etc/sentry
+    - ../appdata/sentry/geoip:/geoip:ro

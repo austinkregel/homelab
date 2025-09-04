@@ -7,23 +7,28 @@ SHELL:=/bin/bash
 
 .PHONY: update
 update: ## Update the service(s) *
+	source .env
 	docker compose --project-directory "$(ROOT_DIR)" --profile all pull $(APP)
 	docker compose --project-directory "$(ROOT_DIR)" --profile all up -d $(APP)
 
 .PHONY: exec
 exec: ## Update the service(s) *
+	source .env
 	docker compose --project-directory "$(ROOT_DIR)" --profile all exec -it $(APP) $(ARGS)
 
 .PHONY: run
 run: ## Update the service(s) *
+	source .env
 	docker compose --project-directory "$(ROOT_DIR)" --profile all run -it $(APP) $(ARGS)
 
 .PHONY: pull
 pull: ## Pull the latest image(s)*
+	source .env
 	docker compose --project-directory "$(ROOT_DIR)" --profile all pull --ignore-pull-failures $(APP)
 
 .PHONY: up
 up: ## Start the service(s)*
+	source .env
 	docker compose --project-directory "$(ROOT_DIR)" --profile all up -d --remove-orphans $(APP) $(ARGS)
 
 .PHONY: shell
@@ -32,6 +37,7 @@ shell: ## Start the service(s)*
 
 .PHONY: down
 down: ## Stop the service(s)*
+	source .env
 	docker compose --project-directory "$(ROOT_DIR)" --profile all down $(APP) $(ARGS)
 
 .PHONY: stop
@@ -40,6 +46,7 @@ stop: ## Stop the service(s)*
 
 .PHONY: build
 build: ## build the service(s)*
+	source .env
 	docker compose --project-directory "$(ROOT_DIR)" --profile all build $(APP) $(ARGS)
 
 .PHONY: logs

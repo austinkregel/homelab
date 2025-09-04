@@ -13,8 +13,8 @@ services:
           - '81:81'
           - '443:443'
         volumes:
-          - ${DOCKER_DIRECTORY}/appdata/nginx:/data
-          - ${DOCKER_DIRECTORY}/appdata/letsencrypt:/etc/letsencrypt
+          - ../appdata/nginx:/data
+          - ../appdata/letsencrypt:/etc/letsencrypt
         networks:
             - public
             - internal

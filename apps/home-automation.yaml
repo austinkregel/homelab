@@ -3,8 +3,8 @@ services:
     container_name: esphome
     image: ghcr.io/esphome/esphome
     volumes:
-      - ${DOCKER_DIRECTORY}/appdata/esphome/config:/config
-      - ${DOCKER_DIRECTORY}/appdata/esphome/.platformio:/root/.platformio
+      - ../appdata/esphome/config:/config
+      - ../appdata/esphome/.platformio:/root/.platformio
       - /etc/localtime:/etc/localtime:ro
     restart: always
     privileged: true
@@ -17,7 +17,7 @@ services:
     container_name: homeassistant
     image: "ghcr.io/home-assistant/home-assistant:stable"
     volumes:
-      - ${DOCKER_DIRECTORY}/appdata/homeassistant/config:/config
+      - ../appdata/homeassistant/config:/config
       - /etc/localtime:/etc/localtime:ro
       - /run/dbus:/run/dbus:ro
     restart: unless-stopped
@@ -31,7 +31,7 @@ services:
     # Network mode must be set to host for MA to work correctly
     network_mode: host
     volumes:
-      - ${DOCKER_DIRECTORY}/appdata/music-assistant/data:/data/
+      - ../appdata/music-assistant/data:/data/
       - /media/Music/:/music
     # privileged caps (and security-opt) needed to mount smb folders within the container
     cap_add:
@@ -50,7 +50,7 @@ services:
       - TZ=Europe/Amsterdam
     network_mode: host
     volumes:
-      - ${DOCKER_DIRECTORY}/appdata/nodered/data:/data
+      - ../appdata/nodered/data:/data
 
   whisper:
     image: lscr.io/linuxserver/faster-whisper:latest
@@ -67,8 +67,8 @@ services:
       - /dev/dri:/dev/dri
       - /dev/kfd:/dev/kfd
     volumes:
-      - ${DOCKER_DIRECTORY}/appdata/whisper/config:/config
-      - ${DOCKER_DIRECTORY}/appdata/whisper/data:/data                   # internal app data
+      - ../appdata/whisper/config:/config
+      - ../appdata/whisper/data:/data                   # internal app data
       - hf-cache:/root/.cache/huggingface    # model cache
     restart: unless-stopped
     network_mode: host

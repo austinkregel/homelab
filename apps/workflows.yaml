@@ -12,5 +12,5 @@ services:
       - WEBHOOK_URL=https://n8n.kregel.host/
       - GENERIC_TIMEZONE=${GENERIC_TIMEZONE}
     volumes:
-      - ${DOCKER_DIRECTORY}/appdata/n8n/data:/home/node/.n8n
-      - ${DOCKER_DIRECTORY}/appdata/n8n/storage:/files
+      - ../appdata/n8n/data:/home/node/.n8n
+      - ../appdata/n8n/storage:/files

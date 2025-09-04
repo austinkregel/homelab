@@ -70,7 +70,7 @@
         "ExecIDs": null,
         "HostConfig": {
             "Binds": [
-                "${DOCKER_DIRECTORY}/appdata/matrix/postgres/data:/var/lib/postgresql/data:rw"
+                "../appdata/matrix/postgres/data:/var/lib/postgresql/data:rw"
             ],
             "ContainerIDFile": "",
             "LogConfig": {
@@ -176,7 +176,7 @@
         "Mounts": [
             {
                 "Type": "bind",
-                "Source": "${DOCKER_DIRECTORY}/appdata/matrix/postgres/data",
+                "Source": "../appdata/matrix/postgres/data",
                 "Destination": "/var/lib/postgresql/data",
                 "Mode": "rw",
                 "RW": true,
@@ -363,7 +363,7 @@
         "ExecIDs": null,
         "HostConfig": {
             "Binds": [
-                "${DOCKER_DIRECTORY}/appdata/homelab-postgres:/var/lib/postgresql/data:rw",
+                "../appdata/homelab-postgres:/var/lib/postgresql/data:rw",
                 "${DOCKER_DIRECTORY}/scripts/create-databases.sh:/docker-entrypoint-initdb.d/create-databases.sh:rw"
             ],
             "ContainerIDFile": "",
@@ -470,7 +470,7 @@
         "Mounts": [
             {
                 "Type": "bind",
-                "Source": "${DOCKER_DIRECTORY}/appdata/homelab-postgres",
+                "Source": "../appdata/homelab-postgres",
                 "Destination": "/var/lib/postgresql/data",
                 "Mode": "rw",
                 "RW": true,
@@ -630,7 +630,7 @@
         "ExecIDs": null,
         "HostConfig": {
             "Binds": [
-                "${DOCKER_DIRECTORY}/appdata/matrix/synapse-admin/config/config.json:/app/config.json:ro"
+                "../appdata/matrix/synapse-admin/config/config.json:/app/config.json:ro"
             ],
             "ContainerIDFile": "",
             "LogConfig": {
@@ -736,7 +736,7 @@
         "Mounts": [
             {
                 "Type": "bind",
-                "Source": "${DOCKER_DIRECTORY}/appdata/matrix/synapse-admin/config/config.json",
+                "Source": "../appdata/matrix/synapse-admin/config/config.json",
                 "Destination": "/app/config.json",
                 "Mode": "ro",
                 "RW": false,
@@ -915,15 +915,15 @@
         "ExecIDs": null,
         "HostConfig": {
             "Binds": [
-                "${DOCKER_DIRECTORY}/appdata/matrix/synapse/storage:/matrix-media-store-parent:rw",
-                "${DOCKER_DIRECTORY}/appdata/matrix/mautrix-discord/config/registration.yaml:/matrix-mautrix-discord-registration.yaml:rw",
-                "${DOCKER_DIRECTORY}/appdata/matrix/appservice-double-puppet/config/registration.yaml:/matrix-appservice-double-puppet-registration.yaml:rw",
-                "${DOCKER_DIRECTORY}/appdata/matrix/beeper-linkedin/config/registration.yaml:/matrix-beeper-linkedin-registration.yaml:rw",
-                "${DOCKER_DIRECTORY}/appdata/matrix/hookshot/registration.yml:/hookshot-registration.yml:rw",
-                "${DOCKER_DIRECTORY}/appdata/matrix/mautrix-meta-messenger/config/registration.yaml:/matrix-mautrix-meta-messenger-registration.yaml:rw",
-                "${DOCKER_DIRECTORY}/appdata/matrix/mautrix-gmessages/config/registration.yaml:/matrix-mautrix-gmessages-registration.yaml:rw",
-                "${DOCKER_DIRECTORY}/appdata/matrix/synapse/config:/data:rw",
-                "${DOCKER_DIRECTORY}/appdata/matrix/synapse/ext/shared_secret_authenticator.py:/usr/local/lib/python3.12/site-packages/shared_secret_authenticator.py:rw"
+                "../appdata/matrix/synapse/storage:/matrix-media-store-parent:rw",
+                "../appdata/matrix/mautrix-discord/config/registration.yaml:/matrix-mautrix-discord-registration.yaml:rw",
+                "../appdata/matrix/appservice-double-puppet/config/registration.yaml:/matrix-appservice-double-puppet-registration.yaml:rw",
+                "../appdata/matrix/beeper-linkedin/config/registration.yaml:/matrix-beeper-linkedin-registration.yaml:rw",
+                "../appdata/matrix/hookshot/registration.yml:/hookshot-registration.yml:rw",
+                "../appdata/matrix/mautrix-meta-messenger/config/registration.yaml:/matrix-mautrix-meta-messenger-registration.yaml:rw",
+                "../appdata/matrix/mautrix-gmessages/config/registration.yaml:/matrix-mautrix-gmessages-registration.yaml:rw",
+                "../appdata/matrix/synapse/config:/data:rw",
+                "../appdata/matrix/synapse/ext/shared_secret_authenticator.py:/usr/local/lib/python3.12/site-packages/shared_secret_authenticator.py:rw"
             ],
             "ContainerIDFile": "",
             "LogConfig": {
@@ -1029,7 +1029,7 @@
         "Mounts": [
             {
                 "Type": "bind",
-                "Source": "${DOCKER_DIRECTORY}/appdata/matrix/hookshot/registration.yml",
+                "Source": "../appdata/matrix/hookshot/registration.yml",
                 "Destination": "/hookshot-registration.yml",
                 "Mode": "rw",
                 "RW": true,
@@ -1037,7 +1037,7 @@
             },
             {
                 "Type": "bind",
-                "Source": "${DOCKER_DIRECTORY}/appdata/matrix/synapse/ext/shared_secret_authenticator.py",
+                "Source": "../appdata/matrix/synapse/ext/shared_secret_authenticator.py",
                 "Destination": "/usr/local/lib/python3.12/site-packages/shared_secret_authenticator.py",
                 "Mode": "rw",
                 "RW": true,
@@ -1045,7 +1045,7 @@
             },
             {
                 "Type": "bind",
-                "Source": "${DOCKER_DIRECTORY}/appdata/matrix/mautrix-discord/config/registration.yaml",
+                "Source": "../appdata/matrix/mautrix-discord/config/registration.yaml",
                 "Destination": "/matrix-mautrix-discord-registration.yaml",
                 "Mode": "rw",
                 "RW": true,
@@ -1053,7 +1053,7 @@
             },
             {
                 "Type": "bind",
-                "Source": "${DOCKER_DIRECTORY}/appdata/matrix/beeper-linkedin/config/registration.yaml",
+                "Source": "../appdata/matrix/beeper-linkedin/config/registration.yaml",
                 "Destination": "/matrix-beeper-linkedin-registration.yaml",
                 "Mode": "rw",
                 "RW": true,
@@ -1061,7 +1061,7 @@
             },
             {
                 "Type": "bind",
-                "Source": "${DOCKER_DIRECTORY}/appdata/matrix/mautrix-meta-messenger/config/registration.yaml",
+                "Source": "../appdata/matrix/mautrix-meta-messenger/config/registration.yaml",
                 "Destination": "/matrix-mautrix-meta-messenger-registration.yaml",
                 "Mode": "rw",
                 "RW": true,
@@ -1069,7 +1069,7 @@
             },
             {
                 "Type": "bind",
-                "Source": "${DOCKER_DIRECTORY}/appdata/matrix/mautrix-gmessages/config/registration.yaml",
+                "Source": "../appdata/matrix/mautrix-gmessages/config/registration.yaml",
                 "Destination": "/matrix-mautrix-gmessages-registration.yaml",
                 "Mode": "rw",
                 "RW": true,
@@ -1077,7 +1077,7 @@
             },
             {
                 "Type": "bind",
-                "Source": "${DOCKER_DIRECTORY}/appdata/matrix/synapse/config",
+                "Source": "../appdata/matrix/synapse/config",
                 "Destination": "/data",
                 "Mode": "rw",
                 "RW": true,
@@ -1085,7 +1085,7 @@
             },
             {
                 "Type": "bind",
-                "Source": "${DOCKER_DIRECTORY}/appdata/matrix/synapse/storage",
+                "Source": "../appdata/matrix/synapse/storage",
                 "Destination": "/matrix-media-store-parent",
                 "Mode": "rw",
                 "RW": true,
@@ -1093,7 +1093,7 @@
             },
             {
                 "Type": "bind",
-                "Source": "${DOCKER_DIRECTORY}/appdata/matrix/appservice-double-puppet/config/registration.yaml",
+                "Source": "../appdata/matrix/appservice-double-puppet/config/registration.yaml",
                 "Destination": "/matrix-appservice-double-puppet-registration.yaml",
                 "Mode": "rw",
                 "RW": true,
@@ -1258,9 +1258,9 @@
         "ExecIDs": null,
         "HostConfig": {
             "Binds": [
-                "${DOCKER_DIRECTORY}/appdata/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml:rw",
-                "${DOCKER_DIRECTORY}/appdata/prometheus/rules.yml:/etc/prometheus/rules.yml:rw",
-                "${DOCKER_DIRECTORY}/appdata/prometheus:/etc/prometheus:rw"
+                "../appdata/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml:rw",
+                "../appdata/prometheus/rules.yml:/etc/prometheus/rules.yml:rw",
+                "../appdata/prometheus:/etc/prometheus:rw"
             ],
             "ContainerIDFile": "",
             "LogConfig": {
@@ -1366,7 +1366,7 @@
         "Mounts": [
             {
                 "Type": "bind",
-                "Source": "${DOCKER_DIRECTORY}/appdata/prometheus/prometheus.yml",
+                "Source": "../appdata/prometheus/prometheus.yml",
                 "Destination": "/etc/prometheus/prometheus.yml",
                 "Mode": "rw",
                 "RW": true,
@@ -1374,7 +1374,7 @@
             },
             {
                 "Type": "bind",
-                "Source": "${DOCKER_DIRECTORY}/appdata/prometheus/rules.yml",
+                "Source": "../appdata/prometheus/rules.yml",
                 "Destination": "/etc/prometheus/rules.yml",
                 "Mode": "rw",
                 "RW": true,
@@ -1382,7 +1382,7 @@
             },
             {
                 "Type": "bind",
-                "Source": "${DOCKER_DIRECTORY}/appdata/prometheus",
+                "Source": "../appdata/prometheus",
                 "Destination": "/etc/prometheus",
                 "Mode": "rw",
                 "RW": true,
@@ -1526,7 +1526,7 @@
         "ExecIDs": null,
         "HostConfig": {
             "Binds": [
-                "${DOCKER_DIRECTORY}/appdata/prometheus/alertmanager.yml:/alertmanager/alertmanager.yml\":rw"
+                "../appdata/prometheus/alertmanager.yml:/alertmanager/alertmanager.yml\":rw"
             ],
             "ContainerIDFile": "",
             "LogConfig": {
@@ -1632,7 +1632,7 @@
         "Mounts": [
             {
                 "Type": "bind",
-                "Source": "${DOCKER_DIRECTORY}/appdata/prometheus/alertmanager.yml",
+                "Source": "../appdata/prometheus/alertmanager.yml",
                 "Destination": "/alertmanager/alertmanager.yml\"",
                 "Mode": "rw",
                 "RW": true,
@@ -1812,9 +1812,9 @@
         "ExecIDs": null,
         "HostConfig": {
             "Binds": [
-                "${DOCKER_DIRECTORY}/appdata/lazy.build/.env:/var/www/html/.env:rw",
+                "../appdata/lazy.build/.env:/var/www/html/.env:rw",
                 "${DOCKER_DIRECTORY}/php-template-start.sh:/var/www/html/start.sh:rw",
-                "${DOCKER_DIRECTORY}/appdata/lazy.build/web-start.log:/var/www/html/storage/logs/laravel.log:rw"
+                "../appdata/lazy.build/web-start.log:/var/www/html/storage/logs/laravel.log:rw"
             ],
             "ContainerIDFile": "",
             "LogConfig": {
@@ -1922,7 +1922,7 @@
         "Mounts": [
             {
                 "Type": "bind",
-                "Source": "${DOCKER_DIRECTORY}/appdata/lazy.build/web-start.log",
+                "Source": "../appdata/lazy.build/web-start.log",
                 "Destination": "/var/www/html/storage/logs/laravel.log",
                 "Mode": "rw",
                 "RW": true,
@@ -1930,7 +1930,7 @@
             },
             {
                 "Type": "bind",
-                "Source": "${DOCKER_DIRECTORY}/appdata/lazy.build/.env",
+                "Source": "../appdata/lazy.build/.env",
                 "Destination": "/var/www/html/.env",
                 "Mode": "rw",
                 "RW": true,
@@ -2079,11 +2079,11 @@
         "ExecIDs": null,
         "HostConfig": {
             "Binds": [
-                "${DOCKER_DIRECTORY}/appdata/crafty/docker/servers:/crafty/servers:rw",
-                "${DOCKER_DIRECTORY}/appdata/crafty/docker/config:/crafty/app/config:rw",
-                "${DOCKER_DIRECTORY}/appdata/crafty/docker/import:/crafty/import:rw",
-                "${DOCKER_DIRECTORY}/appdata/crafty/docker/backups:/crafty/backups:rw",
-                "${DOCKER_DIRECTORY}/appdata/crafty/docker/logs:/crafty/logs:rw"
+                "../appdata/crafty/docker/servers:/crafty/servers:rw",
+                "../appdata/crafty/docker/config:/crafty/app/config:rw",
+                "../appdata/crafty/docker/import:/crafty/import:rw",
+                "../appdata/crafty/docker/backups:/crafty/backups:rw",
+                "../appdata/crafty/docker/logs:/crafty/logs:rw"
             ],
             "ContainerIDFile": "",
             "LogConfig": {
@@ -2808,7 +2808,7 @@
         "Mounts": [
             {
                 "Type": "bind",
-                "Source": "${DOCKER_DIRECTORY}/appdata/crafty/docker/import",
+                "Source": "../appdata/crafty/docker/import",
                 "Destination": "/crafty/import",
                 "Mode": "rw",
                 "RW": true,
@@ -2816,7 +2816,7 @@
             },
             {
                 "Type": "bind",
-                "Source": "${DOCKER_DIRECTORY}/appdata/crafty/docker/backups",
+                "Source": "../appdata/crafty/docker/backups",
                 "Destination": "/crafty/backups",
                 "Mode": "rw",
                 "RW": true,
@@ -2824,7 +2824,7 @@
             },
             {
                 "Type": "bind",
-                "Source": "${DOCKER_DIRECTORY}/appdata/crafty/docker/logs",
+                "Source": "../appdata/crafty/docker/logs",
                 "Destination": "/crafty/logs",
                 "Mode": "rw",
                 "RW": true,
@@ -2832,7 +2832,7 @@
             },
             {
                 "Type": "bind",
-                "Source": "${DOCKER_DIRECTORY}/appdata/crafty/docker/servers",
+                "Source": "../appdata/crafty/docker/servers",
                 "Destination": "/crafty/servers",
                 "Mode": "rw",
                 "RW": true,
@@ -2840,7 +2840,7 @@
             },
             {
                 "Type": "bind",
-                "Source": "${DOCKER_DIRECTORY}/appdata/crafty/docker/config",
+                "Source": "../appdata/crafty/docker/config",
                 "Destination": "/crafty/app/config",
                 "Mode": "rw",
                 "RW": true,
@@ -4158,9 +4158,9 @@
         "ExecIDs": null,
         "HostConfig": {
             "Binds": [
-                "${DOCKER_DIRECTORY}/appdata/vitodeploy/.env:/var/www/html/.env:rw",
-                "${DOCKER_DIRECTORY}/appdata/vitodeploy/storage:/var/www/html/storage:rw",
-                "${DOCKER_DIRECTORY}/appdata/vitodeploy/start.sh:/var/www/html/start.sh:rw"
+                "../appdata/vitodeploy/.env:/var/www/html/.env:rw",
+                "../appdata/vitodeploy/storage:/var/www/html/storage:rw",
+                "../appdata/vitodeploy/start.sh:/var/www/html/start.sh:rw"
             ],
             "ContainerIDFile": "",
             "LogConfig": {
@@ -4268,7 +4268,7 @@
         "Mounts": [
             {
                 "Type": "bind",
-                "Source": "${DOCKER_DIRECTORY}/appdata/vitodeploy/.env",
+                "Source": "../appdata/vitodeploy/.env",
                 "Destination": "/var/www/html/.env",
                 "Mode": "rw",
                 "RW": true,
@@ -4276,7 +4276,7 @@
             },
             {
                 "Type": "bind",
-                "Source": "${DOCKER_DIRECTORY}/appdata/vitodeploy/storage",
+                "Source": "../appdata/vitodeploy/storage",
                 "Destination": "/var/www/html/storage",
                 "Mode": "rw",
                 "RW": true,
@@ -4284,7 +4284,7 @@
             },
             {
                 "Type": "bind",
-                "Source": "${DOCKER_DIRECTORY}/appdata/vitodeploy/start.sh",
+                "Source": "../appdata/vitodeploy/start.sh",
                 "Destination": "/var/www/html/start.sh",
                 "Mode": "rw",
                 "RW": true,
@@ -4422,8 +4422,8 @@
         "ExecIDs": null,
         "HostConfig": {
             "Binds": [
-                "${DOCKER_DIRECTORY}/appdata/nginx:/data:rw",
-                "${DOCKER_DIRECTORY}/appdata/letsencrypt:/etc/letsencrypt:rw"
+                "../appdata/nginx:/data:rw",
+                "../appdata/letsencrypt:/etc/letsencrypt:rw"
             ],
             "ContainerIDFile": "",
             "LogConfig": {
@@ -4550,7 +4550,7 @@
         "Mounts": [
             {
                 "Type": "bind",
-                "Source": "${DOCKER_DIRECTORY}/appdata/letsencrypt",
+                "Source": "../appdata/letsencrypt",
                 "Destination": "/etc/letsencrypt",
                 "Mode": "rw",
                 "RW": true,
@@ -4558,7 +4558,7 @@
             },
             {
                 "Type": "bind",
-                "Source": "${DOCKER_DIRECTORY}/appdata/nginx",
+                "Source": "../appdata/nginx",
                 "Destination": "/data",
                 "Mode": "rw",
                 "RW": true,
@@ -4770,7 +4770,7 @@
         "ExecIDs": null,
         "HostConfig": {
             "Binds": [
-                "${DOCKER_DIRECTORY}/appdata/vito_client:/home/vito:rw",
+                "../appdata/vito_client:/home/vito:rw",
                 "${DOCKER_DIRECTORY}/root_authorized.keys:/root/.ssh/authorized_keys:rw"
             ],
             "ContainerIDFile": "",
@@ -4894,7 +4894,7 @@
         "Mounts": [
             {
                 "Type": "bind",
-                "Source": "${DOCKER_DIRECTORY}/appdata/vito_client",
+                "Source": "../appdata/vito_client",
                 "Destination": "/home/vito",
                 "Mode": "rw",
                 "RW": true,
@@ -5466,10 +5466,10 @@
         "ExecIDs": null,
         "HostConfig": {
             "Binds": [
-                "${DOCKER_DIRECTORY}/appdata/aut.hair/storage:/var/www/html/storage:rw",
-                "${DOCKER_DIRECTORY}/appdata/aut.hair/start.sh:/var/www/html/start.sh:rw",
-                "${DOCKER_DIRECTORY}/appdata/aut.hair/.env:/var/www/html/.env:rw",
-                "${DOCKER_DIRECTORY}/appdata/aut.hair/services.php:/var/www/html/config/services.php:rw"
+                "../appdata/aut.hair/storage:/var/www/html/storage:rw",
+                "../appdata/aut.hair/start.sh:/var/www/html/start.sh:rw",
+                "../appdata/aut.hair/.env:/var/www/html/.env:rw",
+                "../appdata/aut.hair/services.php:/var/www/html/config/services.php:rw"
             ],
             "ContainerIDFile": "",
             "LogConfig": {
@@ -5577,7 +5577,7 @@
         "Mounts": [
             {
                 "Type": "bind",
-                "Source": "${DOCKER_DIRECTORY}/appdata/aut.hair/start.sh",
+                "Source": "../appdata/aut.hair/start.sh",
                 "Destination": "/var/www/html/start.sh",
                 "Mode": "rw",
                 "RW": true,
@@ -5585,7 +5585,7 @@
             },
             {
                 "Type": "bind",
-                "Source": "${DOCKER_DIRECTORY}/appdata/aut.hair/.env",
+                "Source": "../appdata/aut.hair/.env",
                 "Destination": "/var/www/html/.env",
                 "Mode": "rw",
                 "RW": true,
@@ -5593,7 +5593,7 @@
             },
             {
                 "Type": "bind",
-                "Source": "${DOCKER_DIRECTORY}/appdata/aut.hair/services.php",
+                "Source": "../appdata/aut.hair/services.php",
                 "Destination": "/var/www/html/config/services.php",
                 "Mode": "rw",
                 "RW": true,
@@ -5601,7 +5601,7 @@
             },
             {
                 "Type": "bind",
-                "Source": "${DOCKER_DIRECTORY}/appdata/aut.hair/storage",
+                "Source": "../appdata/aut.hair/storage",
                 "Destination": "/var/www/html/storage",
                 "Mode": "rw",
                 "RW": true,
@@ -5780,10 +5780,10 @@
         "ExecIDs": null,
         "HostConfig": {
             "Binds": [
-                "${DOCKER_DIRECTORY}/appdata/gitlab/data:/var/opt/gitlab:rw",
-                "${DOCKER_DIRECTORY}/appdata/proton-bridge/:/etc/gitlab/trusted-certs:rw",
-                "${DOCKER_DIRECTORY}/appdata/gitlab/config:/etc/gitlab:rw",
-                "${DOCKER_DIRECTORY}/appdata/gitlab/logs:/var/log/gitlab:rw"
+                "../appdata/gitlab/data:/var/opt/gitlab:rw",
+                "../appdata/proton-bridge/:/etc/gitlab/trusted-certs:rw",
+                "../appdata/gitlab/config:/etc/gitlab:rw",
+                "../appdata/gitlab/logs:/var/log/gitlab:rw"
             ],
             "ContainerIDFile": "",
             "LogConfig": {
@@ -5896,7 +5896,7 @@
         "Mounts": [
             {
                 "Type": "bind",
-                "Source": "${DOCKER_DIRECTORY}/appdata/gitlab/data",
+                "Source": "../appdata/gitlab/data",
                 "Destination": "/var/opt/gitlab",
                 "Mode": "rw",
                 "RW": true,
@@ -5904,7 +5904,7 @@
             },
             {
                 "Type": "bind",
-                "Source": "${DOCKER_DIRECTORY}/appdata/proton-bridge",
+                "Source": "../appdata/proton-bridge",
                 "Destination": "/etc/gitlab/trusted-certs",
                 "Mode": "rw",
                 "RW": true,
@@ -5912,7 +5912,7 @@
             },
             {
                 "Type": "bind",
-                "Source": "${DOCKER_DIRECTORY}/appdata/gitlab/config",
+                "Source": "../appdata/gitlab/config",
                 "Destination": "/etc/gitlab",
                 "Mode": "rw",
                 "RW": true,
@@ -5920,7 +5920,7 @@
             },
             {
                 "Type": "bind",
-                "Source": "${DOCKER_DIRECTORY}/appdata/gitlab/logs",
+                "Source": "../appdata/gitlab/logs",
                 "Destination": "/var/log/gitlab",
                 "Mode": "rw",
                 "RW": true,
@@ -6125,7 +6125,7 @@
         "ExecIDs": null,
         "HostConfig": {
             "Binds": [
-                "${DOCKER_DIRECTORY}/appdata/homelab-meilisearch:/meili_data:rw"
+                "../appdata/homelab-meilisearch:/meili_data:rw"
             ],
             "ContainerIDFile": "",
             "LogConfig": {
@@ -6231,7 +6231,7 @@
         "Mounts": [
             {
                 "Type": "bind",
-                "Source": "${DOCKER_DIRECTORY}/appdata/homelab-meilisearch",
+                "Source": "../appdata/homelab-meilisearch",
                 "Destination": "/meili_data",
                 "Mode": "rw",
                 "RW": true,
@@ -6378,9 +6378,9 @@
         "ExecIDs": null,
         "HostConfig": {
             "Binds": [
-                "${DOCKER_DIRECTORY}/appdata/mqtt/config:/mosquitto/config:rw",
-                "${DOCKER_DIRECTORY}/appdata/mqtt/data:/mosquitto/data:rw",
-                "${DOCKER_DIRECTORY}/appdata/mqtt/log:/mosquitto/log:rw"
+                "../appdata/mqtt/config:/mosquitto/config:rw",
+                "../appdata/mqtt/data:/mosquitto/data:rw",
+                "../appdata/mqtt/log:/mosquitto/log:rw"
             ],
             "ContainerIDFile": "",
             "LogConfig": {
@@ -6499,7 +6499,7 @@
         "Mounts": [
             {
                 "Type": "bind",
-                "Source": "${DOCKER_DIRECTORY}/appdata/mqtt/log",
+                "Source": "../appdata/mqtt/log",
                 "Destination": "/mosquitto/log",
                 "Mode": "rw",
                 "RW": true,
@@ -6507,7 +6507,7 @@
             },
             {
                 "Type": "bind",
-                "Source": "${DOCKER_DIRECTORY}/appdata/mqtt/config",
+                "Source": "../appdata/mqtt/config",
                 "Destination": "/mosquitto/config",
                 "Mode": "rw",
                 "RW": true,
@@ -6515,7 +6515,7 @@
             },
             {
                 "Type": "bind",
-                "Source": "${DOCKER_DIRECTORY}/appdata/mqtt/data",
+                "Source": "../appdata/mqtt/data",
                 "Destination": "/mosquitto/data",
                 "Mode": "rw",
                 "RW": true,
@@ -6678,8 +6678,8 @@
         "ExecIDs": null,
         "HostConfig": {
             "Binds": [
-                "${DOCKER_DIRECTORY}/appdata/gitlab-runner/config:/etc/gitlab-runner:rw,z",
-                "${DOCKER_DIRECTORY}/appdata/gitlab-runner/certs:/certs:ro"
+                "../appdata/gitlab-runner/config:/etc/gitlab-runner:rw,z",
+                "../appdata/gitlab-runner/certs:/certs:ro"
             ],
             "ContainerIDFile": "",
             "LogConfig": {
@@ -6792,7 +6792,7 @@
         "Mounts": [
             {
                 "Type": "bind",
-                "Source": "${DOCKER_DIRECTORY}/appdata/gitlab-runner/certs",
+                "Source": "../appdata/gitlab-runner/certs",
                 "Destination": "/certs",
                 "Mode": "ro",
                 "RW": false,
@@ -6810,7 +6810,7 @@
             },
             {
                 "Type": "bind",
-                "Source": "${DOCKER_DIRECTORY}/appdata/gitlab-runner/config",
+                "Source": "../appdata/gitlab-runner/config",
                 "Destination": "/etc/gitlab-runner",
                 "Mode": "rw,z",
                 "RW": true,
@@ -6955,7 +6955,7 @@
         "ExecIDs": null,
         "HostConfig": {
             "Binds": [
-                "${DOCKER_DIRECTORY}/appdata/overseerr:/config:rw"
+                "../appdata/overseerr:/config:rw"
             ],
             "ContainerIDFile": "",
             "LogConfig": {
@@ -7063,7 +7063,7 @@
         "Mounts": [
             {
                 "Type": "bind",
-                "Source": "${DOCKER_DIRECTORY}/appdata/overseerr",
+                "Source": "../appdata/overseerr",
                 "Destination": "/config",
                 "Mode": "rw",
                 "RW": true,
@@ -7215,8 +7215,8 @@
         "ExecIDs": null,
         "HostConfig": {
             "Binds": [
-                "${DOCKER_DIRECTORY}/appdata/tautulli:/config:rw",
-                "${DOCKER_DIRECTORY}/appdata/plex/Logs:/logs:ro"
+                "../appdata/tautulli:/config:rw",
+                "../appdata/plex/Logs:/logs:ro"
             ],
             "ContainerIDFile": "",
             "LogConfig": {
@@ -7324,7 +7324,7 @@
         "Mounts": [
             {
                 "Type": "bind",
-                "Source": "${DOCKER_DIRECTORY}/appdata/tautulli",
+                "Source": "../appdata/tautulli",
                 "Destination": "/config",
                 "Mode": "rw",
                 "RW": true,
@@ -7332,7 +7332,7 @@
             },
             {
                 "Type": "bind",
-                "Source": "${DOCKER_DIRECTORY}/appdata/plex/Logs",
+                "Source": "../appdata/plex/Logs",
                 "Destination": "/logs",
                 "Mode": "ro",
                 "RW": false,
@@ -7485,7 +7485,7 @@
         "HostConfig": {
             "Binds": [
                 "${DOCKER_DIRECTORY}/:/-/homelab:rw",
-                "${DOCKER_DIRECTORY}/appdata/code-server/config:/config:rw"
+                "../appdata/code-server/config:/config:rw"
             ],
             "ContainerIDFile": "",
             "LogConfig": {
@@ -7599,7 +7599,7 @@
             },
             {
                 "Type": "bind",
-                "Source": "${DOCKER_DIRECTORY}/appdata/code-server/config",
+                "Source": "../appdata/code-server/config",
                 "Destination": "/config",
                 "Mode": "rw",
                 "RW": true,
@@ -7757,7 +7757,7 @@
         "ExecIDs": null,
         "HostConfig": {
             "Binds": [
-                "${DOCKER_DIRECTORY}/appdata/kutt/custom:/kutt/custom:rw"
+                "../appdata/kutt/custom:/kutt/custom:rw"
             ],
             "ContainerIDFile": "",
             "LogConfig": {
@@ -7863,7 +7863,7 @@
         "Mounts": [
             {
                 "Type": "bind",
-                "Source": "${DOCKER_DIRECTORY}/appdata/kutt/custom",
+                "Source": "../appdata/kutt/custom",
                 "Destination": "/kutt/custom",
                 "Mode": "rw",
                 "RW": true,
@@ -8070,9 +8070,9 @@
         "ExecIDs": null,
         "HostConfig": {
             "Binds": [
-                "${DOCKER_DIRECTORY}/appdata/spork/.env:/var/www/html/.env:rw",
+                "../appdata/spork/.env:/var/www/html/.env:rw",
                 "${DOCKER_DIRECTORY}/php-template-start.sh:/var/www/html/start.sh:rw",
-                "${DOCKER_DIRECTORY}/appdata/spork/logs:/var/www/html/storage/logs:rw"
+                "../appdata/spork/logs:/var/www/html/storage/logs:rw"
             ],
             "ContainerIDFile": "",
             "LogConfig": {
@@ -8180,7 +8180,7 @@
         "Mounts": [
             {
                 "Type": "bind",
-                "Source": "${DOCKER_DIRECTORY}/appdata/spork/.env",
+                "Source": "../appdata/spork/.env",
                 "Destination": "/var/www/html/.env",
                 "Mode": "rw",
                 "RW": true,
@@ -8196,7 +8196,7 @@
             },
             {
                 "Type": "bind",
-                "Source": "${DOCKER_DIRECTORY}/appdata/spork/logs",
+                "Source": "../appdata/spork/logs",
                 "Destination": "/var/www/html/storage/logs",
                 "Mode": "rw",
                 "RW": true,
@@ -8592,7 +8592,7 @@
         "ExecIDs": null,
         "HostConfig": {
             "Binds": [
-                "${DOCKER_DIRECTORY}/appdata/ntfy:/etc/ntfy:rw"
+                "../appdata/ntfy:/etc/ntfy:rw"
             ],
             "ContainerIDFile": "",
             "LogConfig": {
@@ -8698,7 +8698,7 @@
         "Mounts": [
             {
                 "Type": "bind",
-                "Source": "${DOCKER_DIRECTORY}/appdata/ntfy",
+                "Source": "../appdata/ntfy",
                 "Destination": "/etc/ntfy",
                 "Mode": "rw",
                 "RW": true,
@@ -9480,8 +9480,8 @@
         "ExecIDs": null,
         "HostConfig": {
             "Binds": [
-                "${DOCKER_DIRECTORY}/appdata/influxdb/data:/var/lib/influxdb:rw",
-                "${DOCKER_DIRECTORY}/appdata/influxdb/config:/etc/influxdb:rw"
+                "../appdata/influxdb/data:/var/lib/influxdb:rw",
+                "../appdata/influxdb/config:/etc/influxdb:rw"
             ],
             "ContainerIDFile": "",
             "LogConfig": {
@@ -9636,7 +9636,7 @@
             },
             {
                 "Type": "bind",
-                "Source": "${DOCKER_DIRECTORY}/appdata/influxdb/data",
+                "Source": "../appdata/influxdb/data",
                 "Destination": "/var/lib/influxdb",
                 "Mode": "rw",
                 "RW": true,
@@ -9644,7 +9644,7 @@
             },
             {
                 "Type": "bind",
-                "Source": "${DOCKER_DIRECTORY}/appdata/influxdb/config",
+                "Source": "../appdata/influxdb/config",
                 "Destination": "/etc/influxdb",
                 "Mode": "rw",
                 "RW": true,
@@ -9810,7 +9810,7 @@
         "ExecIDs": null,
         "HostConfig": {
             "Binds": [
-                "${DOCKER_DIRECTORY}/appdata/grafana:/var/lib/grafana:rw"
+                "../appdata/grafana:/var/lib/grafana:rw"
             ],
             "ContainerIDFile": "",
             "LogConfig": {
@@ -9916,7 +9916,7 @@
         "Mounts": [
             {
                 "Type": "bind",
-                "Source": "${DOCKER_DIRECTORY}/appdata/grafana",
+                "Source": "../appdata/grafana",
                 "Destination": "/var/lib/grafana",
                 "Mode": "rw",
                 "RW": true,
@@ -10051,9 +10051,9 @@
         "ExecIDs": null,
         "HostConfig": {
             "Binds": [
-                "${DOCKER_DIRECTORY}/appdata/spork/.env:/var/www/html/.env:rw",
+                "../appdata/spork/.env:/var/www/html/.env:rw",
                 "${DOCKER_DIRECTORY}/php-template-queue.sh:/var/www/html/start.sh:rw",
-                "${DOCKER_DIRECTORY}/appdata/spork/queue.log:/var/www/html/storage/logs/laravel.log:rw"
+                "../appdata/spork/queue.log:/var/www/html/storage/logs/laravel.log:rw"
             ],
             "ContainerIDFile": "",
             "LogConfig": {
@@ -10161,7 +10161,7 @@
         "Mounts": [
             {
                 "Type": "bind",
-                "Source": "${DOCKER_DIRECTORY}/appdata/spork/.env",
+                "Source": "../appdata/spork/.env",
                 "Destination": "/var/www/html/.env",
                 "Mode": "rw",
                 "RW": true,
@@ -10177,7 +10177,7 @@
             },
             {
                 "Type": "bind",
-                "Source": "${DOCKER_DIRECTORY}/appdata/spork/queue.log",
+                "Source": "../appdata/spork/queue.log",
                 "Destination": "/var/www/html/storage/logs/laravel.log",
                 "Mode": "rw",
                 "RW": true,
@@ -10307,7 +10307,7 @@
         "ExecIDs": null,
         "HostConfig": {
             "Binds": [
-                "${DOCKER_DIRECTORY}/appdata/spork/.env:/var/www/html/.env:rw",
+                "../appdata/spork/.env:/var/www/html/.env:rw",
                 "${DOCKER_DIRECTORY}/php-template-websocket.sh:/var/www/html/start.sh:rw"
             ],
             "ContainerIDFile": "",
@@ -10416,7 +10416,7 @@
         "Mounts": [
             {
                 "Type": "bind",
-                "Source": "${DOCKER_DIRECTORY}/appdata/spork/.env",
+                "Source": "../appdata/spork/.env",
                 "Destination": "/var/www/html/.env",
                 "Mode": "rw",
                 "RW": true,
@@ -10591,8 +10591,8 @@
         "ExecIDs": null,
         "HostConfig": {
             "Binds": [
-                "${DOCKER_DIRECTORY}/appdata/homelab-redis/data:/data:rw",
-                "${DOCKER_DIRECTORY}/appdata/homelab-redis/redis.conf:/usr/local/etc/redis/redis.conf:rw"
+                "../appdata/homelab-redis/data:/data:rw",
+                "../appdata/homelab-redis/redis.conf:/usr/local/etc/redis/redis.conf:rw"
             ],
             "ContainerIDFile": "",
             "LogConfig": {
@@ -10698,7 +10698,7 @@
         "Mounts": [
             {
                 "Type": "bind",
-                "Source": "${DOCKER_DIRECTORY}/appdata/homelab-redis/redis.conf",
+                "Source": "../appdata/homelab-redis/redis.conf",
                 "Destination": "/usr/local/etc/redis/redis.conf",
                 "Mode": "rw",
                 "RW": true,
@@ -10706,7 +10706,7 @@
             },
             {
                 "Type": "bind",
-                "Source": "${DOCKER_DIRECTORY}/appdata/homelab-redis/data",
+                "Source": "../appdata/homelab-redis/data",
                 "Destination": "/data",
                 "Mode": "rw",
                 "RW": true,
@@ -10846,7 +10846,7 @@
         "ExecIDs": null,
         "HostConfig": {
             "Binds": [
-                "${DOCKER_DIRECTORY}/appdata/matrix/mautrix-gmessages/config:/data:rw"
+                "../appdata/matrix/mautrix-gmessages/config:/data:rw"
             ],
             "ContainerIDFile": "",
             "LogConfig": {
@@ -10952,7 +10952,7 @@
         "Mounts": [
             {
                 "Type": "bind",
-                "Source": "${DOCKER_DIRECTORY}/appdata/matrix/mautrix-gmessages/config",
+                "Source": "../appdata/matrix/mautrix-gmessages/config",
                 "Destination": "/data",
                 "Mode": "rw",
                 "RW": true,
@@ -11082,7 +11082,7 @@
         "ExecIDs": null,
         "HostConfig": {
             "Binds": [
-                "${DOCKER_DIRECTORY}/appdata/matrix/mautrix-meta-messenger/config:/data:rw"
+                "../appdata/matrix/mautrix-meta-messenger/config:/data:rw"
             ],
             "ContainerIDFile": "",
             "LogConfig": {
@@ -11188,7 +11188,7 @@
         "Mounts": [
             {
                 "Type": "bind",
-                "Source": "${DOCKER_DIRECTORY}/appdata/matrix/mautrix-meta-messenger/config",
+                "Source": "../appdata/matrix/mautrix-meta-messenger/config",
                 "Destination": "/data",
                 "Mode": "rw",
                 "RW": true,
@@ -11318,8 +11318,8 @@
         "ExecIDs": null,
         "HostConfig": {
             "Binds": [
-                "${DOCKER_DIRECTORY}/appdata/matrix/maubot/data:/data:rw",
-                "${DOCKER_DIRECTORY}/appdata/matrix/maubot/config/config.yaml:/data/config.yaml:rw"
+                "../appdata/matrix/maubot/data:/data:rw",
+                "../appdata/matrix/maubot/config/config.yaml:/data/config.yaml:rw"
             ],
             "ContainerIDFile": "",
             "LogConfig": {
@@ -11425,7 +11425,7 @@
         "Mounts": [
             {
                 "Type": "bind",
-                "Source": "${DOCKER_DIRECTORY}/appdata/matrix/maubot/data",
+                "Source": "../appdata/matrix/maubot/data",
                 "Destination": "/data",
                 "Mode": "rw",
                 "RW": true,
@@ -11433,7 +11433,7 @@
             },
             {
                 "Type": "bind",
-                "Source": "${DOCKER_DIRECTORY}/appdata/matrix/maubot/config/config.yaml",
+                "Source": "../appdata/matrix/maubot/config/config.yaml",
                 "Destination": "/data/config.yaml",
                 "Mode": "rw",
                 "RW": true,
@@ -11557,7 +11557,7 @@
         "ExecIDs": null,
         "HostConfig": {
             "Binds": [
-                "${DOCKER_DIRECTORY}/appdata/matrix/mautrix-discord/config:/data:rw"
+                "../appdata/matrix/mautrix-discord/config:/data:rw"
             ],
             "ContainerIDFile": "",
             "LogConfig": {
@@ -11663,7 +11663,7 @@
         "Mounts": [
             {
                 "Type": "bind",
-                "Source": "${DOCKER_DIRECTORY}/appdata/matrix/mautrix-discord/config",
+                "Source": "../appdata/matrix/mautrix-discord/config",
                 "Destination": "/data",
                 "Mode": "rw",
                 "RW": true,
@@ -11793,8 +11793,8 @@
         "ExecIDs": null,
         "HostConfig": {
             "Binds": [
-                "${DOCKER_DIRECTORY}/appdata/monica/storage:/var/www/html/storage:rw",
-                "${DOCKER_DIRECTORY}/appdata/monica/.env:/var/www/html/.env:rw"
+                "../appdata/monica/storage:/var/www/html/storage:rw",
+                "../appdata/monica/.env:/var/www/html/.env:rw"
             ],
             "ContainerIDFile": "",
             "LogConfig": {
@@ -11900,7 +11900,7 @@
         "Mounts": [
             {
                 "Type": "bind",
-                "Source": "${DOCKER_DIRECTORY}/appdata/monica/storage",
+                "Source": "../appdata/monica/storage",
                 "Destination": "/var/www/html/storage",
                 "Mode": "rw",
                 "RW": true,
@@ -11908,7 +11908,7 @@
             },
             {
                 "Type": "bind",
-                "Source": "${DOCKER_DIRECTORY}/appdata/monica/.env",
+                "Source": "../appdata/monica/.env",
                 "Destination": "/var/www/html/.env",
                 "Mode": "rw",
                 "RW": true,
@@ -12168,7 +12168,7 @@
         "ExecIDs": null,
         "HostConfig": {
             "Binds": [
-                "${DOCKER_DIRECTORY}/appdata/gluetun:/gluetun:rw",
+                "../appdata/gluetun:/gluetun:rw",
                 "${DOCKER_DIRECTORY}/secrets/ca.ovpn:/gluetun/ca-51.protonvpn.udp.ovpn:rw"
             ],
             "ContainerIDFile": "",
@@ -12302,7 +12302,7 @@
         "Mounts": [
             {
                 "Type": "bind",
-                "Source": "${DOCKER_DIRECTORY}/appdata/gluetun",
+                "Source": "../appdata/gluetun",
                 "Destination": "/gluetun",
                 "Mode": "rw",
                 "RW": true,
@@ -12647,7 +12647,7 @@
         "ExecIDs": null,
         "HostConfig": {
             "Binds": [
-                "${DOCKER_DIRECTORY}/appdata/mailpit/data:/data:rw"
+                "../appdata/mailpit/data:/data:rw"
             ],
             "ContainerIDFile": "",
             "LogConfig": {
@@ -12760,7 +12760,7 @@
         "Mounts": [
             {
                 "Type": "bind",
-                "Source": "${DOCKER_DIRECTORY}/appdata/mailpit/data",
+                "Source": "../appdata/mailpit/data",
                 "Destination": "/data",
                 "Mode": "rw",
                 "RW": true,
@@ -12955,7 +12955,7 @@
         "ExecIDs": null,
         "HostConfig": {
             "Binds": [
-                "${DOCKER_DIRECTORY}/appdata/perforce-data:/data:rw"
+                "../appdata/perforce-data:/data:rw"
             ],
             "ContainerIDFile": "",
             "LogConfig": {
@@ -13068,7 +13068,7 @@
         "Mounts": [
             {
                 "Type": "bind",
-                "Source": "${DOCKER_DIRECTORY}/appdata/perforce-data",
+                "Source": "../appdata/perforce-data",
                 "Destination": "/data",
                 "Mode": "rw",
                 "RW": true,

@@ -6,7 +6,7 @@ services:
     image: monica:latest
     user: "33:33"
     env_file:
-      - ${DOCKER_DIRECTORY}/appdata/monica/.env
+      - ../appdata/monica/.env
     depends_on:
       homelab-mariadb:
         condition: service_healthy
@@ -31,8 +31,8 @@ services:
       - VIRTUAL_HOST=${MONICA_VIRTUAL_HOST}
     hostname: monica.kregel.host  
     volumes:
-      - ${DOCKER_DIRECTORY}/appdata/monica/storage:/var/www/html/storage
-      - ${DOCKER_DIRECTORY}/appdata/monica/.env:/var/www/html/.env
+      - ../appdata/monica/storage:/var/www/html/storage
+      - ../appdata/monica/.env:/var/www/html/.env
     restart: always
     networks: 
       internal:

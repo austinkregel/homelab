@@ -12,8 +12,8 @@ services:
       - "8388:8388/tcp"                         # Gluetun Local Network Shadowsocks
       - "8388:8388/udp"                         # Gluetun Local Network Shadowsocks
     volumes:
-      - ${DOCKER_DIRECTORY}/appdata/gluetun:/gluetun
-      - ${DOCKER_DIRECTORY}/secrets/ca.ovpn:/gluetun/ca-51.protonvpn.udp.ovpn
+      - ../appdata/gluetun:/gluetun
+      - ../secrets/ca.ovpn:/gluetun/ca-51.protonvpn.udp.ovpn
     environment:
       - PUID=${PUID:?err}
       - PGID=${PGID:?err}
@@ -45,7 +45,7 @@ services:
     container_name: bazarr
     restart: unless-stopped
     volumes:
-      - ${DOCKER_DIRECTORY}/appdata/bazarr:/config
+      - ../appdata/bazarr:/config
       - ${COMPLETED_DOWNLOADS}:/downloads
       - ${TV_DIR}:/tv
       - ${BOOKS_DIR}:/books
@@ -79,7 +79,7 @@ services:
     container_name: lidarr
     restart: unless-stopped
     volumes:
-      - ${DOCKER_DIRECTORY}/appdata/lidarr:/config
+      - ../appdata/lidarr:/config
       - ${COMPLETED_DOWNLOADS}:/downloads
       - ${MUSIC_DIR}:/music
     environment:
@@ -97,7 +97,7 @@ services:
     container_name: prowlarr
     restart: unless-stopped
     volumes:
-      - ${DOCKER_DIRECTORY}/appdata/prowlarr:/config
+      - ../appdata/prowlarr:/config
     environment:
       - PUID=${PUID:?err}
       - PGID=${PGID:?err}
@@ -113,7 +113,7 @@ services:
     container_name: qbittorrent
     restart: unless-stopped
     volumes:
-      - ${DOCKER_DIRECTORY}/appdata/qbittorrent:/config
+      - ../appdata/qbittorrent:/config
       - ${COMPLETED_DOWNLOADS}:/downloads
       - ${TV_DIR}:/tv
       - ${BOOKS_DIR}:/books
@@ -134,7 +134,7 @@ services:
     container_name: radarr
     restart: unless-stopped
     volumes:
-      - ${DOCKER_DIRECTORY}/appdata/radarr:/config
+      - ../appdata/radarr:/config
       - ${COMPLETED_DOWNLOADS}:/downloads
       - ${MOVIE_DIR}:/movies
     environment:
@@ -152,7 +152,7 @@ services:
     container_name: readarr
     restart: unless-stopped
     volumes:
-      - ${DOCKER_DIRECTORY}/appdata/readarr:/config
+      - ../appdata/readarr:/config
       - ${COMPLETED_DOWNLOADS}:/downloads
       - ${BOOKS_DIR}:/books
     environment:
@@ -170,7 +170,7 @@ services:
     container_name: sabnzbd
     restart: unless-stopped
     volumes:
-      - ${DOCKER_DIRECTORY}/appdata/sabnzbd:/config
+      - ../appdata/sabnzbd:/config
       - ${COMPLETED_DOWNLOADS}:/downloads
       - ${TV_DIR}:/tv
       - ${BOOKS_DIR}:/books
@@ -188,7 +188,7 @@ services:
     container_name: sonarr
     restart: unless-stopped
     volumes:
-      - ${DOCKER_DIRECTORY}/appdata/sonarr:/config
+      - ../appdata/sonarr:/config
       - ${COMPLETED_DOWNLOADS}:/downloads
       - ${TV_DIR}:/tv
     environment:
@@ -206,7 +206,7 @@ services:
     container_name: huntarr
     restart: unless-stopped
     volumes:
-      - ${DOCKER_DIRECTORY}/appdata/huntarr:/config
+      - ../appdata/huntarr:/config
       - ${COMPLETED_DOWNLOADS}:/downloads
       - ${TV_DIR}:/tv
       - ${MUSIC_DIR}:/music
@@ -241,7 +241,7 @@ services:
         - ADD_TAG_TO_GENRE=true #OPTIONAL
       volumes:
         - ${TV_DIR}:/tv
-        - ${DOCKER_DIRECTORY}/appdata/taggarr/logs:/logs # OPTIONAL - recommended path for logs
+        - ../appdata/taggarr/logs:/logs # OPTIONAL - recommended path for logs
       restart: unless-stopped
       logging:
         driver: json-file
@@ -254,7 +254,7 @@ services:
     restart: unless-stopped
     network_mode: "service:gluetun"
     volumes:
-      - ${DOCKER_DIRECTORY}/appdata/cleanuparr/config:/config
+      - ../appdata/cleanuparr/config:/config
     environment:
       - PORT=11011
       - BASE_PATH=

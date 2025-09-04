@@ -3,9 +3,9 @@ services:
     container_name: prometheus
     image: prom/prometheus
     volumes:
-      - ${DOCKER_DIRECTORY}/appdata/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
-      - ${DOCKER_DIRECTORY}/appdata/prometheus/rules.yml:/etc/prometheus/rules.yml
-      - ${DOCKER_DIRECTORY}/appdata/prometheus:/etc/prometheus
+      - ../appdata/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+      - ../appdata/prometheus/rules.yml:/etc/prometheus/rules.yml
+      - ../appdata/prometheus:/etc/prometheus
     networks:
       - internal
   node-exporter:
@@ -16,7 +16,7 @@ services:
   alert-manager:
     image: prom/alertmanager
     volumes:
-      - ${DOCKER_DIRECTORY}/appdata/prometheus/alertmanager.yml:/alertmanager/alertmanager.yml"
+      - ../appdata/prometheus/alertmanager.yml:/alertmanager/alertmanager.yml"
     networks:
       - internal
   grafana:
@@ -24,7 +24,7 @@ services:
     image: grafana/grafana:latest
     user: '1000'
     volumes:
-      - ${DOCKER_DIRECTORY}/appdata/grafana:/var/lib/grafana
+      - ../appdata/grafana:/var/lib/grafana
     networks:
       - internal
     restart: unless-stopped
@@ -32,8 +32,8 @@ services:
     container_name: influxdb
     image: influxdb:2
     volumes:
-      - ${DOCKER_DIRECTORY}/appdata/influxdb/data:/var/lib/influxdb
-      - ${DOCKER_DIRECTORY}/appdata/influxdb/config:/etc/influxdb
+      - ../appdata/influxdb/data:/var/lib/influxdb
+      - ../appdata/influxdb/config:/etc/influxdb
     networks:
       - internal
     restart: unless-stopped

@@ -11,9 +11,9 @@ services:
     networks:
       internal:
     env_file:
-      - '${DOCKER_DIRECTORY}/appdata/kutt/.env'
+      - ../appdata/kutt/.env
     volumes:
-      - '${DOCKER_DIRECTORY}/appdata/kutt/custom:/kutt/custom'
+      - '../appdata/kutt/custom:/kutt/custom'
     environment:
       DB_HOST: homelab-postgres
       DB_NAME: kutt

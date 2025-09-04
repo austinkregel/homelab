@@ -21,7 +21,7 @@ services:
       - 3389:3389/tcp
       - 3389:3389/udp
     volumes:
-      - ${DOCKER_DIRECTORY}/appdata/windows:/storage
-      - ${DOCKER_DIRECTORY}/appdata/windows-games:/disk2
+      - ../appdata/windows:/storage
+      - ../appdata/windows-games:/disk2
     stop_grace_period: 2m
     restart: no

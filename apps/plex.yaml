@@ -9,7 +9,7 @@ services:
         profiles: ["media", "all"]
         network_mode: host
         volumes:
-            - ${DOCKER_DIRECTORY}/appdata/plex:/config
+            - ../appdata/plex:/config
             - ${TV_DIR}:/tv
             - ${MOVIE_DIR}:/movies
             - ${MUSIC_DIR}:/music

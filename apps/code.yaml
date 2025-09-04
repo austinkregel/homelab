@@ -11,7 +11,7 @@ services:
       - PROXY_DOMAIN=${VSCODE_DOMAIN} #optional
       - DEFAULT_WORKSPACE=/-/homelab #optional
     volumes:
-      - ${DOCKER_DIRECTORY}/appdata/code-server/config:/config
+      - ../appdata/code-server/config:/config
       - ${DOCKER_DIRECTORY}/:/-/homelab
     restart: unless-stopped
     networks:

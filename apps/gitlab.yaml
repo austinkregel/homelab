@@ -11,10 +11,10 @@ services:
     ports:
       - '2222:22'
     volumes:
-      - '${DOCKER_DIRECTORY}/appdata/gitlab/config:/etc/gitlab'
-      - '${DOCKER_DIRECTORY}/appdata/gitlab/logs:/var/log/gitlab'
-      - '${DOCKER_DIRECTORY}/appdata/gitlab/data:/var/opt/gitlab'
-      - '${DOCKER_DIRECTORY}/appdata/proton-bridge/:/etc/gitlab/trusted-certs'
+      - '../appdata/gitlab/config:/etc/gitlab'
+      - '../appdata/gitlab/logs:/var/log/gitlab'
+      - '../appdata/gitlab/data:/var/opt/gitlab'
+      - '../appdata/proton-bridge/:/etc/gitlab/trusted-certs'
     shm_size: '256m'
     environment:
       - GITLAB_LOG_LEVEL=error
@@ -44,8 +44,8 @@ services:
     ports:
       - '2224:22'
     volumes:
-      - '${DOCKER_DIRECTORY}/appdata/gitlab-runner/config:/etc/gitlab-runner:z'
-      - '${DOCKER_DIRECTORY}/appdata/gitlab-runner/certs:/certs:ro'
+      - '../appdata/gitlab-runner/config:/etc/gitlab-runner:z'
+      - '../appdata/gitlab-runner/certs:/certs:ro'
     shm_size: '256m'
     networks:
       internal:
@@ -60,11 +60,11 @@ services:
     image: ambakshi/perforce-server
     hostname: perforce
     volumes:
-      - ${DOCKER_DIRECTORY}/appdata/perforce-data:/data
+      - ../appdata/perforce-data:/data
     ports:
       - "1666:1666"
     env_file:
-      - '${DOCKER_DIRECTORY}/perforce-env'
+      - '../perforce-env'
     networks:
       internal:
     restart: always

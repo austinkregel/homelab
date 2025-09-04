@@ -8,9 +8,9 @@ services:
         image: lscr.io/linuxserver/healthchecks:latest
         profiles: ["miscellaneous", "all"]
         env_file:
-            - ${DOCKER_DIRECTORY}/.env
+            - ../.env
         volumes:
-            - ${DOCKER_DIRECTORY}/appdata/healthchecks:/config
+            - ../appdata/healthchecks:/config
         environment:
             PUID: ${PUID}
             PGID: ${PGID}

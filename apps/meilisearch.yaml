@@ -8,7 +8,7 @@ services:
     container_name: homelab-meilisearch
     image: getmeili/meilisearch:v1.15.2
     volumes:
-        - ${DOCKER_DIRECTORY}/appdata/homelab-meilisearch:/meili_data
+        - ../appdata/homelab-meilisearch:/meili_data
     networks:
       - internal
     healthcheck:

@@ -4,7 +4,7 @@ services:
     container_name: mailpit
     restart: unless-stopped
     volumes:
-      - ${DOCKER_DIRECTORY}/appdata/mailpit/data:/data
+      - ../appdata/mailpit/data:/data
     ports:
       - 8025:8025
     environment:

@@ -11,7 +11,7 @@ services:
       - PGID=1000
       - TZ=Etc/UTC
     volumes:
-      - ${DOCKER_DIRECTORY}/appdata/obsidian:/config
+      - ../appdata/obsidian:/config
     devices:
       - /dev/dri:/dev/dri #optional
     shm_size: "1gb"

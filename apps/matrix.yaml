@@ -13,16 +13,16 @@ services:
     networks:
       - internal
     volumes:
-      - "${DOCKER_DIRECTORY}/appdata/matrix/synapse/config:/data"
-      - "${DOCKER_DIRECTORY}/appdata/matrix/synapse/ext/shared_secret_authenticator.py:/usr/local/lib/python3.12/site-packages/shared_secret_authenticator.py"
-      - "${DOCKER_DIRECTORY}/appdata/matrix/synapse/storage:/matrix-media-store-parent"
-      - "${DOCKER_DIRECTORY}/appdata/matrix/appservice-double-puppet/config/registration.yaml:/matrix-appservice-double-puppet-registration.yaml"
-      - "${DOCKER_DIRECTORY}/appdata/matrix/beeper-linkedin/config/registration.yaml:/matrix-beeper-linkedin-registration.yaml"
-      - "${DOCKER_DIRECTORY}/appdata/matrix/hookshot/registration.yml:/hookshot-registration.yml"
+      - "../appdata/matrix/synapse/config:/data"
+      - "../appdata/matrix/synapse/ext/shared_secret_authenticator.py:/usr/local/lib/python3.12/site-packages/shared_secret_authenticator.py"
+      - "../appdata/matrix/synapse/storage:/matrix-media-store-parent"
+      - "../appdata/matrix/appservice-double-puppet/config/registration.yaml:/matrix-appservice-double-puppet-registration.yaml"
+      - "../appdata/matrix/beeper-linkedin/config/registration.yaml:/matrix-beeper-linkedin-registration.yaml"
+      - "../appdata/matrix/hookshot/registration.yml:/hookshot-registration.yml"
 
-      - "${DOCKER_DIRECTORY}/appdata/matrix/mautrix-discord/config/registration.yaml:/matrix-mautrix-discord-registration.yaml"
-      - "${DOCKER_DIRECTORY}/appdata/matrix/mautrix-meta-messenger/config/registration.yaml:/matrix-mautrix-meta-messenger-registration.yaml"
-      - "${DOCKER_DIRECTORY}/appdata/matrix/mautrix-gmessages/config/registration.yaml:/matrix-mautrix-gmessages-registration.yaml"
+      - "../appdata/matrix/mautrix-discord/config/registration.yaml:/matrix-mautrix-discord-registration.yaml"
+      - "../appdata/matrix/mautrix-meta-messenger/config/registration.yaml:/matrix-mautrix-meta-messenger-registration.yaml"
+      - "../appdata/matrix/mautrix-gmessages/config/registration.yaml:/matrix-mautrix-gmessages-registration.yaml"
     environment:
       - SYNAPSE_SERVER_NAME=${MATRIX_SERVER_NAME}
       - SYNAPSE_REPORT_STATS=yes
@@ -55,7 +55,7 @@ services:
     networks:
       - internal
     volumes:
-      - "${DOCKER_DIRECTORY}/appdata/matrix/mautrix-discord/config:/data"
+      - "../appdata/matrix/mautrix-discord/config:/data"
     environment:
       - POSTGRES_HOST=${MATRIX_POSTGRES_HOST}
       - POSTGRES_PORT=5432
@@ -76,7 +76,7 @@ services:
   #   networks:
   #     - internal
   #   volumes:
-  #     - "${DOCKER_DIRECTORY}/appdata/matrix/mautrix-meta-messenger/config:/data"
+  #     - "../appdata/matrix/mautrix-meta-messenger/config:/data"
   #   environment:
   #     - POSTGRES_HOST=${MATRIX_POSTGRES_HOST}
   #     - POSTGRES_PORT=5432
@@ -96,7 +96,7 @@ services:
   #   networks:
   #     - internal
   #   volumes:
-  #     - "${DOCKER_DIRECTORY}/appdata/matrix/mx-puppet-steam/config:/data"
+  #     - "../appdata/matrix/mx-puppet-steam/config:/data"
   #   environment:
   #     - POSTGRES_HOST=${MATRIX_POSTGRES_HOST}
   #     - POSTGRES_PORT=5432
@@ -118,7 +118,7 @@ services:
     networks:
       - internal
     volumes:
-      - "${DOCKER_DIRECTORY}/appdata/ntfy:/etc/ntfy"
+      - "../appdata/ntfy:/etc/ntfy"
     healthcheck: # optional: remember to adapt the host:port to your environment
         test: ["CMD-SHELL", "wget -q --tries=1 http://localhost:80/v1/health -O - | grep -Eo '\"healthy\"\\s*:\\s*true' || exit 1"]
         interval: 60s
@@ -134,7 +134,7 @@ services:
   #  networks:
   #    - internal
   #  volumes:
-  #    - "${DOCKER_DIRECTORY}/appdata/matrix/prometheus_node_exporter:/data"
+  #    - "../appdata/matrix/prometheus_node_exporter:/data"
   #  restart: no
   #  depends_on:
   #    synapse:
@@ -149,7 +149,7 @@ services:
     networks:
       - internal
     volumes:
-      - "${DOCKER_DIRECTORY}/appdata/matrix/mautrix-gmessages/config:/data"
+      - "../appdata/matrix/mautrix-gmessages/config:/data"
     environment:
       - POSTGRES_HOST=${MATRIX_POSTGRES_HOST}
       - POSTGRES_PORT=5432
@@ -170,7 +170,7 @@ services:
     networks:
       - internal
     volumes:
-      - "${DOCKER_DIRECTORY}/appdata/matrix/synapse-admin/config/config.json:/app/config.json:ro"
+      - "../appdata/matrix/synapse-admin/config/config.json:/app/config.json:ro"
     restart: no
     depends_on:
       synapse:
@@ -183,5 +183,5 @@ services:
   #   networks:
   #     - internal
   #   volumes:
-  #     - ${DOCKER_DIRECTORY}/appdata/matrix/maubot/data:/data
-  #     - ${DOCKER_DIRECTORY}/appdata/matrix/maubot/config/config.yaml:/data/config.yaml
+  #     - ../appdata/matrix/maubot/data:/data
+  #     - ../appdata/matrix/maubot/config/config.yaml:/data/config.yaml
