@@ -10,7 +10,7 @@ include:
     - apps/postgres.yaml # PostgreSQL (Shared Database)
     - apps/mariadb.yaml # Mariadb (Shared Database)
     - apps/llm-chat.yaml
-    - apps/home-automation.yaml # Home Automation (ESPHome, Home Assistant)
+    #- apps/home-automation.yaml # Home Automation (ESPHome, Home Assistant)
     - apps/personal-apps.yaml
     - apps/socket-proxy.yaml # Docker Socket Proxy (Security)
 
@@ -22,18 +22,19 @@ include:
     - apps/media-stack.yaml # Sonarr, Radarr, Bazarr, Flaresolverr, Lidarr, Prowlarr, Readarr (Media Server)
     - apps/overseerr.yaml # Overseerr (Media Requests)
     - apps/tautulli.yaml # Tautulli (Plex Analytics)
- 
+
     #############################################################################
     # UTILITIES
     #############################################################################
 
-    - apps/watchtower.yaml #  Watchtower (Container Updating)
+#    - apps/watchtower.yaml #  Watchtower (Container Updating)
     - apps/meilisearch.yaml # Meilisearch (Shared Database)
     - apps/nginx-reverse-proxy.yaml # Nginx Reverse Proxy
     - apps/prometheus.yaml # Prometheus
     - apps/gitlab.yaml # Gitlab
     - apps/mqtt.yaml
     - apps/url-shortner.yaml
+    - apps/pulp.yml # Pulp package repository (*.publish.software)
 
     #############################################################################
     # MISCELLANEOUS
@@ -43,13 +44,14 @@ include:
 
     - apps/umami.yaml # Umami Analytics
     - apps/matrix.yaml # Matrix (Chat)
-    # - apps/sentry.yaml # Sentry
-    #- apps/monica.yaml
+    #- apps/sentry.yaml # Sentry
+    - apps/monica.yaml
     #- apps/windows.yaml # Windows VM (GPU passthrough doesn't yet work, but this is a placeholder for future use; the VM does boot and is quite usable if you don't need GPU acceleration)
     - apps/mailpit.yaml
     #- apps/gaming-panel.yaml
     #- apps/workflows.yaml
     #- local-ai-packaged/docker-compose.yml
+    - /home/austinkregel/src/fyde-fork/sync/docker-compose.yml
 ################################################################################
 # NETWORK CONFIGURATION
 ################################################################################
@@ -61,4 +63,4 @@ networks:
         driver: bridge
     public:
         driver: bridge
-    
+

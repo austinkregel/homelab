@@ -12,7 +12,5 @@ services:
       - TZ=Etc/UTC
     volumes:
       - ../appdata/obsidian:/config
-    devices:
-      - /dev/dri:/dev/dri #optional
     shm_size: "1gb"
     restart: unless-stopped

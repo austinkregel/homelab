@@ -11,10 +11,8 @@ services:
       internal:
     ports:
       - "11434:11434"
-    image: ollama/ollama:rocm
+    image: ollama/ollama
     privileged: true
-    devices:
-        - /dev/dri:/dev/dri
     deploy:
       resources:
         reservations:

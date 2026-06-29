@@ -3,7 +3,6 @@ include:
  - ./redis.yaml
 
 services:
-
   synapse:
     image: matrixdotorg/synapse:latest
     container_name: synapse
@@ -13,13 +12,12 @@ services:
     networks:
       - internal
     volumes:
+      - "../appdata/matrix/synapse/ext/shared_secret_authenticator.py:/usr/local/lib/python3.13/site-packages/shared_secret_authenticator.py"
       - "../appdata/matrix/synapse/config:/data"
-      - "../appdata/matrix/synapse/ext/shared_secret_authenticator.py:/usr/local/lib/python3.12/site-packages/shared_secret_authenticator.py"
       - "../appdata/matrix/synapse/storage:/matrix-media-store-parent"
       - "../appdata/matrix/appservice-double-puppet/config/registration.yaml:/matrix-appservice-double-puppet-registration.yaml"
       - "../appdata/matrix/beeper-linkedin/config/registration.yaml:/matrix-beeper-linkedin-registration.yaml"
       - "../appdata/matrix/hookshot/registration.yml:/hookshot-registration.yml"
-
       - "../appdata/matrix/mautrix-discord/config/registration.yaml:/matrix-mautrix-discord-registration.yaml"
       - "../appdata/matrix/mautrix-meta-messenger/config/registration.yaml:/matrix-mautrix-meta-messenger-registration.yaml"
       - "../appdata/matrix/mautrix-gmessages/config/registration.yaml:/matrix-mautrix-gmessages-registration.yaml"
@@ -69,25 +67,25 @@ services:
         restart: false
     
 
-  # matrix-mautrix-meta-messenger:
-  #   image: dock.mau.dev/mautrix/meta:latest
-  #   container_name: matrix-mautrix-meta-messenger
-  #   profiles: ["matrix", "all"]
-  #   networks:
-  #     - internal
-  #   volumes:
-  #     - "../appdata/matrix/mautrix-meta-messenger/config:/data"
-  #   environment:
-  #     - POSTGRES_HOST=${MATRIX_POSTGRES_HOST}
-  #     - POSTGRES_PORT=5432
-  #     - POSTGRES_DB=matrix_mautrix_meta_messenger
-  #     - POSTGRES_USER=${MATRIX_POSTGRES_USERNAME}
-  #     - POSTGRES_PASSWORD=${MATRIX_POSTGRES_PASSWORD}
-  #   restart: no
-  #   depends_on:
-  #     synapse:
-  #       condition: service_healthy
-  #       restart: false
+  matrix-mautrix-meta-messenger:
+    image: dock.mau.dev/mautrix/meta:latest
+    container_name: matrix-mautrix-meta-messenger
+    profiles: ["matrix", "all"]
+    networks:
+      - internal
+    volumes:
+      - "../appdata/matrix/mautrix-meta-messenger/config:/data"
+    environment:
+      - POSTGRES_HOST=${MATRIX_POSTGRES_HOST}
+      - POSTGRES_PORT=5432
+      - POSTGRES_DB=matrix_mautrix_meta_messenger
+      - POSTGRES_USER=${MATRIX_POSTGRES_USERNAME}
+      - POSTGRES_PASSWORD=${MATRIX_POSTGRES_PASSWORD}
+    restart: no
+    depends_on:
+      synapse:
+        condition: service_healthy
+        restart: false
 
   # matrix-mx-puppet-steam:
   #   image: icewind1991/mx-puppet-steam:latest

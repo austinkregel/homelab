@@ -15,8 +15,6 @@ services:
             - ${MUSIC_DIR}:/music
             - ${PLEX_TRANSCODE_DIR:-/tmp}:/transcode
             - ${BOOKS_DIR}:/books
-        devices:
-            - /dev/dri:/dev/dri
         environment:
             PUID: ${PUID}
             PGID: ${PGID}

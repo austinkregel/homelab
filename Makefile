@@ -121,6 +121,49 @@ media-down: ## Stop just the media services (plex, sonarr, radarr, etc).
 media-logs: ## Show the logs for the media services (plex, sonarr, radarr, etc).
 	@docker compose --project-directory "$(ROOT_DIR)" --profile media logs -ft
 
+##@ Pulp Services 📦
+
+.PHONY: pulp-up
+pulp-up: ## Start the Pulp package repository services.
+	source .env
+	docker compose --project-directory "$(ROOT_DIR)" --profile utilities up -d --build pulp
+
+.PHONY: pulp-down
+pulp-down: ## Stop the Pulp package repository services.
+	docker compose --project-directory "$(ROOT_DIR)" --profile utilities stop pulp
+
+.PHONY: pulp-logs
+pulp-logs: ## Show the logs for the Pulp package repository.
+	docker compose --project-directory "$(ROOT_DIR)" --profile utilities logs pulp -ft
+
+.PHONY: pulp-build
+pulp-build: ## Rebuild the Pulp container image (after plugin changes).
+	source .env
+	docker compose --project-directory "$(ROOT_DIR)" --profile utilities build pulp
+
+.PHONY: pulp-setup
+pulp-setup: ## Create Pulp mirror remotes, repositories, and distributions (no sync).
+	source .env && docker compose --project-directory "$(ROOT_DIR)" --profile utilities exec -T \
+		-e PULP_ADMIN_PASSWORD="$$PULP_ADMIN_PASSWORD" \
+		pulp bash /opt/pulp-mirror/setup-mirrors.sh --setup-only
+
+.PHONY: pulp-vanity-probe
+pulp-vanity-probe: ## Print vanity URLs and probe routes with *.publish.software Host headers.
+	docker compose --project-directory "$(ROOT_DIR)" --profile utilities exec -T \
+		pulp bash /opt/pulp-mirror/setup-mirrors.sh --probe-vanity-only
+
+.PHONY: pulp-sync
+pulp-sync: ## Re-sync all configured mirror repositories (requires pulp-setup first).
+	source .env && docker compose --project-directory "$(ROOT_DIR)" --profile utilities exec -T \
+		-e PULP_ADMIN_PASSWORD="$$PULP_ADMIN_PASSWORD" \
+		pulp bash /opt/pulp-mirror/setup-mirrors.sh --sync-only
+
+.PHONY: pulp-mirrors
+pulp-mirrors: ## Create mirrors and run an initial sync (can take a long time).
+	source .env && docker compose --project-directory "$(ROOT_DIR)" --profile utilities exec -T \
+		-e PULP_ADMIN_PASSWORD="$$PULP_ADMIN_PASSWORD" \
+		pulp bash /opt/pulp-mirror/setup-mirrors.sh
+
 .PHONY: Misc Services 🧰
 
 .PHONY: stop-all
@@ -177,7 +220,7 @@ version: ## Show the version of the project.
 ###############################################
 .DEFAULT_GOAL := help
 .PHONY: help
-help: ## Show this help message and exit
+help: ## Show this help mesudoage and exit
 	@printf "\033[1;34mUsage:\033[0m \033[1;32mhomelab\033[0m \033[1;33m[target]\033[0m \033[1;36m(APP=service-name)\033[0m\n"
 	@echo ""
 	@printf "* pass \033[1;36mAPP=service-name\033[0m to specify the service\n"

@@ -12,12 +12,10 @@ services:
       - ../appdata/aut.hair/.env:/var/www/html/.env
       - ../appdata/aut.hair/services.php:/var/www/html/config/services.php
       - ../appdata/aut.hair/storage:/var/www/html/storage
-      - ../appdata/aut.hair/start.sh:/var/www/html/start.sh
     networks:
       internal:
     container_name: aut.hair.web
     image: ghcr.io/austinkregel/aut.hair:latest
-    entrypoint: "bash /var/www/html/start.sh"
     user: "root:root"
     healthcheck:
       test:
@@ -35,7 +33,7 @@ services:
             condition: service_healthy
             restart: true
     env_file:
-      - ../.env
+      - ../appdata/aut.hair/.env
 
   spork.queue:
     profiles: ["all", "personal"]
@@ -251,43 +249,65 @@ services:
     volumes:
       - ../appdata/vitodeploy/.env:/var/www/html/.env
       - ../appdata/vitodeploy/storage:/var/www/html/storage
-      - ../appdata/vitodeploy/start.sh:/var/www/html/start.sh
     networks:
       internal:
     container_name: vito.web
-    entrypoint: "bash /var/www/html/start.sh"
-    image: ghcr.io/austinkregel/vito:latest
-    user: "root:root"
+    image: vitodeploy/vito:latest
     healthcheck:
       test:
       - CMD
       - curl
-      - vito.web:8000/login
+      - vito.web:80/login
       retries: 3
       timeout: 5s
       interval: 15s
     env_file:
-      - ../.env
+      - ../appdata/vitodeploy/.env
     environment:
       REDIS_PASSWORD: ${REDIS_PASSWORD}
-  vito.client:
+  # vito.client:
+  #   profiles: ["all", "personal"]
+  #   extra_hosts:
+  #     - host.docker.internal:host-gateway
+  #   volumes:
+  #     - ../appdata/vito_client:/home/vito
+  #   networks:
+  #     internal:
+  #   cap_add:
+  #     - NET_ADMIN
+  #   devices:
+  #     - /dev/net/tun:/dev/net/tun
+  #   container_name: vito.client
+  #   build:
+  #       context: ./vito-client
+  #       dockerfile: Dockerfile
+  #   ports:
+  #     - "22222:22"
+  #   user: "root:root"
+  #   env_file:
+  #     - ../.env
+  laradar.web:
     profiles: ["all", "personal"]
-    extra_hosts:
-      - host.docker.internal:host-gateway
     volumes:
-      - ../appdata/vito_client:/home/vito
+      - ../appdata/laradarr/.env:/var/www/html/.env
+      - ../appdata/laradarr/logs:/var/www/html/storage/logs/
+      - ../appdata/laradarr/supervisord.conf:/etc/supervisor/conf.d/supervisord.conf
     networks:
       internal:
-    cap_add:
-      - NET_ADMIN
-    devices:
-      - /dev/net/tun:/dev/net/tun
-    container_name: vito.client
-    build:
-        context: ./vito-client
-        dockerfile: Dockerfile
-    ports:
-      - "22222:22"
-    user: "root:root"
-    env_file:
-      - ../.env
+    container_name: laradar.web
+    image: ghcr.io/austinkregel/laradarr:latest
+    depends_on:
+        homelab-postgres:
+            condition: service_healthy
+            restart: true
+    extra_hosts:
+      - host.docker.internal:host-gateway
+      - aut.hair:host-gateway
+      - sonarr.kregel.host:host-gateway
+      - radarr.kregel.host:host-gateway
+      - readarr.kregel.host:host-gateway
+      - lidarr.kregel.host:host-gateway
+      - prowlarr.kregel.host:host-gateway
+      - bazarr.kregel.host:host-gateway
+    environment:
+      REDIS_PASSWORD: ${REDIS_PASSWORD}
